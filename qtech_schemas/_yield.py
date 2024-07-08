@@ -2,7 +2,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column
 from datetime import datetime
 from typing import List, Optional
-from qtech_schemas.market import TipoInstrumento,EmisorMoneda,Maestro
+from qtech_schemas.market import EmisorMoneda,Maestro
  
 metadata_obj = MetaData(schema='YIELD')
 class Base(DeclarativeBase):
@@ -302,13 +302,4 @@ class DatoView(Base):
             'index': self.index,
             'value': self.value
         }
-    
-EmisorMoneda.curves : Mapped[List['Curve']] = relationship(back_populates='emisor_moneda')
-EmisorMoneda.sondeos_locales : Mapped[List['SondeoLocal']] = relationship(back_populates='emisor_moneda')
-EmisorMoneda.titulos : Mapped[List['Maestro']] = relationship(back_populates='emisor_moneda')
-
-Maestro.sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
-Maestro.vectores_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
-Maestro.emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='titulos')
-Maestro.tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')  
 
