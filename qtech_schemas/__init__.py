@@ -1,3 +1,3 @@
-from market import Base,Amortiza,Sector,Emisor,SerieEmision,Moneda,TipoInstrumento,BasePago,Perioricidad,EmisorMoneda,MetodoCalculo,Maestro,SubataCredito,SubastaBCRD,OperacionMM
-from bvrd import CodigoRueda,CompraVenta,DescripcionInstrumento,EstatusOperacion,EstatusOrden,Rueda,NombreMercado ,MejorEjecucion,OperacionesBVRD,OperacionesTotales
-from _yield import CurveInput, CurveType,CurveMethod,CurveMode,Quote,Curve,SondeoLocal,SondeoEurobono,Parametro,ValuationMethodOption,ValuationMethod,VectorPrecio,CurveBenchmark,BenchmarkFact,TypeDerivative,BenchmarkDerivative,DerivativeFact,TituloView,DatoView  
+from qtech_schemas.market import Base,Amortiza,Sector,Emisor,SerieEmision,Moneda,TipoInstrumento,BasePago,Perioricidad,EmisorMoneda,MetodoCalculo,Maestro,SubataCredito,SubastaBCRD,OperacionMM
+from qtech_schemas.bvrd import CodigoRueda,CompraVenta,DescripcionInstrumento,EstatusOperacion,EstatusOrden,Rueda,NombreMercado ,MejorEjecucion,OperacionesBVRD,OperacionesTotales
+from qtech_schemas._yield import CurveInput, CurveType,CurveMethod,CurveMode,Quote,Curve,SondeoLocal,SondeoEurobono,Parametro,ValuationMethodOption,ValuationMethod,VectorPrecio,CurveBenchmark,BenchmarkFact,TypeDerivative,BenchmarkDerivative,DerivativeFact,TituloView,DatoView  

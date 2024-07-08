@@ -2,7 +2,7 @@ from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
 from sqlalchemy import Integer, String, Float, Date, ForeignKey,MetaData,Time,DateTime
 from typing import Optional
 from datetime import datetime
-from market import Maestro
+from qtech_schemas.market import Maestro
 
 metadata_obj = MetaData(schema='BVRD')
 class Base(DeclarativeBase):

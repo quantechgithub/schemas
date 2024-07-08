@@ -2,7 +2,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column
 from datetime import datetime
 from typing import List, Optional
-from market import TipoInstrumento,EmisorMoneda,Maestro
+from qtech_schemas.market import TipoInstrumento,EmisorMoneda,Maestro
  
 metadata_obj = MetaData(schema='YIELD')
 class Base(DeclarativeBase):
