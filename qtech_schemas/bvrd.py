@@ -8,31 +8,31 @@ metadata_obj = MetaData(schema='BVRD')
 class Base(DeclarativeBase):
     metadata = metadata_obj
 
-class Codigo_Rueda(Base):
+class CodigoRueda(Base):
     __tablename__ = 'CODIGO_RUEDA'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     codigo_rueda: Mapped[str] = mapped_column('CODIGO_RUEDA', String(100))
 
-class Compra_venta(Base):
+class CompraVenta(Base):
     __tablename__ = 'COMPRA_VENTA'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     compra_venta: Mapped[str] = mapped_column('COMPRA_VENTA', String(100))
 
-class Descripcion_instrumento(Base):
+class DescripcionInstrumento(Base):
     __tablename__ = 'DESCRIPCION_INSTRUMENTO'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     descripcion_instrumento: Mapped[str] = mapped_column('DESCRIPCION_INSTRUMENTO', String(100))
 
-class Estatus_operacion(Base):
+class EstatusOperacion(Base):
     __tablename__ = 'ESTATUS_OPERACION'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     estatus_operacion: Mapped[str] = mapped_column('ESTATUS_OPERACION', String(100))
 
-class Estatus_orden(Base):
+class EstatusOrden(Base):
     __tablename__ = 'ESTATUS_ORDEN'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -44,14 +44,14 @@ class Rueda(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     rueda: Mapped[str] = mapped_column('RUEDA', String(100))
 
-class Nombre_mercado(Base):
+class NombreMercado(Base):
     __tablename__ = 'NOMBRE_MERCADO'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     nombre_mercado: Mapped[str] = mapped_column('NOMBRE_MERCADO', String(100))
 
 
-class Mejor_ejecucion(Base):
+class MejorEjecucion(Base):
     __tablename__ = 'MEJOR_EJECUCION'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -69,7 +69,7 @@ class Mejor_ejecucion(Base):
     rendimiento: Mapped[Optional[float]] = mapped_column('RENDIMIENTO', Float)
     num_mercado: Mapped[Optional[int]] = mapped_column('NUM_MERCADO', Integer)
 
-class Operaciones_bvrd(Base):
+class OperacionesBVRD(Base):
     __tablename__ = 'OPERACIONES_BVRD'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -82,7 +82,7 @@ class Operaciones_bvrd(Base):
     fecha_operacion: Mapped[Optional[datetime]] = mapped_column('FECHA_OPERACION', Date)
     fechaa_liquidacion: Mapped[Optional[datetime]] = mapped_column('FECHA_LIQUIDACION', Date)
 
-class Operaciones_totales(Base):
+class OperacionesTotales(Base):
     __tablename__ = 'OPERACIONES_TOTALES'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
