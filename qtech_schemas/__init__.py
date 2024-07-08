@@ -1,0 +1,2 @@
+from qtech_schemas.market import Base,Amortiza,Sector,Emisores,Series_emision,Moneda,Tipo,Base_pago,Perioricidad,Emisor_moneda,Metodo_calculo,Maestro,Subata_credito,Subastas_bcrd,Operaciones_MM
+from qtech_schemas.bvrd import Codigo_Rueda,Compra_venta,Descripcion_instrumento,Estatus_operacion,Estatus_orden,Rueda,Nombre_mercado,Mejor_ejecucion,Operaciones_bvrd,Operaciones_totales
