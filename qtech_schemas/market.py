@@ -1,9 +1,8 @@
-from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
+from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, relationship
 from sqlalchemy import  Integer, String, Float, Date, ForeignKey,MetaData
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
-
-
+from qtech_schemas._yield import SondeoEurobono, VectorPrecio, Curve, SondeoLocal
 metadata_obj = MetaData(schema='MARKET')
 class Base(DeclarativeBase):
     metadata = metadata_obj
@@ -27,7 +26,7 @@ class Sector(Base):
     def __repr__(self) -> str:
         return f"Sector(ID={self.id!r}, SECTOR={self.sector!r})"
 
-class Emisores(Base):
+class Emisor(Base):
     __tablename__ = 'EMISORES'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -40,7 +39,7 @@ class Emisores(Base):
         return f"Emisores(ID={self.id!r}, SIGLAS={self.siglas!r}, NOMBRE={self.nombre!r}, SECTOR={self.sector_id!r})"
     
 
-class Series_emision(Base):
+class SerieEmision(Base):
     __tablename__ = 'SERIES_EMISION'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -60,14 +59,14 @@ class Moneda(Base):
     moneda: Mapped[str] = mapped_column('MONEDA', String(30))
 
 
-class Tipo(Base):
+class TipoInstrumento(Base):
     __tablename__ = 'TIPO_INSTRUMENTO'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     tipo: Mapped[str] = mapped_column('TIPO', String(100))
 
 
-class Base_pago(Base):
+class BasePago(Base):
     __tablename__ = 'BASE_PAGO'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -83,14 +82,18 @@ class Perioricidad(Base):
     perioricidad_bvrd: Mapped[Optional[str]] = mapped_column('PERIORICIDAD_BVRD', String(50))
 
 
-class Emisor_moneda(Base):
+class EmisorMoneda(Base):
     __tablename__ = 'EMISOR_MONEDA'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     emisor_moneda: Mapped[str] = mapped_column('EMISOR_MONEDA', String(100))
 
+    curves : Mapped[List['Curve']] = relationship(back_populates='emisor_moneda')
+    sondeos_locales : Mapped[List['SondeoLocal']] = relationship(back_populates='emisor_moneda')
+    titulos : Mapped[List['Maestro']] = relationship(back_populates='emisor_moneda')
 
-class Metodo_calculo(Base):
+
+class MetodoCalculo(Base):
     __tablename__ = 'METODO_CALCULO'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -102,7 +105,7 @@ class Maestro(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin: Mapped[str] = mapped_column('ISIN', String(100), unique=True)
     fecha_emision: Mapped[Optional[datetime]] = mapped_column('EMISION', Date)
-    fecha_vencimiento: Mapped[Optional[datetime]] = mapped_column('VENCIMIENTO ', Date)
+    fecha_vencimiento: Mapped[Optional[datetime]] = mapped_column('VENCIMIENTO', Date)
     cupon: Mapped[Optional[float]] = mapped_column('CUPON', Float)
     amortiza_id: Mapped[Optional[int]] = mapped_column('AMORTIZA', Integer, ForeignKey('MARKET.AMORTIZA.ID'))
     serie_id: Mapped[Optional[int]] = mapped_column('SERIES_ID', Integer, ForeignKey('MARKET.SERIES_EMISION.ID'))
@@ -117,7 +120,13 @@ class Maestro(Base):
     emisor_moneda_id: Mapped[Optional[int]] = mapped_column('EMISOR_MONEDA_ID', Integer, ForeignKey('MARKET.EMISOR_MONEDA.ID'))
     metodo_calculo_id: Mapped[Optional[int]] = mapped_column('METODO_CALCULO_ID', Integer, ForeignKey('MARKET.METODO_CALCULO.ID'))
 
-class Subata_credito(Base):
+    sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
+    vector_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
+    
+    emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='titulos')
+    tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')  
+
+class SubataCredito(Base):
     __tablename__ = 'SUBASTAS_CREDITO_PUBLICO'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -135,7 +144,7 @@ class Subata_credito(Base):
     precio_promedio_ponderado_rechazado: Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO_RECHAZADO',Float)
     tasa_promedio_ponderado_rechazado: Mapped[Optional[float]] = mapped_column('TASA_PROMEDIO_PONDERADO_RECHAZADO')
 
-class Subastas_bcrd(Base):
+class SubastaBCRD(Base):
     __tablename__ = 'SUBASTAS_BCRD'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -153,7 +162,7 @@ class Subastas_bcrd(Base):
     yield_promedio_ponderada: Mapped[Optional[Float]] = mapped_column('YIELD_PROMEDIO_PONDERADA',Float)
     yield_rechazada :Mapped[Optional[Float]]  = mapped_column('YIELD_RECHAZADA',Float)
 
-class Operaciones_MM(Base):
+class OperacionMM(Base):
     __tablename__ = 'OPERACIONES_MARKETMAKERS'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
