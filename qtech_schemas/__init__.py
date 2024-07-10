@@ -1,0 +1,3 @@
+from qtech_schemas.market import Base,Amortiza,Sector,Emisor,SerieEmision,Moneda,TipoInstrumento,BasePago,Perioricidad,EmisorMoneda,MetodoCalculo,Maestro,SubastaCredito,SubastaBCRD,OperacionMM,TipoOperacion,Parte,SistemaMercado,Estado,OperacionesCevaldom,TipoOperacion,Parte,SistemaMercado, Estado,OperacionesCevaldom
+from qtech_schemas.bvrd import CodigoRueda,CompraVenta,DescripcionInstrumento,EstatusOperacion,EstatusOrden,Rueda,NombreMercado ,MejorEjecucion,OperacionesBVRD,OperacionesTotales
+  
