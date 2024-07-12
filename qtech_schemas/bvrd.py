@@ -107,4 +107,29 @@ class OperacionesTotales(Base):
     rendimiento: Mapped[Optional[float]] = mapped_column('RENDIMIENTO', Float)
     monto_transado_equivalente_pesos: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO_EQUIVALENTE_PESOS', Float)
     monto_transado_equivalente_dolares: Mapped[Optional[float]] = mapped_column('MONTO_TRNASADO_EQUIVALENTE_DOLARES', Float)
-    rueda: Mapped[Optional[int]] = mapped_column('RUEDA', Integer, ForeignKey('BVRD.RUEDA.ID'))
+    rueda: Mapped[Optional[int]] = mapped_column('RUEDA', Integer, ForeignKey('BVRD.CODIGO_RUEDA.ID'))
+
+class PosturasTotales(Base):
+    __tablename__= 'POSTURAS_TOTALES'
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
+    nominal_unitario :Mapped[Optional[float]] = mapped_column('NOMINAL_UNITARIO',Float)
+    tasa_cupon : Mapped[Optional[Float]] = mapped_column('TASA_CUPON',Float)
+    fecha_postura : Mapped[Optional[datetime]] = mapped_column('FECHA_POSTURA',Date)
+    hora_postura: Mapped[Optional[datetime]] = mapped_column('HORA_POSTURA',Time)
+    monto_nominal : Mapped[Optional[Float]] = mapped_column('MONTO_NOMINAL',Float)
+    precio_limpio : Mapped[Optional[Float]] = mapped_column('PRECIO_LIIMPIO',Float)
+    codigo_rueda : Mapped[Optional[int]] = mapped_column('CODIGO_RUEDA',Integer,ForeignKey('BVRD.CODIGO_RUEDA.ID'))
+    rendimiento : Mapped[Optional[Float]] = mapped_column('RENDIMIENTO',Float)
+    compra_venta : Mapped[Optional[int]] = mapped_column('COMPRA_VENTA',Integer,ForeignKey('BVRD.COMPRA_VENTA.ID'))
+    plazo_liquidacion : Mapped[Optional[int]] = mapped_column('PLAZO_LIQUIDACION',Integer)
+    fecha_liquidacion: Mapped[Optional[datetime]] = mapped_column('FECHA_LIQUIDACION',Date)
+    numero_operacion_id : Mapped[Optional[int]] = mapped_column('NUMERO_OPERACION_ID',Integer)
+    estatus_orden : Mapped[Optional[int]] = mapped_column('ESTATUS_ORDEN',Integer,ForeignKey('BVRD.ESTATUS_ORDEN.ID'))
+    cantidad_titulos : Mapped[Optional[float]] = mapped_column('CANTIDAD_TITULOS',Float)
+
+
+
+
+
