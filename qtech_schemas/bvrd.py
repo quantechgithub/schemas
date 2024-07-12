@@ -2,7 +2,7 @@ from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
 from sqlalchemy import Integer, String, Float, Date, ForeignKey,MetaData,Time,DateTime
 from typing import Optional
 from datetime import datetime
-from qtech_schemas.market import Maestro,Emisor
+from qtech_schemas.market import Maestro
 
 
 metadata_obj = MetaData(schema='BVRD')
@@ -90,7 +90,7 @@ class OperacionesTotales(Base):
     isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
     descripcion_instrumento: Mapped[Optional[int]] = mapped_column('DESCRIPCION_INSTRUMENTO', Integer, ForeignKey('BVRD.DESCRIPCION_INSTRUMENTO.ID'))
     valor_nominal_unitario: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_UNITARIO', Float)
-    emisor: Mapped[Optional[int]] = mapped_column('EMISOR', Integer, ForeignKey(Emisor.id))
+    # emisor: Mapped[Optional[int]] = mapped_column('EMISOR', Integer, ForeignKey(Emisor.id))
     tasa_cupon: Mapped[Optional[float]] = mapped_column('TASA_CUPON', Float)
     fecha_liquidacion: Mapped[Optional[datetime]] = mapped_column('FECHA_LIQUIDACION', Date)
     cantidad_titulos: Mapped[Optional[float]] = mapped_column('CANTIDAD_TITULOS', Float)
