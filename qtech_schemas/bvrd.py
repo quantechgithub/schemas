@@ -61,7 +61,7 @@ class MejorEjecucion(Base):
     fecha_hora_operacion: Mapped[Optional[datetime]] = mapped_column('FECHA_HORA_OPERACION', DateTime)
     fecha_operacion: Mapped[Optional[datetime]] = mapped_column('FECHA_OPERACION', Date)
     hora_operacion: Mapped[Optional[datetime]] = mapped_column('HORA_OPERACION', Time)
-    monto_nominal: Mapped[Optional[int]] = mapped_column('MONTO_NOMINAL', Integer)
+    monto_nominal: Mapped[Optional[float]] = mapped_column('MONTO_NOMINAL', Float)
     monto_transado: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO', Float)
     monto_transado_equivalente_dolares: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO_EQUIVALENTE_DOLARES', Float)
     monto_transado_equivalente_pesos: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO_EQUIVALENTE_PESOS', Float)
