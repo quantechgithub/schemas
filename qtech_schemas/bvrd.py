@@ -123,7 +123,7 @@ class PosturasTotales(Base):
     codigo_rueda : Mapped[Optional[int]] = mapped_column('CODIGO_RUEDA',Integer,ForeignKey('BVRD.CODIGO_RUEDA.ID'))
     rendimiento : Mapped[Optional[Float]] = mapped_column('RENDIMIENTO',Float)
     compra_venta : Mapped[Optional[int]] = mapped_column('COMPRA_VENTA',Integer,ForeignKey('BVRD.COMPRA_VENTA.ID'))
-    plazo_liquidacion : Mapped[Optional[int]] = mapped_column('PLAZO_LIQUIDACION',Integer)
+    plazo_liquidacion : Mapped[Optional[float]] = mapped_column('PLAZO_LIQUIDACION',Float)
     fecha_liquidacion: Mapped[Optional[datetime]] = mapped_column('FECHA_LIQUIDACION',Date)
     numero_operacion_id : Mapped[Optional[int]] = mapped_column('NUMERO_OPERACION_ID',Integer)
     estatus_orden : Mapped[Optional[int]] = mapped_column('ESTATUS_ORDEN',Integer,ForeignKey('BVRD.ESTATUS_ORDEN.ID'))
