@@ -81,7 +81,7 @@ class OperacionesBVRD(Base):
     ytm: Mapped[Optional[float]] = mapped_column('YTM', Float)
     dias_al_vencimiento: Mapped[Optional[int]] = mapped_column('DIAS_AL_VENCIMIENTO', Integer)
     fecha_operacion: Mapped[Optional[datetime]] = mapped_column('FECHA_OPERACION', Date)
-    fechaa_liquidacion: Mapped[Optional[datetime]] = mapped_column('FECHA_LIQUIDACION', Date)
+    fecha_liquidacion: Mapped[Optional[datetime]] = mapped_column('FECHA_LIQUIDACION', Date)
 
 class OperacionesTotales(Base):
     __tablename__ = 'OPERACIONES_TOTALES'
