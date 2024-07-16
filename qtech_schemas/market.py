@@ -1,7 +1,9 @@
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
-from sqlalchemy import  Integer, String, Float, Date, ForeignKey,MetaData
+from sqlalchemy import  Integer, String, Float, Date, ForeignKey,MetaData,DateTime
 from typing import Optional
 from datetime import datetime
+from sqlalchemy.sql import func
+
 
 
 metadata_obj = MetaData(schema='MARKET')
@@ -200,7 +202,7 @@ class OperacionesCevaldom(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     fisn: Mapped[str] = mapped_column('FISN',String(100))
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey('MARKET.MAESTRO_TITULOS.ID'))
-    monto_nominal_operacion: Mapped[Optional[float]]= mapped_column('MONTO_NOMINAL_OPERACION',Float)
+    monto_nominal_operacion: Mapped[Optional[int]]= mapped_column('MONTO_NOMINAL_OPERACION',Integer)
     moneda_id: Mapped[Optional[int]] = mapped_column('MONEDA_ID',Integer)
     cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',Integer)
     _yield: Mapped[Optional[float]] = mapped_column ('YIELD',Float)
@@ -212,7 +214,7 @@ class OperacionesCevaldom(Base):
     sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO',Integer,ForeignKey('MARKET.SISTEMA_MERCADO.ID'))
     fecha_liquidacion: Mapped[Optional[datetime]] = mapped_column('FECHA_LIQUIDACION',Date)
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
-    subida: Mapped[datetime] = mapped_column('SUBIDA',Date)
+    subida: Mapped[datetime] = mapped_column('SUBIDA', DateTime, server_default=func.now())
 
 
 
