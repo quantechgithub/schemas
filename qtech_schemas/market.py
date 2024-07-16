@@ -1,7 +1,7 @@
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
 from sqlalchemy import  Integer, String, Float, Date, ForeignKey,MetaData,DateTime,Time
 from typing import Optional
-from datetime import datetime
+from datetime import datetime,time
 from sqlalchemy.sql import func
 
 
@@ -207,8 +207,8 @@ class OperacionesCevaldom(Base):
     cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',Integer)
     _yield: Mapped[Optional[float]] = mapped_column ('YIELD',Float)
     precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO',Float)
-    fecha_pacto: Mapped[Optional[datetime]] = mapped_column('FECHA_PACTO',Float)
-    hora_pacto : Mapped[Optional[datetime]] = mapped_column('HORA_PACTO',Time)
+    fecha_pacto: Mapped[Optional[datetime]] = mapped_column('FECHA_PACTO',DateTime)
+    hora_pacto : Mapped[Optional[time]] = mapped_column('HORA_PACTO',Time)
     tipo_operacion: Mapped[Optional[int]] = mapped_column('TIPO_OPERACION',Integer,ForeignKey('MARKET.TIPO_OPERACIONES.ID'))
     parte : Mapped[Optional[int]] = mapped_column('PARTE',Integer,ForeignKey('MARKET.PARTES.ID'))
     sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO',Integer,ForeignKey('MARKET.SISTEMA_MERCADO.ID'))
