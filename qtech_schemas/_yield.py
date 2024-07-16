@@ -63,12 +63,12 @@ class Curve(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     qtech_id : Mapped[str] = mapped_column(String(25), unique=True)
     name : Mapped[str] = mapped_column(String(75), unique=True)
-    input_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_INPUT.id'))
+    input_id : Mapped[int] = mapped_column(ForeignKey(CurveInput.id))
     emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMoneda.id))
-    mode_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_MODE.id'))
-    quote_id : Mapped[int] = mapped_column(ForeignKey('YIELD.QUOTE.id'))
-    method_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_METHOD.id'))
-    type_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_TYPE.id'))
+    mode_id : Mapped[int] = mapped_column(ForeignKey(CurveMode.id))
+    quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
+    method_id : Mapped[int] = mapped_column(ForeignKey(CurveMethod.id))
+    type_id : Mapped[int] = mapped_column(ForeignKey(CurveType.id))
     
     input: Mapped['CurveInput'] = relationship(back_populates='curves')
     emisor_moneda: Mapped['EmisorMoneda'] = relationship(back_populates='curves')
@@ -88,7 +88,7 @@ class SondeoLocal(Base):
     date : Mapped[datetime] = mapped_column(Date)
     maturity : Mapped[int] = mapped_column(Integer)
     emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMoneda.id))
-    quote_id : Mapped[int] = mapped_column(ForeignKey('YIELD.QUOTE.id'))
+    quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     ytm : Mapped[float] = mapped_column(Float)
 
     emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='sondeos_locales')
@@ -110,7 +110,7 @@ class SondeoEurobono(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
     titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
-    quote_id : Mapped[int] = mapped_column(ForeignKey('YIELD.QUOTE.id'))
+    quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     ytm :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     price :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
 
@@ -133,7 +133,7 @@ class Parametro(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
-    curve_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE.id'))
+    curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
     tau1 : Mapped[float] = mapped_column(Float)
     tau2 :  Mapped[Optional[float]] = mapped_column(Float)	
     b0 : Mapped[float] = mapped_column(Float)
@@ -172,14 +172,24 @@ class ValuationMethod(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(30), unique=True)
-    valuation_method_option_id : Mapped[int] = mapped_column(ForeignKey('YIELD.VALUATION_METHOD_OPTION.id'))
-    curve_id : Mapped[Optional[int]] = mapped_column(ForeignKey('YIELD.CURVE.id'))
-    quote_id : Mapped[Optional[int]] = mapped_column(ForeignKey('YIELD.QUOTE.id'))
+    valuation_method_option_id : Mapped[int] = mapped_column(ForeignKey(ValuationMethodOption.id))
+    curve_id : Mapped[Optional[int]] = mapped_column(ForeignKey(Curve.id))
+    quote_id : Mapped[Optional[int]] = mapped_column(ForeignKey(Quote.id))
 
     valuation_method_option : Mapped['ValuationMethodOption'] = relationship(back_populates='valuation_methods')
     quote : Mapped['Quote'] = relationship(back_populates='valuation_methods')
     curve : Mapped['Curve'] = relationship(back_populates='valuation_method')
     vectores_precios : Mapped[List['VectorPrecio']] = relationship(back_populates='valuation_method')
+
+    def to_dict(self)-> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'valuation_method_option': self.valuation_method_option.option,
+            'curve': self.curve.name if self.curve else None,
+            'quote': self.quote.quote if self.quote else None,
+            'market': self.curve.quote.quote if self.curve else self.quote.quote
+        }
 
 class VectorPrecio(Base):
     __tablename__ = 'VECTOR_PRECIO'
@@ -187,7 +197,7 @@ class VectorPrecio(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
     titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
-    valuation_method_id : Mapped[int] = mapped_column(ForeignKey('YIELD.VALUATION_METHOD.id'))
+    valuation_method_id : Mapped[int] = mapped_column(ForeignKey(ValuationMethod.id))
     ytm : Mapped[Optional[float]] = mapped_column(Float)
     clean_price : Mapped[Optional[float]] = mapped_column(Float)
     dirty_price : Mapped[Optional[float]] = mapped_column(Float)
@@ -228,7 +238,7 @@ class CurveBenchmark(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(30), unique=True)
     maturity : Mapped[float] = mapped_column(Float)
-    curve_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE.id'))
+    curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
 
     curve : Mapped['Curve'] = relationship(back_populates='benchmarks')
     benchmark_facts : Mapped[List['BenchmarkFact']] = relationship(back_populates='curve_benchmark')
@@ -239,7 +249,7 @@ class BenchmarkFact(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
-    curve_benchmark_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_BENCHMARK.id'))
+    curve_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
     value : Mapped[float] = mapped_column(Float)
 
     curve_benchmark : Mapped['CurveBenchmark'] = relationship(back_populates='benchmark_facts')
@@ -268,10 +278,10 @@ class BenchmarkDerivative(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(75), unique=True)
-    type_derivative_id : Mapped[int] = mapped_column(ForeignKey('YIELD.TIPO_DERIVADO.id'))
+    type_derivative_id : Mapped[int] = mapped_column(ForeignKey(TypeDerivative.id))
     fwd_time : Mapped[float] = mapped_column(Float)
-    init_benchmark_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_BENCHMARK.id'))
-    end_benchmark_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_BENCHMARK.id'))
+    init_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
+    end_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
     
     type_derivative : Mapped['TypeDerivative'] = relationship(back_populates='derivatives')
     benchmarks : Mapped[List['CurveBenchmark']] = relationship(secondary=association_table, back_populates='derivatives')
@@ -282,7 +292,7 @@ class DerivativeFact(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
-    benchmark_derivative_id : Mapped[int] = mapped_column(ForeignKey('YIELD.BENCHMARK_DERIVATIVE.id'))
+    benchmark_derivative_id : Mapped[int] = mapped_column(ForeignKey(BenchmarkDerivative.id))
     value : Mapped[float] = mapped_column(Float)
 
     benchmark_derivative : Mapped['BenchmarkDerivative'] = relationship(back_populates='derivative_facts')
