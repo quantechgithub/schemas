@@ -1,6 +1,6 @@
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column
-from datetime import datetime
+from datetime import date as dt
 from typing import List, Optional
 from qtech_schemas.market import Maestro, EmisorMoneda as EM
 
@@ -85,7 +85,7 @@ class SondeoLocal(Base):
     __tablename__ = 'SONDEOS_LOCALES'
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[datetime] = mapped_column(Date)
+    date : Mapped[dt] = mapped_column(Date)
     maturity : Mapped[int] = mapped_column(Integer)
     emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMoneda.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
@@ -108,7 +108,7 @@ class SondeoEurobono(Base):
     __tablename__ = 'SONDEOS_EUROBONOS'
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[datetime] = mapped_column(Date)
+    date : Mapped[dt] = mapped_column(Date)
     titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     ytm :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
@@ -132,7 +132,7 @@ class Parametro(Base):
     __tablename__ = 'PARAMETROS'
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[datetime] = mapped_column(Date)
+    date : Mapped[dt] = mapped_column(Date)
     curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
     tau1 : Mapped[float] = mapped_column(Float)
     tau2 :  Mapped[Optional[float]] = mapped_column(Float)	
@@ -169,18 +169,18 @@ class ValuationMethodOption(Base):
 
 class ValuationMethod(Base):
     __tablename__ = 'VALUATION_METHOD'
-
+ 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(30), unique=True)
     valuation_method_option_id : Mapped[int] = mapped_column(ForeignKey(ValuationMethodOption.id))
     curve_id : Mapped[Optional[int]] = mapped_column(ForeignKey(Curve.id))
     quote_id : Mapped[Optional[int]] = mapped_column(ForeignKey(Quote.id))
-
+ 
     valuation_method_option : Mapped['ValuationMethodOption'] = relationship(back_populates='valuation_methods')
     quote : Mapped['Quote'] = relationship(back_populates='valuation_methods')
     curve : Mapped['Curve'] = relationship(back_populates='valuation_method')
     vectores_precios : Mapped[List['VectorPrecio']] = relationship(back_populates='valuation_method')
-
+ 
     def to_dict(self)-> dict:
         return {
             'id': self.id,
@@ -188,6 +188,7 @@ class ValuationMethod(Base):
             'valuation_method_option': self.valuation_method_option.option,
             'curve': self.curve.name if self.curve else None,
             'quote': self.quote.quote if self.quote else None,
+            'method': self.curve.method.method if self.curve else None,
             'market': self.curve.quote.quote if self.curve else self.quote.quote
         }
 
@@ -195,7 +196,7 @@ class VectorPrecio(Base):
     __tablename__ = 'VECTOR_PRECIO'
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[datetime] = mapped_column(Date)
+    date : Mapped[dt] = mapped_column(Date)
     titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
     valuation_method_id : Mapped[int] = mapped_column(ForeignKey(ValuationMethod.id))
     ytm : Mapped[Optional[float]] = mapped_column(Float)
@@ -248,7 +249,7 @@ class BenchmarkFact(Base):
     __tablename__ = 'BENCHMARK_FACT'
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[datetime] = mapped_column(Date)
+    date : Mapped[dt] = mapped_column(Date)
     curve_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
     value : Mapped[float] = mapped_column(Float)
 
@@ -291,7 +292,7 @@ class DerivativeFact(Base):
     __tablename__ = 'DERIVATIVE_FACT'
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[datetime] = mapped_column(Date)
+    date : Mapped[dt] = mapped_column(Date)
     benchmark_derivative_id : Mapped[int] = mapped_column(ForeignKey(BenchmarkDerivative.id))
     value : Mapped[float] = mapped_column(Float)
 
@@ -302,8 +303,8 @@ class TituloView(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     isin : Mapped[str] = mapped_column(String(100), unique=True)
-    emision : Mapped[Optional[datetime]]  = mapped_column(Date)
-    vencimiento : Mapped[Optional[datetime]] = mapped_column(Date)
+    emision : Mapped[Optional[dt]]  = mapped_column(Date)
+    vencimiento : Mapped[Optional[dt]] = mapped_column(Date)
     cupon : Mapped[Optional[float]] = mapped_column(Float)
     periodicidad_pago: Mapped[Optional[str]]= mapped_column(String(10))
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
@@ -314,7 +315,7 @@ class DatoView(Base):
     __tablename__ = 'DATOS_VIEW'
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[datetime] = mapped_column( Date)
+    date : Mapped[dt] = mapped_column( Date)
     index : Mapped[str] = mapped_column(String(100))
     value : Mapped[float] = mapped_column( Float)
 
