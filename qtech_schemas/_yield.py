@@ -2,7 +2,7 @@ from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column
 from datetime import date as dt
 from typing import List, Optional
-from qtech_schemas.market import Maestro, EmisorMoneda as EM, Base
+from qtech_schemas.market import Maestro, EmisorMoneda, Base
 
 # metadata_obj = MetaData(schema='YIELD')
 # class Base(DeclarativeBase):
@@ -12,7 +12,7 @@ class Titulo(Maestro):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
     vector_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
 
-class EmisorMoneda(EM):
+class EmisorMonedaMarket(EmisorMoneda):
     curves : Mapped[List['Curve']] = relationship(back_populates='emisor_moneda')
     sondeos_locales : Mapped[List['SondeoLocal']] = relationship(back_populates='emisor_moneda')
 
@@ -70,14 +70,14 @@ class Curve(Base):
     qtech_id : Mapped[str] = mapped_column(String(25), unique=True)
     name : Mapped[str] = mapped_column(String(75), unique=True)
     input_id : Mapped[int] = mapped_column(ForeignKey(CurveInput.id))
-    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMoneda.id))
+    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMonedaMarket.id))
     mode_id : Mapped[int] = mapped_column(ForeignKey(CurveMode.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     method_id : Mapped[int] = mapped_column(ForeignKey(CurveMethod.id))
     type_id : Mapped[int] = mapped_column(ForeignKey(CurveType.id))
     
     input: Mapped['CurveInput'] = relationship(back_populates='curves')
-    emisor_moneda: Mapped['EmisorMoneda'] = relationship(back_populates='curves')
+    emisor_moneda: Mapped['EmisorMonedaMarket'] = relationship(back_populates='curves')
     method: Mapped['CurveMethod'] = relationship(back_populates='curves')
     mode: Mapped['CurveMode'] = relationship(back_populates='curves')
     quote: Mapped['Quote'] = relationship(back_populates='curves')
@@ -94,11 +94,11 @@ class SondeoLocal(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
     maturity : Mapped[int] = mapped_column(Integer)
-    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMoneda.id))
+    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMonedaMarket.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     ytm : Mapped[float] = mapped_column(Float)
 
-    emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='sondeos_locales')
+    emisor_moneda : Mapped['EmisorMonedaMarket'] = relationship(back_populates='sondeos_locales')
     quote : Mapped['Quote'] = relationship(back_populates='sondeos_locales')
 
     def to_dict(self)-> dict:
