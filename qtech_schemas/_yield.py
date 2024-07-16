@@ -1,5 +1,5 @@
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, relationship
-from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column,create_engine
+from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column
 from datetime import datetime
 from typing import List, Optional
 from qtech_schemas.market import Maestro, EmisorMoneda as EM
