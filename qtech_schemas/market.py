@@ -1,6 +1,6 @@
-from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
+from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column,relationship
 from sqlalchemy import  Integer, String, Float, Date, ForeignKey,MetaData,DateTime,Time
-from typing import Optional
+from typing import Optional,List
 from datetime import datetime,time
 from sqlalchemy.sql import func
 
@@ -91,6 +91,7 @@ class EmisorMoneda(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     emisor_moneda: Mapped[str] = mapped_column('EMISOR_MONEDA', String(100))
 
+    titulos : Mapped[List['Maestro']] = relationship(back_populates='emisor_moneda')
 
 class MetodoCalculo(Base):
     __tablename__ = 'METODO_CALCULO'
@@ -144,7 +145,10 @@ class Maestro(Base):
     emisor_moneda_id: Mapped[Optional[int]] = mapped_column('EMISOR_MONEDA_ID', Integer, ForeignKey('MARKET.EMISOR_MONEDA.ID'))
     metodo_calculo_id: Mapped[Optional[int]] = mapped_column('METODO_CALCULO_ID', Integer, ForeignKey('MARKET.METODO_CALCULO.ID'))
     calificacion_riesgo:Mapped[Optional[str]] = mapped_column('CALIFICACION_RIESGO',String(50))
+    sobre_tasa : Mapped[Optional[float]] = mapped_column('SOBRE_TASA',Float)
 
+    emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='titulos')
+    tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')
 
 class SubastaCredito(Base):
     __tablename__ = 'SUBASTAS_CREDITO_PUBLICO'

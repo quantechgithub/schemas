@@ -1,12 +1,20 @@
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, relationship
-from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column
+from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column,create_engine
 from datetime import datetime
 from typing import List, Optional
-from qtech_schemas.market import Maestro, EmisorMoneda
+from qtech_schemas.market import Maestro, EmisorMoneda as EM
 
 metadata_obj = MetaData(schema='YIELD')
 class Base(DeclarativeBase):
     metadata = metadata_obj
+
+class Titulo(Maestro):
+    sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
+    vector_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
+
+class EmisorMoneda(EM):
+    curves : Mapped[List['Curve']] = relationship(back_populates='emisor_moneda')
+    sondeos_locales : Mapped[List['SondeoLocal']] = relationship(back_populates='emisor_moneda')
 
 class CurveInput(Base):
     __tablename__ = 'CURVE_INPUT'
@@ -56,7 +64,7 @@ class Curve(Base):
     qtech_id : Mapped[str] = mapped_column(String(25), unique=True)
     name : Mapped[str] = mapped_column(String(75), unique=True)
     input_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_INPUT.id'))
-    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey('MARKET.EMISOR_MONEDA.id'))
+    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMoneda.id))
     mode_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_MODE.id'))
     quote_id : Mapped[int] = mapped_column(ForeignKey('YIELD.QUOTE.id'))
     method_id : Mapped[int] = mapped_column(ForeignKey('YIELD.CURVE_METHOD.id'))
@@ -79,7 +87,7 @@ class SondeoLocal(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
     maturity : Mapped[int] = mapped_column(Integer)
-    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey('MARKET.EMISOR_MONEDA.id'))
+    emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMoneda.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey('YIELD.QUOTE.id'))
     ytm : Mapped[float] = mapped_column(Float)
 
@@ -101,12 +109,12 @@ class SondeoEurobono(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
-    titulo_id : Mapped[int] = mapped_column(ForeignKey('MARKET.MAESTRO_TITULOS.id'))
+    titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey('YIELD.QUOTE.id'))
     ytm :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     price :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
 
-    titulo : Mapped['Maestro'] = relationship(back_populates='sondeos_eurobonos')
+    titulo : Mapped['Titulo'] = relationship(back_populates='sondeos_eurobonos')
     quote : Mapped['Quote'] = relationship(back_populates='sondeos_eurobonos')
 
     def to_dict(self)-> dict:
@@ -178,13 +186,19 @@ class VectorPrecio(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column(Date)
-    titulo_id : Mapped[int] = mapped_column(ForeignKey('MARKET.MAESTRO_TITULOS.id'))
+    titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
     valuation_method_id : Mapped[int] = mapped_column(ForeignKey('YIELD.VALUATION_METHOD.id'))
     ytm : Mapped[Optional[float]] = mapped_column(Float)
     clean_price : Mapped[Optional[float]] = mapped_column(Float)
     dirty_price : Mapped[Optional[float]] = mapped_column(Float)
+    theta : Mapped[Optional[float]] = mapped_column(Float)
+    time : Mapped[Optional[float]] = mapped_column(Float)
+    current_yield : Mapped[Optional[float]] = mapped_column(Float)
+    mcauly_duration : Mapped[Optional[float]] = mapped_column(Float)
+    mduration : Mapped[Optional[float]] = mapped_column(Float)
+    convexity : Mapped[Optional[float]] = mapped_column(Float)
 
-    titulo : Mapped['Maestro'] = relationship(back_populates='vector_precio')
+    titulo : Mapped['Titulo'] = relationship(back_populates='vector_precio')
     valuation_method : Mapped['ValuationMethod'] = relationship(back_populates='vectores_precios')
 
     def to_dict(self)-> dict:
@@ -291,7 +305,7 @@ class DatoView(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[datetime] = mapped_column( Date)
-    index : Mapped[str] = mapped_column( String(100))
+    index : Mapped[str] = mapped_column(String(100))
     value : Mapped[float] = mapped_column( Float)
 
     def to_dict(self)-> dict:
@@ -301,4 +315,3 @@ class DatoView(Base):
             'index': self.index,
             'value': self.value
         }
-
