@@ -4,7 +4,6 @@ from typing import Optional
 from datetime import datetime,date
 from qtech_schemas.market import Maestro
 
-
 metadata_obj = MetaData(schema='BVRD')
 class Base(DeclarativeBase):
     metadata = metadata_obj

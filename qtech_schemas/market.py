@@ -4,8 +4,6 @@ from typing import Optional,List
 from datetime import datetime,time,date
 from sqlalchemy.sql import func
 
-
-
 metadata_obj = MetaData(schema='MARKET')
 class Base(DeclarativeBase):
     metadata = metadata_obj
