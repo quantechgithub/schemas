@@ -7,7 +7,7 @@ from qtech_schemas.market import Maestro, EmisorMoneda as EM, Base
 # metadata_obj = MetaData(schema='YIELD')
 # class Base(DeclarativeBase):
 #     metadata = metadata_obj
-SCHEMA = 'YIELD'
+SCHEMA = {'schema': 'YIELD'}
 class Titulo(Maestro):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
     vector_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
