@@ -230,6 +230,9 @@ class VectorPrecio(Base):
             'date': self.date,
             'titulo': self.titulo.isin,
             'valuation_method': self.valuation_method.name,
+            'valuation_method_option': self.valuation_method.valuation_method_option.option,
+            'market': self.valuation_method.curve.quote.quote if self.valuation_method.curve else self.valuation_method.quote.quote,
+            'method': self.valuation_method.curve.method.method if self.valuation_method.curve else None,
             'ytm': self.ytm,
             'clean_price': self.clean_price,
             'dirty_price': self.dirty_price
