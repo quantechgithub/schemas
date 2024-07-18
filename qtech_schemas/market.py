@@ -76,12 +76,12 @@ class BasePago(Base):
     base_pago_bvrd: Mapped[Optional[str]] = mapped_column('BASE_PAGO_BVRD', String(100))
 
 
-class Perioricidad(Base):
+class Periodicidad(Base):
     __tablename__ = 'PERIODICIDAD_PAGO'
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    perioricidad: Mapped[str] = mapped_column('PERIORICIDAD_PAGO', String(50))
-    perioricidad_bvrd: Mapped[Optional[str]] = mapped_column('PERIORICIDAD_BVRD', String(50))
+    periodicidad: Mapped[str] = mapped_column('PERIODICIDAD_PAGO', String(50))
+    periodicidad_bvrd: Mapped[Optional[str]] = mapped_column('PERIODICIDAD_BVRD', String(50))
 
 
 class EmisorMoneda(Base):
@@ -136,7 +136,7 @@ class Maestro(Base):
     moneda_id: Mapped[Optional[int]] = mapped_column('MONEDA_ID', Integer, ForeignKey(Moneda.id))
     tipo_id: Mapped[Optional[int]] = mapped_column('TIPO_ID', Integer, ForeignKey(TipoInstrumento.id))
     base_id: Mapped[Optional[int]] = mapped_column('BASE_ID', Integer, ForeignKey(BasePago.id))
-    periodicidad_id: Mapped[Optional[int]] = mapped_column('PERIODICIDAD_ID', Integer, ForeignKey(Perioricidad.id))
+    periodicidad_id: Mapped[Optional[int]] = mapped_column('PERIODICIDAD_ID', Integer, ForeignKey(Periodicidad.id))
     monto_emitido: Mapped[Optional[float]] = mapped_column('MONTO_EMITIDO', Float)
     nemotecnico: Mapped[Optional[str]] = mapped_column('NEMOTECNICO', String(100))
     option_call: Mapped[Optional[int]] = mapped_column('OPTION_CALL', Integer)
