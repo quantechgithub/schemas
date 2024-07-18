@@ -137,7 +137,7 @@ class Maestro(Base):
     tipo_id: Mapped[Optional[int]] = mapped_column('TIPO_ID', Integer, ForeignKey(TipoInstrumento.id))
     base_id: Mapped[Optional[int]] = mapped_column('BASE_ID', Integer, ForeignKey(BasePago.id))
     periodicidad_id: Mapped[Optional[int]] = mapped_column('PERIODICIDAD_ID', Integer, ForeignKey(Periodicidad.id))
-    monto_emitido: Mapped[Optional[float]] = mapped_column('MONTO_EMITIDO', Float)
+    monto_total_programa: Mapped[Optional[float]] = mapped_column('MONTO_TOTAL_PROGRAMA', Float)
     nemotecnico: Mapped[Optional[str]] = mapped_column('NEMOTECNICO', String(100))
     option_call: Mapped[Optional[int]] = mapped_column('OPTION_CALL', Integer)
     call_date: Mapped[Optional[date]] = mapped_column('CALL_DATE', Date)
@@ -148,6 +148,20 @@ class Maestro(Base):
 
     emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='titulos')
     tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')
+    emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='titulos')
+    tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')
+    montos: Mapped[List['Monto']] = relationship('Monto', back_populates='titulo')
+
+class Monto(Base):
+    __tablename__ = 'MONTOS'
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    fecha: Mapped[Optional[date]] = mapped_column('FECHA', Date)
+    monto_emitido: Mapped[Optional[float]] = mapped_column('MONTO_EMITIDO', Float)
+    monto_circulacion: Mapped[Optional[float]] = mapped_column('MONTO_CIRCULACION', Float)
+    isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
+
+    titulo: Mapped['Maestro'] = relationship(back_populates='montos')
 
 class SubastaCredito(Base):
     __tablename__ = 'SUBASTAS_CREDITO_PUBLICO'
