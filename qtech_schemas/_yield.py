@@ -75,6 +75,8 @@ class Curve(Base):
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     method_id : Mapped[int] = mapped_column(ForeignKey(CurveMethod.id))
     type_id : Mapped[int] = mapped_column(ForeignKey(CurveType.id))
+    fwd_time : Mapped[float] = mapped_column(Float)
+    tax_rate : Mapped[float] = mapped_column(Float)
     
     input: Mapped['CurveInput'] = relationship(back_populates='curves')
     emisor_moneda: Mapped['EmisorMonedaMarket'] = relationship(back_populates='curves')
