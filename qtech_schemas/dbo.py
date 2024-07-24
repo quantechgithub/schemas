@@ -93,8 +93,8 @@ class Fechas(Base):
 
     dates:Mapped[date]= mapped_column('Date',Date)
     year: Mapped[int] = mapped_column('Year',Integer)
-    semester: Mapped[int] = mapped_column('Semester',int)
-    quarter : Mapped[int] = mapped_column('Quarter',int)
+    semester: Mapped[int] = mapped_column('Semester',Integer)
+    quarter : Mapped[int] = mapped_column('Quarter',Integer)
     month : Mapped[int] = mapped_column('Month',Integer)
     week:  Mapped[int] = mapped_column('Week',Integer)
     day : Mapped[int] = mapped_column('Day',Integer)
