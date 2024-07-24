@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped,mapped_column,relationship
 from sqlalchemy import  Integer, String, Float, Date, ForeignKey,Time
-from dbo import Base
+from qtech_schemas.dbo import Base
 from typing import Optional,List
 from datetime import time,date
 from sqlalchemy.sql import func

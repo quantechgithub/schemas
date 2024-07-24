@@ -3,7 +3,7 @@ from sqlalchemy import Integer, String, Float, Date, ForeignKey,Time,DateTime
 from typing import Optional
 from datetime import datetime,date
 from market import Maestro
-from dbo import Base
+from qtech_schemas.dbo import Base
 
 SCHEMA = {'schema': 'BVRD'}
 class CodigoRueda(Base):
