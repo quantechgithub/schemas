@@ -103,6 +103,6 @@ class Datos(Base):
     frecuencia: Mapped[int] = mapped_column('Frecuencia_ID',Integer,ForeignKey(Frecuencias.id))
     categoria: Mapped[int] = mapped_column('Categoria_ID',Integer,ForeignKey(Categoria.id))
     fuente: Mapped[int] = mapped_column('Fuente_ID',Integer,ForeignKey(Fuentes.id))
-    variable_id:Mapped[int] = mapped_column('Variable_ID',Integer,ForeignKey(Variables.id))
-    moneda: Mapped[int] = mapped_column('Moned_ID',Integer,ForeignKey(Moneda.id))
+    variable_id: Mapped[int] = mapped_column('Variable_ID',Integer,ForeignKey(Variables.id))
+    moneda: Mapped[int] = mapped_column('Moneda_ID',Integer,ForeignKey(Moneda.id))
     valor: Mapped[float] = mapped_column('Valor',Float)
