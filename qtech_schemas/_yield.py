@@ -2,7 +2,7 @@ from sqlalchemy.orm import Mapped,mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey, Table, Column
 from datetime import date as dt
 from typing import List, Optional
-from market import Maestro, EmisorMoneda
+from qtech_schemas.market import Maestro, EmisorMoneda
 from qtech_schemas.dbo import Variables, Base
 
 SCHEMA = {'schema': 'YIELD'}
