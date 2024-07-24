@@ -271,7 +271,7 @@ class TimeSeriesState(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    state : Mapped[str] = mapped_column(String(15), unique=True)
+    state : Mapped[str] = mapped_column(String(50), unique=True)
 
     benchmark_facts : Mapped[List['BenchmarkFact']] = relationship(back_populates='state')
     derivative_facts : Mapped[List['DerivativeFact']] = relationship(back_populates='state')
