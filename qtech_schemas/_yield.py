@@ -3,6 +3,7 @@ from sqlalchemy import Integer, String, Float, Date, ForeignKey, Table, Column
 from datetime import date as dt
 from typing import List, Optional
 from market import Maestro, EmisorMoneda
+from dbo import Variables
 from dbo import Base
 
 
@@ -10,6 +11,9 @@ SCHEMA = {'schema': 'YIELD'}
 class Titulo(Maestro):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
     vector_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
+
+class VariablesMarket(Variables):
+    sondeos_fred : Mapped[List['SondeosFredOption']] = relationship(back_populates='variable')
 
 class EmisorMonedaMarket(EmisorMoneda):
     curves : Mapped[List['Curve']] = relationship(back_populates='emisor_moneda')
@@ -87,6 +91,7 @@ class Curve(Base):
 
     parametros : Mapped[List['Parametro']] = relationship(back_populates='curve')
     benchmarks : Mapped[List['CurveBenchmark']] = relationship(back_populates='curve')
+    sondeos_fred : Mapped[List['SondeosFredOption']] = relationship(back_populates='curve')
 
 class SondeoLocal(Base):
     __tablename__ = 'SONDEOS_LOCALES'
@@ -136,6 +141,18 @@ class SondeoEurobono(Base):
             'ytm': self.ytm,
             'price': self.price
         }
+
+class SondeosFredOption(Base):
+    __tablename__ = 'SONDEOS_FRED'
+    __table_args__ = SCHEMA
+
+    id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    variable_id : Mapped[int] = mapped_column(ForeignKey(VariablesMarket.id))
+    maturity : Mapped[int] = mapped_column(Integer)
+    curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
+
+    variable : Mapped['VariablesMarket'] = relationship(back_populates='sondeos_fred')
+    curve : Mapped['Curve'] = relationship(back_populates='sondeos_fred')
 
 class Parametro(Base):
     __tablename__ = 'PARAMETROS'

@@ -3,8 +3,7 @@ from sqlalchemy import  Integer, String, Float, Date, ForeignKey,MetaData
 from typing import Optional
 from datetime import date
 
-
-metadata_obj = MetaData(schema='DBO')
+metadata_obj = MetaData(schema='dbo')
 class Base(DeclarativeBase):
     metadata = metadata_obj
 
@@ -20,7 +19,6 @@ class Categoria(Base):
     id: Mapped[int] = mapped_column('Categoria_id', Integer, primary_key=True, autoincrement=True)
     indice :Mapped[str] = mapped_column('Indice',String(50))
     categoria : Mapped[str] = mapped_column('Categoria',String(100))
-
 
 class Fuentes(Base):
     __tablename__ = 'Fuentes'
@@ -100,7 +98,6 @@ class Fechas(Base):
     month : Mapped[int] = mapped_column('Month',Integer)
     week:  Mapped[int] = mapped_column('Week',Integer)
     day : Mapped[int] = mapped_column('Day',Integer)
-
 
 class Datos(Base):
     __tablename__ = 'Datos'
