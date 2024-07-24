@@ -5,7 +5,7 @@ from typing import List, Optional
 from qtech_schemas.market import Maestro, EmisorMoneda
 from qtech_schemas.dbo import Variables, Base
 
-SCHEMA = {'schema': 'YIELD'}
+ARGS= {'schema': 'YIELD','extend_existing': True }
 class Titulo(Maestro):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
     vector_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
@@ -19,7 +19,7 @@ class EmisorMonedaMarket(EmisorMoneda):
 
 class CurveInput(Base):
     __tablename__ = 'CURVE_INPUT'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     inputs : Mapped[str] = mapped_column(String(20), unique=True)
@@ -28,7 +28,7 @@ class CurveInput(Base):
 
 class CurveType(Base):
     __tablename__ = 'CURVE_TYPE'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     type : Mapped[str] = mapped_column(String(15), unique=True)
@@ -37,7 +37,7 @@ class CurveType(Base):
 
 class CurveMethod(Base):
     __tablename__ = 'CURVE_METHOD'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     method : Mapped[str] = mapped_column(String(15), unique=True)
@@ -46,7 +46,7 @@ class CurveMethod(Base):
 
 class CurveMode(Base):
     __tablename__ = 'CURVE_MODE'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     mode : Mapped[str] = mapped_column(String(15), unique=True)
@@ -54,7 +54,7 @@ class CurveMode(Base):
 
 class Quote(Base):
     __tablename__ = 'QUOTE'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     quote : Mapped[str] = mapped_column(String(15), unique=True)
@@ -65,7 +65,7 @@ class Quote(Base):
 
 class Curve(Base):
     __tablename__ = 'CURVE'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     qtech_id : Mapped[str] = mapped_column(String(25), unique=True)
@@ -93,7 +93,7 @@ class Curve(Base):
 
 class SondeoLocal(Base):
     __tablename__ = 'SONDEOS_LOCALES'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
@@ -117,7 +117,7 @@ class SondeoLocal(Base):
 
 class SondeoEurobono(Base):
     __tablename__ = 'SONDEOS_EUROBONOS'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
@@ -142,7 +142,7 @@ class SondeoEurobono(Base):
 
 class SondeosFredOption(Base):
     __tablename__ = 'SONDEOS_FRED'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     variable_id : Mapped[int] = mapped_column(ForeignKey(VariablesMarket.id))
@@ -154,7 +154,7 @@ class SondeosFredOption(Base):
 
 class Parametro(Base):
     __tablename__ = 'PARAMETROS'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
@@ -186,7 +186,7 @@ class Parametro(Base):
 
 class ValuationMethodOption(Base):
     __tablename__ = 'VALUATION_METHOD_OPTION'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     option : Mapped[str] = mapped_column(String(15), unique=True)
@@ -195,7 +195,7 @@ class ValuationMethodOption(Base):
 
 class ValuationMethod(Base):
     __tablename__ = 'VALUATION_METHOD'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
  
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(30), unique=True)
@@ -221,7 +221,7 @@ class ValuationMethod(Base):
 
 class VectorPrecio(Base):
     __tablename__ = 'VECTOR_PRECIO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
@@ -262,12 +262,13 @@ association_table = Table(
     Base.metadata,
     Column('benchmark_id', Integer, ForeignKey('YIELD.CURVE_BENCHMARK.id')),
     Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.BENCHMARK_DERIVATIVE.id')),
-    schema='YIELD'
+    schema='YIELD',
+    extend_existing=True  # Esto es importante para evitar el error
 )
 
 class CurveBenchmark(Base):
     __tablename__ = 'CURVE_BENCHMARK'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(30), unique=True)
@@ -280,7 +281,7 @@ class CurveBenchmark(Base):
 
 class BenchmarkFact(Base):
     __tablename__ = 'BENCHMARK_FACT'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
@@ -302,7 +303,7 @@ class BenchmarkFact(Base):
 
 class TypeDerivative(Base):
     __tablename__ = 'TIPO_DERIVADO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     type : Mapped[str] = mapped_column(String(30), unique=True)
@@ -311,7 +312,7 @@ class TypeDerivative(Base):
 
 class BenchmarkDerivative(Base):
     __tablename__ = 'BENCHMARK_DERIVATIVE'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(75), unique=True)
@@ -326,7 +327,7 @@ class BenchmarkDerivative(Base):
 
 class DerivativeFact(Base):
     __tablename__ = 'DERIVATIVE_FACT'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
@@ -337,7 +338,7 @@ class DerivativeFact(Base):
 
 class TituloView(Base):
     __tablename__ = 'MAESTRO_TITULO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     isin : Mapped[str] = mapped_column(String(100), unique=True)
@@ -351,7 +352,7 @@ class TituloView(Base):
 
 class DatoView(Base):
     __tablename__ = 'DATOS_VIEW'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column( Date)
@@ -365,3 +366,18 @@ class DatoView(Base):
             'index': self.index,
             'value': self.value
         }
+    
+# from sqlalchemy import create_engine
+
+# def conectar_db():
+#     server = 'quantech-general-server.database.windows.net'
+#     database = 'DEVELOPMENT'
+#     username = 'development'
+#     password = 'Desarrollo2024'
+#     driver = 'ODBC Driver 17 for SQL Server'
+    
+#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
+#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
+#     return engine
+
+# Base.metadata.create_all(conectar_db())
