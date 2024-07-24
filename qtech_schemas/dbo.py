@@ -91,7 +91,7 @@ class Variables(Base):
 class Fechas(Base):
     __tablename__ = 'Fechas'
 
-    dates:Mapped[date]= mapped_column('Date',Date,primary_key=True, autoincrement=True)
+    dates:Mapped[date]= mapped_column('Date',Date,primary_key=True)
     year: Mapped[int] = mapped_column('Year',Integer)
     semester: Mapped[int] = mapped_column('Semester',Integer)
     quarter : Mapped[int] = mapped_column('Quarter',Integer)
