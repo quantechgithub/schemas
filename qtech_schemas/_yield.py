@@ -1,5 +1,5 @@
-from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, relationship
-from sqlalchemy import Integer, String, Float, Date, ForeignKey, MetaData, Table, Column
+from sqlalchemy.orm import Mapped,mapped_column, relationship
+from sqlalchemy import Integer, String, Float, Date, ForeignKey, Table, Column
 from datetime import date as dt
 from typing import List, Optional
 from qtech_schemas.market import Maestro, EmisorMoneda, Base
@@ -7,6 +7,7 @@ from qtech_schemas.market import Maestro, EmisorMoneda, Base
 # metadata_obj = MetaData(schema='YIELD')
 # class Base(DeclarativeBase):
 #     metadata = metadata_obj
+
 SCHEMA = {'schema': 'YIELD'}
 class Titulo(Maestro):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
