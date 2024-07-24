@@ -273,8 +273,8 @@ class TimeSeriesState(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     state : Mapped[str] = mapped_column(String(15), unique=True)
 
-    benchmark_facts : Mapped[List['BenchmarkFact']] = relationship(back_populates='time_series_state')
-    derivative_facts : Mapped[List['DerivativeFact']] = relationship(back_populates='time_series_state')
+    benchmark_facts : Mapped[List['BenchmarkFact']] = relationship(back_populates='state')
+    derivative_facts : Mapped[List['DerivativeFact']] = relationship(back_populates='state')
 
 class CurveBenchmark(Base):
     __tablename__ = 'CURVE_BENCHMARK'
