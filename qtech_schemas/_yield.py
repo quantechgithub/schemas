@@ -307,6 +307,7 @@ class BenchmarkFact(Base):
             'id': self.id,
             'date': self.date,
             'curve_benchmark': self.curve_benchmark.name,
+            'state': self.state.state,
             'value': self.value
         }
 
@@ -349,6 +350,15 @@ class DerivativeFact(Base):
 
     benchmark_derivative : Mapped['BenchmarkDerivative'] = relationship(back_populates='derivative_facts')
     state : Mapped['TimeSeriesState'] = relationship(back_populates='derivative_facts')
+
+    def to_dict(self)-> dict:
+        return {
+            'id': self.id,
+            'date': self.date,
+            'benchmark_derivative': self.benchmark_derivative.name,
+            'state': self.state.state,
+            'value': self.value
+        }
 
 class TituloView(Base):
     __tablename__ = 'MAESTRO_TITULO'
