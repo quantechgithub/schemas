@@ -266,6 +266,16 @@ association_table = Table(
     extend_existing=True  # Esto es importante para evitar el error
 )
 
+class TimeSeriesState(Base):
+    __tablename__ = 'TIME_SERIES_STATE'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    state : Mapped[str] = mapped_column(String(15), unique=True)
+
+    benchmark_facts : Mapped[List['BenchmarkFact']] = relationship(back_populates='time_series_state')
+    derivative_facts : Mapped[List['DerivativeFact']] = relationship(back_populates='time_series_state')
+
 class CurveBenchmark(Base):
     __tablename__ = 'CURVE_BENCHMARK'
     __table_args__ = ARGS
@@ -286,9 +296,11 @@ class BenchmarkFact(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
     curve_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
+    state_id: Mapped[int] = mapped_column(ForeignKey(TimeSeriesState.id))
     value : Mapped[float] = mapped_column(Float)
 
     curve_benchmark : Mapped['CurveBenchmark'] = relationship(back_populates='benchmark_facts')
+    state : Mapped['TimeSeriesState'] = relationship(back_populates='benchmark_facts')
 
     def to_dict(self)-> dict:
         return {
@@ -332,9 +344,11 @@ class DerivativeFact(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
     benchmark_derivative_id : Mapped[int] = mapped_column(ForeignKey(BenchmarkDerivative.id))
+    state_id: Mapped[int] = mapped_column(ForeignKey(TimeSeriesState.id))
     value : Mapped[float] = mapped_column(Float)
 
     benchmark_derivative : Mapped['BenchmarkDerivative'] = relationship(back_populates='derivative_facts')
+    state : Mapped['TimeSeriesState'] = relationship(back_populates='derivative_facts')
 
 class TituloView(Base):
     __tablename__ = 'MAESTRO_TITULO'
