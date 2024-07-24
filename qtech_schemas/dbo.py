@@ -91,7 +91,7 @@ class Variables(Base):
 class Fechas(Base):
     __tablename__ = 'Fechas'
 
-    dates:Mapped[date]= mapped_column('Date',Date)
+    dates:Mapped[date]= mapped_column('Date',Date,primary_key=True, autoincrement=True)
     year: Mapped[int] = mapped_column('Year',Integer)
     semester: Mapped[int] = mapped_column('Semester',Integer)
     quarter : Mapped[int] = mapped_column('Quarter',Integer)
@@ -103,7 +103,7 @@ class Datos(Base):
     __tablename__ = 'Datos'
 
     id: Mapped[int] = mapped_column('Datos_ID', Integer, primary_key=True, autoincrement=True)
-    fecha: Mapped[date] = mapped_column('Fecha',Date)
+    fecha: Mapped[date] = mapped_column('Fecha',Date,ForeignKey(Fechas.dates))
     frecuencia: Mapped[int] = mapped_column('Frecuencia_ID',Integer,ForeignKey(Frecuencias.id))
     categoria: Mapped[int] = mapped_column('Categoria_ID',Integer,ForeignKey(Categoria.id))
     fuente: Mapped[int] = mapped_column('Fuente_ID',Integer,ForeignKey(Fuentes.id))
