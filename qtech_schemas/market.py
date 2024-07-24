@@ -5,8 +5,6 @@ from typing import Optional,List
 from datetime import time,date
 from sqlalchemy.sql import func
 
-
-
 SCHEMA = {'schema': 'MARKET'}
 class Amortiza(Base):
     __tablename__ = 'AMORTIZA'
@@ -17,7 +15,6 @@ class Amortiza(Base):
 
     def __repr__(self) -> str:
         return f"User(ID={self.id!r}, AMORTIZA={self.amortiza!r},"
-
 
 class Sector(Base):
     __tablename__ = 'SECTOR'
@@ -42,7 +39,6 @@ class Emisor(Base):
     def __repr__(self) -> str:
         return f"Emisores(ID={self.id!r}, SIGLAS={self.siglas!r}, NOMBRE={self.nombre!r}, SECTOR={self.sector_id!r})"
     
-
 class SerieEmision(Base):
     __tablename__ = 'SERIES_EMISION'
     __table_args__ = SCHEMA
@@ -56,14 +52,12 @@ class SerieEmision(Base):
     def __repr__(self) -> str:
         return f"User(ID={self.id!r}, SIGLAS={self.siglas!r}, NOMBRE={self.nombre!r},NOMBRE_BVRD={self.nombre_bvrd!r},EMISOR_ID ={self.emisor_id!r})"
 
-
 class Moneda(Base):
     __tablename__ = 'MONEDA'
     __table_args__ = SCHEMA
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     moneda: Mapped[str] = mapped_column('MONEDA', String(30))
-
 
 class TipoInstrumento(Base):
     __tablename__ = 'TIPO_INSTRUMENTO'
@@ -82,7 +76,6 @@ class BasePago(Base):
     base_pago: Mapped[str] = mapped_column('BASE_PAGO', String(100))
     base_pago_bvrd: Mapped[Optional[str]] = mapped_column('BASE_PAGO_BVRD', String(100))
 
-
 class Periodicidad(Base):
     __tablename__ = 'PERIODICIDAD_PAGO'
     __table_args__ = SCHEMA
@@ -90,7 +83,6 @@ class Periodicidad(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     periodicidad: Mapped[str] = mapped_column('PERIODICIDAD_PAGO', String(50))
     periodicidad_bvrd: Mapped[Optional[str]] = mapped_column('PERIODICIDAD_BVRD', String(50))
-
 
 class EmisorMoneda(Base):
     __tablename__ = 'EMISOR_MONEDA'
@@ -108,7 +100,6 @@ class MetodoCalculo(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     metodo_calculo: Mapped[str] = mapped_column('METODO_CALCULO', String(100))
 
-##########################
 class TipoOperacion(Base):
     __tablename__= 'TIPO_OPERACIONES'
     __table_args__ = SCHEMA
@@ -252,8 +243,3 @@ class OperacionesCevaldom(Base):
     fecha_liquidacion: Mapped[Optional[date]] = mapped_column('FECHA_LIQUIDACION',Date)
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
     subida: Mapped[date] = mapped_column('SUBIDA', Date, server_default=func.now())
-
-
-
-
-

@@ -27,7 +27,6 @@ class Fuentes(Base):
     fuente: Mapped[str] = mapped_column('Fuente',String(100))
     siglas: Mapped[str] = mapped_column('Siglas',String(30))
 
-
 class Moneda(Base):
     __tablename__ = 'Moneda'
 
@@ -46,20 +45,17 @@ class Transformacion(Base):
     id: Mapped[int] = mapped_column('Metodo_transformacion', Integer, primary_key=True, autoincrement=True)
     transformacion: Mapped[str] = mapped_column('Transformacion',String(50))
 
-
 class Extraccion(Base):
     __tablename__ = 'Extracciones'
 
     id: Mapped[int] = mapped_column('Extract_Method', Integer, primary_key=True, autoincrement=True)
     transformacion: Mapped[str] = mapped_column('Extraccion',String(50))
 
-
 class Cargas(Base):
     __tablename__ = 'Cargas'
 
     id: Mapped[int] = mapped_column('Metodo_carga', Integer, primary_key=True, autoincrement=True)
     carga: Mapped[str] = mapped_column('Carga',String(100))
-
 
 class Variables(Base):
     __tablename__ = 'Variables'
@@ -110,19 +106,3 @@ class Datos(Base):
     variable_id:Mapped[int] = mapped_column('Variable_ID',Integer,ForeignKey(Variables.id))
     moneda: Mapped[int] = mapped_column('Moned_ID',Integer,ForeignKey(Moneda.id))
     valor: Mapped[float] = mapped_column('Valor',Float)
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-

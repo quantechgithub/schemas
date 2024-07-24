@@ -5,7 +5,6 @@ from datetime import datetime,date
 from market import Maestro
 from dbo import Base
 
-
 SCHEMA = {'schema': 'BVRD'}
 class CodigoRueda(Base):
     __tablename__ = 'CODIGO_RUEDA'
@@ -55,7 +54,6 @@ class NombreMercado(Base):
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     nombre_mercado: Mapped[str] = mapped_column('NOMBRE_MERCADO', String(100))
-
 
 class MejorEjecucion(Base):
     __tablename__ = 'MEJOR_EJECUCION'
@@ -137,8 +135,3 @@ class PosturasTotales(Base):
     numero_operacion_id : Mapped[Optional[float]] = mapped_column('NUMERO_OPERACION_ID',Float)
     estatus_orden : Mapped[Optional[int]] = mapped_column('ESTATUS_ORDEN',Integer,ForeignKey('BVRD.ESTATUS_ORDEN.ID'))
     cantidad_titulos : Mapped[Optional[float]] = mapped_column('CANTIDAD_TITULOS',Float)
-
-
-
-
-

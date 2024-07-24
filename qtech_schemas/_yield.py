@@ -6,7 +6,6 @@ from market import Maestro, EmisorMoneda
 from dbo import Variables
 from dbo import Base
 
-
 SCHEMA = {'schema': 'YIELD'}
 class Titulo(Maestro):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
@@ -367,18 +366,3 @@ class DatoView(Base):
             'index': self.index,
             'value': self.value
         }
-    
-from sqlalchemy import create_engine
-
-def conectar_db():
-    server = 'quantech-general-server.database.windows.net'
-    database = 'DEVELOPMENT'
-    username = 'development'
-    password = 'Desarrollo2024'
-    driver = 'ODBC Driver 17 for SQL Server'
-    
-    connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
-    engine = create_engine(connection_string, pool_pre_ping=True)
-    return engine
-
-Base.metadata.create_all(conectar_db())
