@@ -146,7 +146,7 @@ class SondeosFredOption(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     variable_id : Mapped[int] = mapped_column(ForeignKey(VariablesMarket.id))
-    maturity : Mapped[int] = mapped_column(Integer)
+    maturity : Mapped[float] = mapped_column(Float)
     curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
 
     variable : Mapped['VariablesMarket'] = relationship(back_populates='sondeos_fred')
