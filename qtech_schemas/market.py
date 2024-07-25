@@ -114,7 +114,7 @@ class Parte(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     partes : Mapped[str] = mapped_column('PARTE',String(50))
 
-class SistemaMercado(Base):
+class Sistema_Mercado(Base):
     __tablename__ = 'SISTEMA_MERCADO'
     __table_args__ = SCHEMA
 
@@ -127,6 +127,13 @@ class Estado(Base):
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     estados : Mapped[str] = mapped_column('ESTADOS',String(50))
+
+class Tipo_Tasa(Base):
+    __tablename__= 'TIPO_TASA'
+    __table_args__ = SCHEMA
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    tipo_tasa:Mapped[str] = mapped_column('TIPO_TASA',String(50))
 
 class Maestro(Base):
     __tablename__ = 'MAESTRO_TITULOS'
@@ -150,6 +157,7 @@ class Maestro(Base):
     emisor_moneda_id: Mapped[Optional[int]] = mapped_column('EMISOR_MONEDA_ID', Integer, ForeignKey(EmisorMoneda.id))
     metodo_calculo_id: Mapped[Optional[int]] = mapped_column('METODO_CALCULO_ID', Integer, ForeignKey(MetodoCalculo.id))
     calificacion_riesgo:Mapped[Optional[str]] = mapped_column('CALIFICACION_RIESGO',String(50))
+    tipo_tasa:Mapped[Optional[int]] = mapped_column('TIPO_TASA_ID',Integer,ForeignKey(Tipo_Tasa.id))
     sobre_tasa : Mapped[Optional[float]] = mapped_column('SOBRE_TASA',Float)
 
     emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='titulos')
@@ -239,7 +247,7 @@ class OperacionesCevaldom(Base):
     hora_pacto : Mapped[Optional[time]] = mapped_column('HORA_PACTO',Time)
     tipo_operacion: Mapped[Optional[int]] = mapped_column('TIPO_OPERACION',Integer,ForeignKey(TipoOperacion.id))
     parte : Mapped[Optional[int]] = mapped_column('PARTE',Integer,ForeignKey('MARKET.PARTES.ID'))
-    sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO',Integer,ForeignKey(SistemaMercado.id))
+    sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO',Integer,ForeignKey(Sistema_Mercado.id))
     fecha_liquidacion: Mapped[Optional[date]] = mapped_column('FECHA_LIQUIDACION',Date)
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
     subida: Mapped[date] = mapped_column('SUBIDA', Date, server_default=func.now())
