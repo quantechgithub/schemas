@@ -319,8 +319,9 @@ class Scenario(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    bps : Mapped[float] = mapped_column(Float)
-    decimal : Mapped[float] = mapped_column(Float)
+    name : Mapped[str] = mapped_column(String(30), unique=True)
+    upper_bound : Mapped[float] = mapped_column(Float)
+    lower_bound : Mapped[float] = mapped_column(Float)
 
     probability_facts : Mapped[List['ProbabilityFact']] = relationship(back_populates='scenario')
 
