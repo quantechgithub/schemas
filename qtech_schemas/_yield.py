@@ -312,7 +312,30 @@ class BenchmarkFact(Base):
         }
 
     def __str__(self):
-        return f"date={self.date}, curve_benchmark={self.curve_benchmark.name}, value={self.value})"  
+        return f"date={self.date}, curve_benchmark={self.curve_benchmark.name}, value={self.value})" 
+    
+class Scenario(Base):
+    __tablename__ = 'SCENARIO'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    bps : Mapped[float] = mapped_column(Float)
+    decimal : Mapped[float] = mapped_column(Float)
+
+    probability_facts : Mapped[List['ProbabilityFact']] = relationship(back_populates='scenario')
+
+class ProbabilityFact(Base):
+    __tablename__ = 'PROBABILITY_FACT'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    date : Mapped[dt] = mapped_column(Date)
+    benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
+    scenario_id : Mapped[int] = mapped_column(ForeignKey(Scenario.id))
+    value : Mapped[float] = mapped_column(Float)	
+
+    benchmark : Mapped['CurveBenchmark'] = relationship(back_populates='probability_facts')
+    scenario : Mapped['Scenario'] = relationship(back_populates='probability_facts')
 
 class TypeDerivative(Base):
     __tablename__ = 'TIPO_DERIVADO'
