@@ -288,6 +288,7 @@ class CurveBenchmark(Base):
     curve : Mapped['Curve'] = relationship(back_populates='benchmarks')
     benchmark_facts : Mapped[List['BenchmarkFact']] = relationship(back_populates='curve_benchmark')
     derivatives : Mapped[List['BenchmarkDerivative']] = relationship(secondary=association_table, back_populates='benchmarks')
+    probability_facts : Mapped[List['ProbabilityFact']] = relationship(back_populates='benchmark')
 
 class BenchmarkFact(Base):
     __tablename__ = 'BENCHMARK_FACT'
