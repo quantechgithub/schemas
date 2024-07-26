@@ -271,10 +271,11 @@ class VectorPrecio(Base):
         return f"date={self.date}, titulo={self.titulo.isin}, valuation_method={self.valuation_method.name}, ytm={self.ytm}, clean_price={self.clean_price}, dirty_price={self.dirty_price})"
 
 association_table = Table(
-    'BENCHMARK_DERIVATIVES', 
+    'DERIVATIVE_LINKAGE', 
     Base.metadata,
     Column('benchmark_id', Integer, ForeignKey('YIELD.CURVE_BENCHMARK.id')),
     Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.BENCHMARK_DERIVATIVE.id')),
+    Column('index', Integer),
     schema='YIELD',
     extend_existing=True  # Esto es importante para evitar el error
 )
@@ -368,9 +369,7 @@ class BenchmarkDerivative(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(75), unique=True)
     type_derivative_id : Mapped[int] = mapped_column(ForeignKey(TypeDerivative.id))
-    fwd_time : Mapped[float] = mapped_column(Float)
-    init_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
-    end_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
+    time : Mapped[float] = mapped_column(Float)
     
     type_derivative : Mapped['TypeDerivative'] = relationship(back_populates='derivatives')
     benchmarks : Mapped[List['CurveBenchmark']] = relationship(secondary=association_table, back_populates='derivatives')
@@ -429,17 +428,17 @@ class DatoView(Base):
             'value': self.value
         }
     
-# from sqlalchemy import create_engine
+from sqlalchemy import create_engine
 
-# def conectar_db():
-#     server = 'quantech-general-server.database.windows.net'
-#     database = 'DEVELOPMENT'
-#     username = 'development'
-#     password = 'Desarrollo2024'
-#     driver = 'ODBC Driver 17 for SQL Server'
+def conectar_db():
+    server = 'quantech-general-server.database.windows.net'
+    database = 'DEVELOPMENT'
+    username = 'development'
+    password = 'Desarrollo2024'
+    driver = 'ODBC Driver 17 for SQL Server'
     
-#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
-#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
-#     return engine
+    connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
+    engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
+    return engine
 
-# Base.metadata.create_all(conectar_db())
+Base.metadata.create_all(conectar_db())

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='qtech_schemas',
-    version='2.7.8.1',
+    version='2.8',
     packages=['qtech_schemas'],
     description='Libreria con las tablas del schema MARKET',
     author='Jose M.',
