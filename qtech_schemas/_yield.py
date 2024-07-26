@@ -12,6 +12,7 @@ class Titulo(Maestro):
 
 class VariablesMarket(Variables):
     sondeos_fred : Mapped[List['SondeosFredOption']] = relationship(back_populates='variable')
+    curve_inflation_linkage : Mapped[List['CurveInflationLinkage']] = relationship(back_populates='variable')
 
 class EmisorMonedaMarket(EmisorMoneda):
     curves : Mapped[List['Curve']] = relationship(back_populates='emisor_moneda')
@@ -147,6 +148,17 @@ class SondeosFredOption(Base):
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     variable_id : Mapped[int] = mapped_column(ForeignKey(VariablesMarket.id))
     maturity : Mapped[float] = mapped_column(Float)
+    curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
+
+    variable : Mapped['VariablesMarket'] = relationship(back_populates='sondeos_fred')
+    curve : Mapped['Curve'] = relationship(back_populates='sondeos_fred')
+
+class CurveInflationLinkage(Base):
+    __tablename__ = 'CURVE_INFLATION_LINKAGE'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    inflation_id : Mapped[int] = mapped_column(ForeignKey(VariablesMarket.id))
     curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
 
     variable : Mapped['VariablesMarket'] = relationship(back_populates='sondeos_fred')
