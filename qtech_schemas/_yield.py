@@ -64,6 +64,16 @@ class Quote(Base):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='quote')
     valuation_methods : Mapped[List['ValuationMethod']] = relationship(back_populates='quote')
 
+association_table2 = Table(
+    'CURVE_DERIVATIVE_LINKAGE', 
+    Base.metadata,
+    Column('curve_id', Integer, ForeignKey('YIELD.CURVE.id')),
+    Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.BENCHMARK_DERIVATIVE.id')),
+    Column('index', Integer),
+    schema='YIELD',
+    extend_existing=True  # Esto es importante para evitar el error
+)
+
 class Curve(Base):
     __tablename__ = 'CURVE'
     __table_args__ = ARGS
@@ -271,7 +281,7 @@ class VectorPrecio(Base):
         return f"date={self.date}, titulo={self.titulo.isin}, valuation_method={self.valuation_method.name}, ytm={self.ytm}, clean_price={self.clean_price}, dirty_price={self.dirty_price})"
 
 association_table = Table(
-    'DERIVATIVE_LINKAGE', 
+    'BENCHMARK_DERIVATIVE_LINKAGE', 
     Base.metadata,
     Column('benchmark_id', Integer, ForeignKey('YIELD.CURVE_BENCHMARK.id')),
     Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.BENCHMARK_DERIVATIVE.id')),
@@ -363,7 +373,7 @@ class TypeDerivative(Base):
     derivatives : Mapped[List['BenchmarkDerivative']] = relationship(back_populates='type_derivative')
 
 class BenchmarkDerivative(Base):
-    __tablename__ = 'BENCHMARK_DERIVATIVE'
+    __tablename__ = 'DERIVATIVE'
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
@@ -373,6 +383,7 @@ class BenchmarkDerivative(Base):
     
     type_derivative : Mapped['TypeDerivative'] = relationship(back_populates='derivatives')
     benchmarks : Mapped[List['CurveBenchmark']] = relationship(secondary=association_table, back_populates='derivatives')
+    curve : Mapped['Curve'] = relationship(secondary=association_table2, back_populates='derivative')
     derivative_facts : Mapped[List['DerivativeFact']] = relationship(back_populates='benchmark_derivative')
 
 class DerivativeFact(Base):
