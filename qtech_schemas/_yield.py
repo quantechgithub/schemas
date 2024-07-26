@@ -428,17 +428,17 @@ class DatoView(Base):
             'value': self.value
         }
     
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 
-def conectar_db():
-    server = 'quantech-general-server.database.windows.net'
-    database = 'DEVELOPMENT'
-    username = 'development'
-    password = 'Desarrollo2024'
-    driver = 'ODBC Driver 17 for SQL Server'
+# def conectar_db():
+#     server = 'quantech-general-server.database.windows.net'
+#     database = 'DEVELOPMENT'
+#     username = 'development'
+#     password = 'Desarrollo2024'
+#     driver = 'ODBC Driver 17 for SQL Server'
     
-    connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
-    engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
-    return engine
+#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
+#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
+#     return engine
 
-Base.metadata.create_all(conectar_db())
+# Base.metadata.create_all(conectar_db())
