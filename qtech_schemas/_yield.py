@@ -133,7 +133,7 @@ class SondeoEurobono(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
-    titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
+    titulo_id : Mapped[int] = mapped_column(ForeignKey(Titulo.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     ytm :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     price :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
@@ -248,7 +248,7 @@ class VectorPrecio(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date : Mapped[dt] = mapped_column(Date)
-    titulo_id : Mapped[int] = mapped_column(ForeignKey(Maestro.id))
+    titulo_id : Mapped[int] = mapped_column(ForeignKey(Titulo.id))
     valuation_method_id : Mapped[int] = mapped_column(ForeignKey(ValuationMethod.id))
     ytm : Mapped[Optional[float]] = mapped_column(Float)
     clean_price : Mapped[Optional[float]] = mapped_column(Float)
