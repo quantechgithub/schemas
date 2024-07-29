@@ -5,7 +5,8 @@ from typing import List, Optional
 from qtech_schemas.market import Maestro, EmisorMoneda
 from qtech_schemas.dbo import Variables, Base
 
-ARGS= {'schema': 'YIELD','extend_existing': True }
+ARGS= {'schema': 'YIELD','extend_existing': True}
+
 class Titulo(Maestro):
     sondeos_eurobonos : Mapped[List['SondeoEurobono']] = relationship(back_populates='titulo')
     vector_precio : Mapped[List['VectorPrecio']] = relationship(back_populates='titulo')
@@ -68,7 +69,7 @@ association_table2 = Table(
     'CURVE_DERIVATIVE_LINKAGE', 
     Base.metadata,
     Column('curve_id', Integer, ForeignKey('YIELD.CURVE.id')),
-    Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.BENCHMARK_DERIVATIVE.id')),
+    Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.DERIVATIVE.id')),
     Column('index', Integer),
     schema='YIELD',
     extend_existing=True  # Esto es importante para evitar el error
@@ -284,7 +285,7 @@ association_table = Table(
     'BENCHMARK_DERIVATIVE_LINKAGE', 
     Base.metadata,
     Column('benchmark_id', Integer, ForeignKey('YIELD.CURVE_BENCHMARK.id')),
-    Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.BENCHMARK_DERIVATIVE.id')),
+    Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.DERIVATIVE.id')),
     Column('index', Integer),
     schema='YIELD',
     extend_existing=True  # Esto es importante para evitar el error
