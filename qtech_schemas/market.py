@@ -5,10 +5,10 @@ from typing import Optional,List
 from datetime import time,date
 from sqlalchemy.sql import func
 
-SCHEMA = {'schema': 'MARKET'}
+ARGS= {'extend_existing': True}
 class Amortiza(Base):
     __tablename__ = 'AMORTIZA'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     amortiza: Mapped[str] = mapped_column('AMORTIZA', String(20))
@@ -18,7 +18,7 @@ class Amortiza(Base):
 
 class Sector(Base):
     __tablename__ = 'SECTOR'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     sector: Mapped[Optional[str]] = mapped_column('SECTOR', String(100))
@@ -28,20 +28,19 @@ class Sector(Base):
 
 class Emisor(Base):
     __tablename__ = 'EMISORES'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     siglas: Mapped[Optional[str]] = mapped_column('SIGLAS', String(100))
     nombre: Mapped[str] = mapped_column('NOMBRE', String(200))
     sector_id: Mapped[Optional[int]] = mapped_column('SECTOR_ID', Integer, ForeignKey(Sector.id))
 
-
     def __repr__(self) -> str:
         return f"Emisores(ID={self.id!r}, SIGLAS={self.siglas!r}, NOMBRE={self.nombre!r}, SECTOR={self.sector_id!r})"
     
 class SerieEmision(Base):
     __tablename__ = 'SERIES_EMISION'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     siglas: Mapped[Optional[str]] = mapped_column('SIGLAS', String(100))
@@ -54,31 +53,38 @@ class SerieEmision(Base):
 
 class Moneda(Base):
     __tablename__ = 'MONEDA'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     moneda: Mapped[str] = mapped_column('MONEDA', String(30))
 
-class TipoInstrumento(Base):
-    __tablename__ = 'TIPO_INSTRUMENTO'
-    __table_args__ = SCHEMA
+class ClaseInstrumento(Base):
+    __tablename__ = 'CLASE_INSTRUMENTO'
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    tipo: Mapped[str] = mapped_column('TIPO', String(100))
+    clase: Mapped[str] = mapped_column('CLASE', String(30))
 
+class TipoInstrumento(Base):
+    __tablename__ = 'TIPO_INSTRUMENTO'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    tipo_instrumento: Mapped[str] = mapped_column('TIPO_INSTRUMENTO', String(100))
+    siglas: Mapped[Optional[str]] = mapped_column('SIGLAS',String(20))
+    clase_instrumento: Mapped[Optional[int]] = mapped_column('CLASE_INSTRUMENTO_ID',Integer,ForeignKey(ClaseInstrumento.id)) 
     titulos : Mapped[List['Maestro']] = relationship(back_populates='tipo_instrumento')
 
 class BasePago(Base):
     __tablename__ = 'BASE_PAGO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     base_pago: Mapped[str] = mapped_column('BASE_PAGO', String(100))
-    base_pago_bvrd: Mapped[Optional[str]] = mapped_column('BASE_PAGO_BVRD', String(100))
 
 class Periodicidad(Base):
     __tablename__ = 'PERIODICIDAD_PAGO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     periodicidad: Mapped[str] = mapped_column('PERIODICIDAD_PAGO', String(50))
@@ -86,7 +92,7 @@ class Periodicidad(Base):
 
 class EmisorMoneda(Base):
     __tablename__ = 'EMISOR_MONEDA'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     emisor_moneda: Mapped[str] = mapped_column('EMISOR_MONEDA', String(100))
@@ -95,49 +101,57 @@ class EmisorMoneda(Base):
 
 class MetodoCalculo(Base):
     __tablename__ = 'METODO_CALCULO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     metodo_calculo: Mapped[str] = mapped_column('METODO_CALCULO', String(100))
 
+class TipoTasa(Base):
+    __tablename__ = 'TIPO_TASA'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    tipo: Mapped[str] = mapped_column('TIPO_TASA', String(50))
+
+class TipoEmisor(Base):
+    __tablename__ = 'TIPO_EMISOR'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    tipo: Mapped[str] = mapped_column('TIPO_EMISOR',String(50))
+
 class TipoOperacion(Base):
     __tablename__= 'TIPO_OPERACIONES'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     tipo_operacion: Mapped[str] = mapped_column('TIPO_OPERACION',String(50))
 
 class Parte(Base):
     __tablename__='PARTES'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     partes : Mapped[str] = mapped_column('PARTE',String(50))
 
 class Sistema_Mercado(Base):
     __tablename__ = 'SISTEMA_MERCADO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     registro: Mapped[str] = mapped_column('REGISTRO',String(100))
 
 class Estado(Base):
     __tablename__= 'ESTADO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     estados : Mapped[str] = mapped_column('ESTADOS',String(50))
 
-class Tipo_Tasa(Base):
-    __tablename__= 'TIPO_TASA'
-    __table_args__ = SCHEMA
-
-    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    tipo_tasa:Mapped[str] = mapped_column('TIPO_TASA',String(50))
 
 class Maestro(Base):
     __tablename__ = 'MAESTRO_TITULOS'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin: Mapped[str] = mapped_column('ISIN', String(100), unique=True)
@@ -157,8 +171,9 @@ class Maestro(Base):
     emisor_moneda_id: Mapped[Optional[int]] = mapped_column('EMISOR_MONEDA_ID', Integer, ForeignKey(EmisorMoneda.id))
     metodo_calculo_id: Mapped[Optional[int]] = mapped_column('METODO_CALCULO_ID', Integer, ForeignKey(MetodoCalculo.id))
     calificacion_riesgo:Mapped[Optional[str]] = mapped_column('CALIFICACION_RIESGO',String(50))
-    tipo_tasa:Mapped[Optional[int]] = mapped_column('TIPO_TASA_ID',Integer,ForeignKey(Tipo_Tasa.id))
+    tipo_tasa:Mapped[Optional[int]] = mapped_column('TIPO_TASA_ID',Integer,ForeignKey(TipoTasa.id))
     sobre_tasa : Mapped[Optional[float]] = mapped_column('SOBRE_TASA',Float)
+    tipo_emisor: Mapped[Optional[int]] = mapped_column('TIPO_EMISOR',Integer,ForeignKey(TipoEmisor.id))   
 
     emisor_moneda : Mapped['EmisorMoneda'] = relationship(back_populates='titulos')
     tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')
@@ -168,7 +183,7 @@ class Maestro(Base):
 
 class Monto(Base):
     __tablename__ = 'MONTOS'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     fecha: Mapped[Optional[date]] = mapped_column('FECHA', Date)
@@ -180,7 +195,7 @@ class Monto(Base):
 
 class SubastaCredito(Base):
     __tablename__ = 'SUBASTAS_CREDITO_PUBLICO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
@@ -199,7 +214,7 @@ class SubastaCredito(Base):
 
 class SubastaBCRD(Base):
     __tablename__ = 'SUBASTAS_BCRD'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
@@ -218,7 +233,7 @@ class SubastaBCRD(Base):
 
 class OperacionMM(Base):
     __tablename__ = 'OPERACIONES_MARKETMAKERS'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
@@ -233,7 +248,7 @@ class OperacionMM(Base):
 
 class OperacionesCevaldom(Base):
     __tablename__= 'OPERACIONES_CEVALDOM'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     fisn: Mapped[str] = mapped_column('FISN',String(100))
