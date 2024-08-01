@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Mapped,mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey, Table, Column
-from datetime import date as dt
 from typing import List, Optional
 from qtech_schemas.market import Maestro, EmisorMoneda
 from qtech_schemas.dbo import Variables, Base
+from pandas import Timestamp as time
 
 ARGS= {'schema': 'YIELD','extend_existing': True}
 
@@ -110,7 +110,7 @@ class SondeoLocal(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column(Date)
+    date : Mapped[time] = mapped_column(Date)
     maturity : Mapped[int] = mapped_column(Integer)
     emisor_moneda_id : Mapped[int] = mapped_column(ForeignKey(EmisorMonedaMarket.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
@@ -134,7 +134,7 @@ class SondeoEurobono(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column(Date)
+    date : Mapped[time] = mapped_column(Date)
     titulo_id : Mapped[int] = mapped_column(ForeignKey(Titulo.id))
     quote_id : Mapped[int] = mapped_column(ForeignKey(Quote.id))
     ytm :  Mapped[Optional[float]] = mapped_column(Float, nullable=True)
@@ -182,7 +182,7 @@ class Parametro(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column(Date)
+    date : Mapped[time] = mapped_column(Date)
     curve_id : Mapped[int] = mapped_column(ForeignKey(Curve.id))
     tau1 : Mapped[float] = mapped_column(Float)
     tau2 :  Mapped[Optional[float]] = mapped_column(Float)	
@@ -249,7 +249,7 @@ class VectorPrecio(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column(Date)
+    date : Mapped[time] = mapped_column(Date)
     titulo_id : Mapped[int] = mapped_column(ForeignKey(Titulo.id))
     valuation_method_id : Mapped[int] = mapped_column(ForeignKey(ValuationMethod.id))
     ytm : Mapped[Optional[float]] = mapped_column(Float)
@@ -321,7 +321,7 @@ class BenchmarkFact(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column(Date)
+    date : Mapped[time] = mapped_column(Date)
     curve_benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
     state_id: Mapped[int] = mapped_column(ForeignKey(TimeSeriesState.id))
     value : Mapped[float] = mapped_column(Float)
@@ -357,7 +357,7 @@ class ProbabilityFact(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column(Date)
+    date : Mapped[time] = mapped_column(Date)
     benchmark_id : Mapped[int] = mapped_column(ForeignKey(CurveBenchmark.id))
     scenario_id : Mapped[int] = mapped_column(ForeignKey(Scenario.id))
     value : Mapped[float] = mapped_column(Float)	
@@ -393,7 +393,7 @@ class DerivativeFact(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column(Date)
+    date : Mapped[time] = mapped_column(Date)
     benchmark_derivative_id : Mapped[int] = mapped_column(ForeignKey(BenchmarkDerivative.id))
     state_id: Mapped[int] = mapped_column(ForeignKey(TimeSeriesState.id))
     value : Mapped[float] = mapped_column(Float)
@@ -416,8 +416,8 @@ class TituloView(Base):
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     isin : Mapped[str] = mapped_column(String(100), unique=True)
-    emision : Mapped[Optional[dt]]  = mapped_column(Date)
-    vencimiento : Mapped[Optional[dt]] = mapped_column(Date)
+    emision : Mapped[Optional[time]]  = mapped_column(Date)
+    vencimiento : Mapped[Optional[time]] = mapped_column(Date)
     cupon : Mapped[Optional[float]] = mapped_column(Float)
     periodicidad_pago: Mapped[Optional[str]]= mapped_column(String(10))
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
@@ -429,7 +429,7 @@ class DatoView(Base):
     __table_args__ = ARGS
 
     id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date : Mapped[dt] = mapped_column( Date)
+    date : Mapped[time] = mapped_column( Date)
     index : Mapped[str] = mapped_column(String(100))
     value : Mapped[float] = mapped_column( Float)
 
