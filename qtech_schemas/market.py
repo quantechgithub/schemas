@@ -5,7 +5,7 @@ from typing import Optional,List
 from datetime import time,date
 from sqlalchemy.sql import func
 
-ARGS= {'extend_existing': True}
+ARGS= {'schema': 'MARKET','extend_existing': True}
 class Amortiza(Base):
     __tablename__ = 'AMORTIZA'
     __table_args__ = ARGS

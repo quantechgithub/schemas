@@ -5,59 +5,59 @@ from datetime import datetime,date
 from qtech_schemas.market import Maestro
 from qtech_schemas.dbo import Base
 
-SCHEMA = {'schema': 'BVRD'}
+ARGS= {'schema': 'BVRD','extend_existing': True}
 class CodigoRueda(Base):
     __tablename__ = 'CODIGO_RUEDA'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     codigo_rueda: Mapped[str] = mapped_column('CODIGO_RUEDA', String(100))
 
 class CompraVenta(Base):
     __tablename__ = 'COMPRA_VENTA'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     compra_venta: Mapped[str] = mapped_column('COMPRA_VENTA', String(100))
 
 class DescripcionInstrumento(Base):
     __tablename__ = 'DESCRIPCION_INSTRUMENTO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     descripcion_instrumento: Mapped[str] = mapped_column('DESCRIPCION_INSTRUMENTO', String(100))
 
 class EstatusOperacion(Base):
     __tablename__ = 'ESTATUS_OPERACION'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     estatus_operacion: Mapped[str] = mapped_column('ESTATUS_OPERACION', String(100))
 
 class EstatusOrden(Base):
     __tablename__ = 'ESTATUS_ORDEN'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     estatus_orden: Mapped[str] = mapped_column('ESTATUS_ORDEN', String(100))
 
 class Rueda(Base):
     __tablename__ = 'RUEDA'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     rueda: Mapped[str] = mapped_column('RUEDA', String(100))
 
 class NombreMercado(Base):
     __tablename__ = 'NOMBRE_MERCADO'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     nombre_mercado: Mapped[str] = mapped_column('NOMBRE_MERCADO', String(100))
 
 class MejorEjecucion(Base):
     __tablename__ = 'MEJOR_EJECUCION'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
@@ -76,7 +76,7 @@ class MejorEjecucion(Base):
 
 class OperacionesBVRD(Base):
     __tablename__ = 'OPERACIONES_BVRD'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
@@ -90,7 +90,7 @@ class OperacionesBVRD(Base):
 
 class OperacionesTotales(Base):
     __tablename__ = 'OPERACIONES_TOTALES'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
@@ -117,7 +117,7 @@ class OperacionesTotales(Base):
 
 class PosturasTotales(Base):
     __tablename__= 'POSTURAS_TOTALES'
-    __table_args__ = SCHEMA
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
