@@ -103,7 +103,7 @@ class Curve(Base):
     benchmarks : Mapped[List['CurveBenchmark']] = relationship(back_populates='curve')
     sondeos_fred : Mapped[List['SondeosFredOption']] = relationship(back_populates='curve')
     curve_inflation_link : Mapped[List['CurveInflationLinkage']] = relationship(back_populates='curve')
-    derivative : Mapped['BenchmarkDerivative'] = relationship(secondary=association_table2, back_populates='curve')
+    derivatives : Mapped[List['BenchmarkDerivative']] = relationship(secondary=association_table2, back_populates='curves')
 
 class SondeoLocal(Base):
     __tablename__ = 'SONDEOS_LOCALES'
@@ -385,7 +385,7 @@ class BenchmarkDerivative(Base):
     
     type_derivative : Mapped['TypeDerivative'] = relationship(back_populates='derivatives')
     benchmarks : Mapped[List['CurveBenchmark']] = relationship(secondary=association_table, back_populates='derivatives')
-    curve : Mapped['Curve'] = relationship(secondary=association_table2, back_populates='derivative')
+    curves : Mapped[List['Curve']] = relationship(secondary=association_table2, back_populates='derivatives')
     derivative_facts : Mapped[List['DerivativeFact']] = relationship(back_populates='benchmark_derivative')
 
 class DerivativeFact(Base):
