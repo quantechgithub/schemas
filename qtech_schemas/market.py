@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped,mapped_column,relationship
-from sqlalchemy import  Integer, String, Float, Date, ForeignKey,Time
+from sqlalchemy import  Integer, String, Float, Date, ForeignKey,Time,BigInteger
 from qtech_schemas.dbo import Base
 from typing import Optional,List
 from datetime import time,date
@@ -253,9 +253,9 @@ class OperacionesCevaldom(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     fisn: Mapped[str] = mapped_column('FISN',String(100))
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
-    monto_nominal_operacion: Mapped[Optional[int]]= mapped_column('MONTO_NOMINAL_OPERACION',Integer)
+    monto_nominal_operacion: Mapped[Optional[int]]= mapped_column('MONTO_NOMINAL_OPERACION',BigInteger)
     moneda_id: Mapped[Optional[int]] = mapped_column('MONEDA_ID',Integer)
-    cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',Integer)
+    cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',BigInteger)
     _yield: Mapped[Optional[float]] = mapped_column ('YIELD',Float)
     precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO',Float)
     fecha_pacto: Mapped[Optional[date]] = mapped_column('FECHA_PACTO',Date)
