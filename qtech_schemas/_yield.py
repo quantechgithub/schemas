@@ -68,6 +68,7 @@ class Quote(Base):
 association_table2 = Table(
     'CURVE_DERIVATIVE_LINKAGE', 
     Base.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
     Column('curve_id', Integer, ForeignKey('YIELD.CURVE.id')),
     Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.DERIVATIVE.id')),
     Column('index', Integer),
@@ -285,6 +286,7 @@ class VectorPrecio(Base):
 association_table = Table(
     'BENCHMARK_DERIVATIVE_LINKAGE', 
     Base.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
     Column('benchmark_id', Integer, ForeignKey('YIELD.CURVE_BENCHMARK.id')),
     Column('benchmark_derivative_id', Integer, ForeignKey('YIELD.DERIVATIVE.id')),
     Column('index', Integer),
@@ -414,6 +416,7 @@ class CurveDerivativeLinkage(Base):
     __tablename__ = 'CURVE_DERIVATIVE_LINKAGE'
     __table_args__ = ARGS
     
+    id = Column(Integer, primary_key=True, autoincrement=True)
     curve_id = Column(Integer, ForeignKey(Curve.id))
     benchmark_derivative_id = Column(Integer, ForeignKey(BenchmarkDerivative.id))
     index = Column(Integer)
@@ -422,6 +425,7 @@ class BenchmarkDerivativeLinkage(Base):
     __tablename__ = 'BENCHMARK_DERIVATIVE_LINKAGE'
     __table_args__ = ARGS
     
+    id = Column(Integer, primary_key=True, autoincrement=True)
     benchmark_id = Column(Integer, ForeignKey(CurveBenchmark.id))
     benchmark_derivative_id = Column(Integer, ForeignKey(BenchmarkDerivative.id))
     index = Column(Integer)
