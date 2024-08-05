@@ -410,6 +410,22 @@ class DerivativeFact(Base):
             'value': self.value
         }
 
+class CurveDerivativeLinkage(Base):
+    __tablename__ = 'CURVE_DERIVATIVE_LINKAGE'
+    __table_args__ = ARGS
+    
+    curve_id = Column(Integer, ForeignKey(Curve.id))
+    benchmark_derivative_id = Column(Integer, ForeignKey(BenchmarkDerivative.id))
+    index = Column(Integer)
+
+class BenchmarkDerivativeLinkage(Base):
+    __tablename__ = 'BENCHMARK_DERIVATIVE_LINKAGE'
+    __table_args__ = ARGS
+    
+    benchmark_id = Column(Integer, ForeignKey(CurveBenchmark.id))
+    benchmark_derivative_id = Column(Integer, ForeignKey(BenchmarkDerivative.id))
+    index = Column(Integer)
+
 class TituloView(Base):
     __tablename__ = 'MAESTRO_TITULO'
     __table_args__ = ARGS
