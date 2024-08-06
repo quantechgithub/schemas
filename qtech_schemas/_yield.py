@@ -5,7 +5,6 @@ from qtech_schemas.market import Maestro, EmisorMoneda
 from qtech_schemas.dbo import Variables, Base
 from pandas import Timestamp as time
 
-
 ARGS= {'schema': 'YIELD','extend_existing': True}
 
 class Titulo(Maestro):
@@ -263,6 +262,7 @@ class VectorPrecio(Base):
     mcauly_duration : Mapped[Optional[float]] = mapped_column(Float)
     mduration : Mapped[Optional[float]] = mapped_column(Float)
     convexity : Mapped[Optional[float]] = mapped_column(Float)
+    coupon : Mapped[Optional[float]] = mapped_column(Float)
 
     titulo : Mapped['Titulo'] = relationship(back_populates='vector_precio')
     valuation_method : Mapped['ValuationMethod'] = relationship(back_populates='vectores_precios')
