@@ -1,7 +1,8 @@
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
 from sqlalchemy import  Integer, String, Float, Date, ForeignKey,MetaData
 from typing import Optional
-from datetime import date
+from pandas import Timestamp as time
+
 
 metadata_obj = MetaData(schema='dbo')
 class Base(DeclarativeBase):
@@ -87,7 +88,7 @@ class Variables(Base):
 class Fechas(Base):
     __tablename__ = 'Fechas'
 
-    dates:Mapped[date]= mapped_column('Date',Date,primary_key=True)
+    dates:Mapped[time]= mapped_column('Date',Date,primary_key=True)
     year: Mapped[int] = mapped_column('Year',Integer)
     semester: Mapped[int] = mapped_column('Semester',Integer)
     quarter : Mapped[int] = mapped_column('Quarter',Integer)
@@ -99,7 +100,7 @@ class Datos(Base):
     __tablename__ = 'Datos'
 
     id: Mapped[int] = mapped_column('Datos_ID', Integer, primary_key=True, autoincrement=True)
-    fecha: Mapped[date] = mapped_column('Fecha',Date,ForeignKey(Fechas.dates))
+    fecha: Mapped[time] = mapped_column('Fecha',Date,ForeignKey(Fechas.dates))
     frecuencia: Mapped[int] = mapped_column('Frecuencia_ID',Integer,ForeignKey(Frecuencias.id))
     categoria: Mapped[int] = mapped_column('Categoria_ID',Integer,ForeignKey(Categoria.id))
     fuente: Mapped[int] = mapped_column('Fuente_ID',Integer,ForeignKey(Fuentes.id))

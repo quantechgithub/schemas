@@ -5,6 +5,7 @@ from qtech_schemas.market import Maestro, EmisorMoneda
 from qtech_schemas.dbo import Variables, Base
 from pandas import Timestamp as time
 
+
 ARGS= {'schema': 'YIELD','extend_existing': True}
 
 class Titulo(Maestro):

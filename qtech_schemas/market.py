@@ -2,7 +2,7 @@ from sqlalchemy.orm import Mapped,mapped_column,relationship
 from sqlalchemy import  Integer, String, Float, Date, ForeignKey,Time,BigInteger
 from qtech_schemas.dbo import Base
 from typing import Optional,List
-from datetime import time,date
+from pandas import Timestamp as time
 from sqlalchemy.sql import func
 
 ARGS= {'schema': 'MARKET','extend_existing': True}
@@ -155,8 +155,8 @@ class Maestro(Base):
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin: Mapped[str] = mapped_column('ISIN', String(100), unique=True)
-    fecha_emision: Mapped[Optional[date]] = mapped_column('EMISION', Date)
-    fecha_vencimiento: Mapped[Optional[date]] = mapped_column('VENCIMIENTO', Date)
+    fecha_emision: Mapped[Optional[time]] = mapped_column('EMISION', Date)
+    fecha_vencimiento: Mapped[Optional[time]] = mapped_column('VENCIMIENTO', Date)
     cupon: Mapped[Optional[float]] = mapped_column('CUPON', Float)
     amortiza_id: Mapped[Optional[int]] = mapped_column('AMORTIZA', Integer, ForeignKey(Amortiza.id))
     serie_id: Mapped[Optional[int]] = mapped_column('SERIES_ID', Integer, ForeignKey(SerieEmision.id))
@@ -167,7 +167,7 @@ class Maestro(Base):
     monto_total_programa: Mapped[Optional[float]] = mapped_column('MONTO_TOTAL_PROGRAMA', Float)
     nemotecnico: Mapped[Optional[str]] = mapped_column('NEMOTECNICO', String(100))
     option_call: Mapped[Optional[int]] = mapped_column('OPTION_CALL', Integer)
-    call_date: Mapped[Optional[date]] = mapped_column('CALL_DATE', Date)
+    call_date: Mapped[Optional[time]] = mapped_column('CALL_DATE', Date)
     emisor_moneda_id: Mapped[Optional[int]] = mapped_column('EMISOR_MONEDA_ID', Integer, ForeignKey(EmisorMoneda.id))
     metodo_calculo_id: Mapped[Optional[int]] = mapped_column('METODO_CALCULO_ID', Integer, ForeignKey(MetodoCalculo.id))
     calificacion_riesgo:Mapped[Optional[str]] = mapped_column('CALIFICACION_RIESGO',String(50))
@@ -186,7 +186,7 @@ class Monto(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    fecha: Mapped[Optional[date]] = mapped_column('FECHA', Date)
+    fecha: Mapped[Optional[time]] = mapped_column('FECHA', Date)
     monto_emitido: Mapped[Optional[float]] = mapped_column('MONTO_EMITIDO', Float)
     monto_circulacion: Mapped[Optional[float]] = mapped_column('MONTO_CIRCULACION', Float)
     isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
@@ -199,8 +199,8 @@ class SubastaCredito(Base):
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
-    fecha_subasta: Mapped[Optional[date]] = mapped_column('FECHA_SUBASTA',Date)
-    fecha_liquidacion: Mapped[Optional[date]] = mapped_column('FECHA_LIQUIDACION',Date)
+    fecha_subasta: Mapped[Optional[time]] = mapped_column('FECHA_SUBASTA',Date)
+    fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
     monto_ofertado: Mapped[Optional[float]] = mapped_column('MONTO_OFERTADO',Float)
     valor_nominal_recibido: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_RECIBIDO',Float)
     precio_promedio_ponderado: Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO',Float)
@@ -218,7 +218,7 @@ class SubastaBCRD(Base):
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
-    fecha_subasta: Mapped[Optional[date]] = mapped_column('FECHA_SUBASTA',Date)
+    fecha_subasta: Mapped[Optional[time]] = mapped_column('FECHA_SUBASTA',Date)
     valor_nominal_recibido: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_RECIBIDO',Float)
     precio_de_oferta: Mapped[Optional[float]] = mapped_column('PRECIO_DE_LA_OFERTA',Float)
     valor_nominal_adjudicada: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_ADJUDICADA',Float)
@@ -237,7 +237,7 @@ class OperacionMM(Base):
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
-    fecha_valor: Mapped[Optional[date]] = mapped_column('FECHA_VALOR',Date)
+    fecha_valor: Mapped[Optional[time]] = mapped_column('FECHA_VALOR',Date)
     cantidad_titulos: Mapped[Optional[int]] = mapped_column('CANTIDAD_TITULOS',Integer)
     valor_transado: Mapped[Optional[float]] = mapped_column('VALOR_TRANSDO',Float)
     dias_interes: Mapped[Optional[int]] = mapped_column('DIAS_INTERES',Integer)
@@ -258,11 +258,11 @@ class OperacionesCevaldom(Base):
     cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',BigInteger)
     _yield: Mapped[Optional[float]] = mapped_column ('YIELD',Float)
     precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO',Float)
-    fecha_pacto: Mapped[Optional[date]] = mapped_column('FECHA_PACTO',Date)
+    fecha_pacto: Mapped[Optional[time]] = mapped_column('FECHA_PACTO',Date)
     hora_pacto : Mapped[Optional[time]] = mapped_column('HORA_PACTO',Time)
     tipo_operacion: Mapped[Optional[int]] = mapped_column('TIPO_OPERACION',Integer,ForeignKey(TipoOperacion.id))
     parte : Mapped[Optional[int]] = mapped_column('PARTE',Integer,ForeignKey('MARKET.PARTES.ID'))
     sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO',Integer,ForeignKey(Sistema_Mercado.id))
-    fecha_liquidacion: Mapped[Optional[date]] = mapped_column('FECHA_LIQUIDACION',Date)
+    fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
-    subida: Mapped[date] = mapped_column('SUBIDA', Date, server_default=func.now())
+    subida: Mapped[time] = mapped_column('SUBIDA', Date, server_default=func.now())
