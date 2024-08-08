@@ -230,6 +230,7 @@ class SubastaBCRD(Base):
     yield_corte: Mapped[Optional[float]] = mapped_column('YIELD_CORTE',Float)
     yield_promedio_ponderada: Mapped[Optional[Float]] = mapped_column('YIELD_PROMEDIO_PONDERADA',Float)
     yield_rechazada :Mapped[Optional[Float]]  = mapped_column('YIELD_RECHAZADA',Float)
+    bid_to_cover: Mapped[Optional[float]] = mapped_column('BID_TO_COVER',Float)
 
 class OperacionMM(Base):
     __tablename__ = 'OPERACIONES_MARKETMAKERS'
