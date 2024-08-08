@@ -266,3 +266,13 @@ class OperacionesCevaldom(Base):
     fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
     subida: Mapped[time] = mapped_column('SUBIDA', Date, server_default=func.now())
+
+class VectorMonto(Base):
+    __tablename__= 'VECTOR_MONTO'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
+    fecha: Mapped[Optional[time]] = mapped_column('FECHA',Date)
+    monto_emitido: Mapped[Optional[float]] = mapped_column('MONTO_EMITIDO',Float, nullable=True)
+    monto_circulante: Mapped[Optional[float]] = mapped_column('MONTO_CIRCULANTE',Float, nullable=True)
