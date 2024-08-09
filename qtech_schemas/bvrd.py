@@ -112,7 +112,7 @@ class OperacionesTotales(Base):
     tasa_venta_dolar: Mapped[Optional[float]] = mapped_column('TASA_VENTA', Float)
     rendimiento: Mapped[Optional[float]] = mapped_column('RENDIMIENTO', Float)
     monto_transado_equivalente_pesos: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO_EQUIVALENTE_PESOS', Float)
-    monto_transado_equivalente_dolares: Mapped[Optional[float]] = mapped_column('MONTO_TRNASADO_EQUIVALENTE_DOLARES', Float)
+    monto_transado_equivalente_dolares: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO_EQUIVALENTE_DOLARES', Float)
     rueda: Mapped[Optional[int]] = mapped_column('RUEDA', Integer, ForeignKey(CodigoRueda.id))
 
 class PosturasTotales(Base):
