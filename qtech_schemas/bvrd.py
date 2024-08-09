@@ -126,7 +126,7 @@ class PosturasTotales(Base):
     fecha_postura : Mapped[Optional[time]] = mapped_column('FECHA_POSTURA',Date)
     hora_postura: Mapped[Optional[time]] = mapped_column('HORA_POSTURA',Time)
     monto_nominal : Mapped[Optional[Float]] = mapped_column('MONTO_NOMINAL',Float)
-    precio_limpio : Mapped[Optional[Float]] = mapped_column('PRECIO_LIIMPIO',Float)
+    precio_limpio : Mapped[Optional[Float]] = mapped_column('PRECIO_LIMPIO',Float)
     codigo_rueda : Mapped[Optional[int]] = mapped_column('CODIGO_RUEDA',Integer,ForeignKey(CodigoRueda.id))
     rendimiento : Mapped[Optional[Float]] = mapped_column('RENDIMIENTO',Float)
     compra_venta : Mapped[Optional[int]] = mapped_column('COMPRA_VENTA',Integer,ForeignKey(CompraVenta.id))
