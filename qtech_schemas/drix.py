@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped,mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey, Table, Column
 from typing import List, Optional
-from qtech_schemas.market import Maestro, VectorMonto, Moneda, EmisorMoneda
+from qtech_schemas.market import Maestro, Moneda, EmisorMoneda
 from qtech_schemas._yield import TimeSeriesState, ValuationMethod
 from qtech_schemas.dbo import Variables, Base
 from pandas import Timestamp as time
@@ -15,15 +15,12 @@ index_emisor_moneda_linkage = Table(
     'INDEX_EMISOR_MONEDA_LINKAGE',
     Base.metadata,
     Column('index_id', Integer, ForeignKey('DRIX.INDEX.id')),
-    Column('emisor_moneda_id', Integer, ForeignKey('MARKET.EMISOR_MONEDA.id'))
+    Column('emisor_moneda_id', Integer, ForeignKey('MARKET.EMISOR_MONEDA.ID'))
 )
 
 class EmisorMonedaDrix(EmisorMoneda):
     risk_factors : Mapped[List['RiskFactor']] = relationship('RiskFactor', back_populates='emisor_moneda')
     indexes : Mapped[List['Index']] = relationship('Index', secondary = index_emisor_moneda_linkage, back_populates='emisor_monedas')
-    
-class VectorMontoDrix(VectorMonto):
-    pass
 
 class MonedaDrix(Moneda):
     indexes : Mapped[List['Index']] = relationship('Index', back_populates='reporting_currency')
@@ -92,7 +89,6 @@ class RiskFactor(Base):
     emisor_moneda : Mapped[EmisorMonedaDrix] = relationship(back_populates='risk_factors')
     indexes : Mapped[List['Index']] = relationship(secondary = index_risk_factor_linkage, back_populates='risk_factors')
 
-
 class Index(Base):
     __tablename__ = 'INDEX'
     __table_args__ = ARGS
@@ -114,7 +110,7 @@ class Index(Base):
     index_type: Mapped[IndexType] = relationship(back_populates ='indexes')
     valuation_method: Mapped[ValuationMethodDrix] = relationship(back_populates ='indexes')
     risk_factors: Mapped[List[RiskFactor]] = relationship(secondary = index_risk_factor_linkage, back_populates='indexes')
-    emisor_monedas: Mapped[List[EmisorMonedaDrix]] = relationship('EmisorMonedaDrix', secondary = index_risk_factor_linkage, back_populates='indexes')
+    emisor_monedas: Mapped[List[EmisorMonedaDrix]] = relationship(secondary = index_risk_factor_linkage, back_populates='indexes')
 
 class TypeValue(Base):
     __tablename__ = 'TYPE_VALUE'
@@ -135,4 +131,17 @@ class IndexFact(Base):
     type_value_id: Mapped[int] = mapped_column(Integer, ForeignKey(TypeValue.id))
     value: Mapped[float] = mapped_column(Float)
 
+# from sqlalchemy import create_engine
 
+# def conectar_db():
+#     server = 'quantech-general-server.database.windows.net'
+#     database = 'DEVELOPMENT'
+#     username = 'development'
+#     password = 'Desarrollo2024'
+#     driver = 'ODBC Driver 17 for SQL Server'
+    
+#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
+#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
+#     return engine
+
+# Base.metadata.create_all(conectar_db())

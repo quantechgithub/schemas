@@ -263,6 +263,8 @@ class VectorPrecio(Base):
     mduration : Mapped[Optional[float]] = mapped_column(Float)
     convexity : Mapped[Optional[float]] = mapped_column(Float)
     coupon : Mapped[Optional[float]] = mapped_column(Float)
+    dollar_duration : Mapped[Optional[float]] = mapped_column(Float)
+    dollar_convexity : Mapped[Optional[float]] = mapped_column(Float)
 
     titulo : Mapped['Titulo'] = relationship(back_populates='vector_precio')
     valuation_method : Mapped['ValuationMethod'] = relationship(back_populates='vectores_precios')
@@ -462,17 +464,3 @@ class DatoView(Base):
             'value': self.value
         }
     
-# from sqlalchemy import create_engine
-
-# def conectar_db():
-#     server = 'quantech-general-server.database.windows.net'
-#     database = 'DEVELOPMENT'
-#     username = 'development'
-#     password = 'Desarrollo2024'
-#     driver = 'ODBC Driver 17 for SQL Server'
-    
-#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
-#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
-#     return engine
-
-# Base.metadata.create_all(conectar_db())
