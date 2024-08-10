@@ -280,7 +280,17 @@ class VectorPrecio(Base):
             'method': self.valuation_method.curve.method.method if self.valuation_method.curve else None,
             'ytm': self.ytm,
             'clean_price': self.clean_price,
-            'dirty_price': self.dirty_price
+            'dirty_price': self.dirty_price,
+            'theta': self.theta,
+            'time': self.time,
+            'current_yield': self.current_yield,
+            'mcauly_duration': self.mcauly_duration,
+            'mduration': self.mduration,
+            'convexity': self.convexity,
+            'coupon': self.coupon,
+            'dollar_duration': self.dollar_duration,
+            'dollar_convexity': self.dollar_convexity
+            
         }
     
     def __str__(self):
@@ -463,4 +473,17 @@ class DatoView(Base):
             'index': self.index,
             'value': self.value
         }
+# from sqlalchemy import create_engine
+
+# def conectar_db():
+#     server = 'quantech-general-server.database.windows.net'
+#     database = 'DEVELOPMENT'
+#     username = 'development'
+#     password = 'Desarrollo2024'
+#     driver = 'ODBC Driver 17 for SQL Server'
     
+#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
+#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
+#     return engine
+
+# Base.metadata.
