@@ -16,7 +16,8 @@ index_emisor_moneda_linkage = Table(
     Base.metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('index_id', Integer, ForeignKey('DRIX.INDEX.id')),
-    Column('emisor_moneda_id', Integer, ForeignKey('MARKET.EMISOR_MONEDA.ID'))
+    Column('emisor_moneda_id', Integer, ForeignKey('MARKET.EMISOR_MONEDA.ID')),
+    schema='DRIX'
 )
 
 class EmisorMonedaDrix(EmisorMoneda):
@@ -31,7 +32,8 @@ index_risk_factor_linkage = Table(
     Base.metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('index_id', Integer, ForeignKey('DRIX.INDEX.id')),
-    Column('risk_factor_id', Integer, ForeignKey('DRIX.RISK_FACTOR.id'))
+    Column('risk_factor_id', Integer, ForeignKey('DRIX.RISK_FACTOR.id')),
+    schema='DRIX'
 )
 
 class TimeSeriesStateDrix(TimeSeriesState):
