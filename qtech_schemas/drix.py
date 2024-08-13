@@ -14,6 +14,7 @@ class Titulo(Maestro):
 index_emisor_moneda_linkage = Table(
     'INDEX_EMISOR_MONEDA_LINKAGE',
     Base.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
     Column('index_id', Integer, ForeignKey('DRIX.INDEX.id')),
     Column('emisor_moneda_id', Integer, ForeignKey('MARKET.EMISOR_MONEDA.ID'))
 )
@@ -28,6 +29,7 @@ class MonedaDrix(Moneda):
 index_risk_factor_linkage = Table(
     'INDEX_RISK_FACTOR_LINKAGE',
     Base.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
     Column('index_id', Integer, ForeignKey('DRIX.INDEX.id')),
     Column('risk_factor_id', Integer, ForeignKey('DRIX.RISK_FACTOR.id'))
 )
@@ -144,6 +146,7 @@ class IndexEmisorMonedaLiknage(Base):
     __tablename__ = 'INDEX_EMISOR_MONEDA_LINKAGE'
     __table_args__ = ARGS
 
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id), primary_key=True)
     emisor_moneda_id: Mapped[int] = mapped_column(Integer, ForeignKey(EmisorMonedaDrix.id), primary_key=True)
 
@@ -151,6 +154,7 @@ class IndexRiskFactorLinkage(Base):
     __tablename__ = 'INDEX_RISK_FACTOR_LINKAGE'
     __table_args__ = ARGS
 
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id), primary_key=True)
     risk_factor_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id), primary_key=True)
 # from sqlalchemy import create_engine
