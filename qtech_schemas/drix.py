@@ -88,6 +88,8 @@ class IndexStatus(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(100), unique=True)
 
+    indexes : Mapped[List['Index']] = relationship('Index', back_populates='status')
+
 class RiskFactor(Base):
     __tablename__ = 'RISK_FACTOR'
     __table_args__ = ARGS
