@@ -8,7 +8,7 @@ from pandas import Timestamp as time
 
 ARGS= {'schema': 'DRIX','extend_existing': True} #,'extend_existing': True
 
-class Titulo(Maestro):
+class DrixTitulo(Maestro):
     pass
 
 index_emisor_moneda_linkage = Table(
@@ -139,7 +139,7 @@ class IndexFact(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     date: Mapped[time] = mapped_column(Date)
     index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
-    titulo_id: Mapped[int] = mapped_column(Integer, ForeignKey(Titulo.id))
+    titulo_id: Mapped[int] = mapped_column(Integer, ForeignKey(DrixTitulo.id))
     benchmark_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id))
     type_value_id: Mapped[int] = mapped_column(Integer, ForeignKey(TypeValue.id))
     value: Mapped[float] = mapped_column(Float)
