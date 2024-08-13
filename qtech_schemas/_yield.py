@@ -290,7 +290,6 @@ class VectorPrecio(Base):
             'coupon': self.coupon,
             'dollar_duration': self.dollar_duration,
             'dollar_convexity': self.dollar_convexity
-            
         }
     
     def __str__(self):

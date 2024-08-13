@@ -6,7 +6,7 @@ from qtech_schemas._yield import TimeSeriesState, ValuationMethod
 from qtech_schemas.dbo import Variables, Base
 from pandas import Timestamp as time
 
-ARGS= {'schema': 'DRIX'} #,'extend_existing': True
+ARGS= {'schema': 'DRIX','extend_existing': True} #,'extend_existing': True
 
 class Titulo(Maestro):
     pass
@@ -77,6 +77,13 @@ class IndexType(Base):
 
     indexes : Mapped[List['Index']] = relationship('Index', back_populates='index_type')
 
+class IndexStatus(Base):
+    __tablename__ = 'INDEX_STATUS'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name : Mapped[str] = mapped_column(String(100), unique=True)
+
 class RiskFactor(Base):
     __tablename__ = 'RISK_FACTOR'
     __table_args__ = ARGS
@@ -100,8 +107,9 @@ class Index(Base):
     calculation_frequency_id: Mapped[int] = mapped_column(Integer, ForeignKey(CalculationFrequency.id))
     reporting_currency_id: Mapped[int] = mapped_column(Integer, ForeignKey(MonedaDrix.id))
     launch_date: Mapped[time] = mapped_column(Date)
-    index_type_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexType.id))
+    type_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexType.id))
     valuation_method_id: Mapped[int] = mapped_column(Integer, ForeignKey(ValuationMethodDrix.id))
+    status_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexStatus.id))
 
     weighting_method: Mapped[WeightingMethod] = relationship(back_populates ='indexes')
     rebalancing_frequency: Mapped[RebalancingFrequency] = relationship(back_populates ='indexes')
@@ -109,6 +117,7 @@ class Index(Base):
     reporting_currency: Mapped[MonedaDrix] = relationship(back_populates ='indexes')
     index_type: Mapped[IndexType] = relationship(back_populates ='indexes')
     valuation_method: Mapped[ValuationMethodDrix] = relationship(back_populates ='indexes')
+    status: Mapped[IndexStatus] = relationship(back_populates ='indexes')
     risk_factors: Mapped[List[RiskFactor]] = relationship(secondary = index_risk_factor_linkage, back_populates='indexes')
     emisor_monedas: Mapped[List[EmisorMonedaDrix]] = relationship(secondary = index_risk_factor_linkage, back_populates='indexes')
 
@@ -131,6 +140,19 @@ class IndexFact(Base):
     type_value_id: Mapped[int] = mapped_column(Integer, ForeignKey(TypeValue.id))
     value: Mapped[float] = mapped_column(Float)
 
+class IndexEmisorMonedaLiknage(Base):
+    __tablename__ = 'INDEX_EMISOR_MONEDA_LINKAGE'
+    __table_args__ = ARGS
+
+    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id), primary_key=True)
+    emisor_moneda_id: Mapped[int] = mapped_column(Integer, ForeignKey(EmisorMonedaDrix.id), primary_key=True)
+
+class IndexRiskFactorLinkage(Base):
+    __tablename__ = 'INDEX_RISK_FACTOR_LINKAGE'
+    __table_args__ = ARGS
+
+    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id), primary_key=True)
+    risk_factor_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id), primary_key=True)
 # from sqlalchemy import create_engine
 
 # def conectar_db():
