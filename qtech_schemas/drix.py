@@ -125,7 +125,7 @@ class Index(Base):
     valuation_method: Mapped[ValuationMethodDrix] = relationship(back_populates ='indexes')
     status: Mapped[IndexStatus] = relationship(back_populates ='indexes')
     risk_factors: Mapped[List[RiskFactor]] = relationship(secondary = index_risk_factor_linkage, back_populates='indexes')
-    emisor_monedas: Mapped[List[EmisorMonedaDrix]] = relationship(secondary = index_risk_factor_linkage, back_populates='indexes')
+    emisor_moneda: Mapped[List[EmisorMonedaDrix]] = relationship(secondary = index_emisor_moneda_linkage, back_populates='indexes')
 
 class TypeValue(Base):
     __tablename__ = 'TYPE_VALUE'
@@ -151,16 +151,16 @@ class IndexEmisorMonedaLiknage(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id), primary_key=True)
-    emisor_moneda_id: Mapped[int] = mapped_column(Integer, ForeignKey(EmisorMonedaDrix.id), primary_key=True)
+    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
+    emisor_moneda_id: Mapped[int] = mapped_column(Integer, ForeignKey(EmisorMonedaDrix.id))
 
 class IndexRiskFactorLinkage(Base):
     __tablename__ = 'INDEX_RISK_FACTOR_LINKAGE'
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id), primary_key=True)
-    risk_factor_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id), primary_key=True)
+    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
+    risk_factor_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id))
 # from sqlalchemy import create_engine
 
 # def conectar_db():
