@@ -160,6 +160,34 @@ class IndexRiskFactorLinkage(Base):
     index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
     risk_factor_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id))
 
+class DrixTituloView(Base):
+    __tablename__ = 'MAESTRO_TITULOS'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    isin : Mapped[str] = mapped_column(String(100), unique=True)
+    emision : Mapped[Optional[time]]  = mapped_column(Date)
+    vencimiento : Mapped[Optional[time]] = mapped_column(Date)
+    cupon : Mapped[Optional[float]] = mapped_column(Float)
+    periodicidad: Mapped[Optional[str]]= mapped_column(String(10))
+    moneda : Mapped[Optional[str]] = mapped_column(String(10))
+    amortizable : Mapped[Optional[int]] = mapped_column(Integer)
+    tipo_emisor: Mapped[Optional[str]] = mapped_column(String(10))
+    emisor_moneda : Mapped[Optional[str]] = mapped_column(String(10))
+
+class DrixVectorMontoView(Base):
+    __tablename__ = 'VECTOR_MONTO'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    isin : Mapped[str] = mapped_column(String(100))
+    date : Mapped[time] = mapped_column(Date)
+    monto_emitido: Mapped[float] = mapped_column(Float)
+    monto_ciruclante : Mapped[Optional[float]] = mapped_column(Float)
+    moneda : Mapped[Optional[str]] = mapped_column(String(10))
+
+
+
 # from sqlalchemy import create_engine
 
 # def conectar_db():
