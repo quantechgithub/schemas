@@ -21,10 +21,10 @@ index_emisor_moneda_linkage = Table(
 )
 
 class EmisorMonedaDrix(EmisorMoneda):
-    indexes : Mapped[List['Index']] = relationship('Index', secondary = index_emisor_moneda_linkage, back_populates='emisor_moneda')
+    indexes : Mapped[List['Index']] = relationship(secondary = index_emisor_moneda_linkage, back_populates='emisor_moneda')
 
 class MonedaDrix(Moneda):
-    indexes : Mapped[List['Index']] = relationship('Index', back_populates='reporting_currency')
+    indexes : Mapped[List['Index']] = relationship(back_populates='reporting_currency')
 
 index_risk_factor_linkage = Table(
     'INDEX_RISK_FACTOR_LINKAGE',
@@ -39,7 +39,7 @@ class TimeSeriesStateDrix(TimeSeriesState):
     pass
 
 class ValuationMethodDrix(ValuationMethod):
-    indexes : Mapped[List['Index']] = relationship('Index', back_populates='valuation_method')
+    indexes : Mapped[List['Index']] = relationship(back_populates='valuation_method')
 
 class VariablesDrix(Variables):
     pass
@@ -170,7 +170,7 @@ class DrixTituloView(Base):
     cupon : Mapped[Optional[float]] = mapped_column(Float)
     periodicidad: Mapped[Optional[str]]= mapped_column(String(10))
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
-    amortizable : Mapped[Optional[int]] = mapped_column(Integer)
+    tipo_amortiza : Mapped[Optional[int]] = mapped_column(Integer)
     tipo_emisor: Mapped[Optional[str]] = mapped_column(String(10))
     emisor_moneda : Mapped[Optional[str]] = mapped_column(String(10))
 
