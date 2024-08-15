@@ -21,7 +21,6 @@ index_emisor_moneda_linkage = Table(
 )
 
 class EmisorMonedaDrix(EmisorMoneda):
-    risk_factors : Mapped[List['RiskFactor']] = relationship('RiskFactor', back_populates='emisor_moneda')
     indexes : Mapped[List['Index']] = relationship('Index', secondary = index_emisor_moneda_linkage, back_populates='emisor_moneda')
 
 class MonedaDrix(Moneda):
