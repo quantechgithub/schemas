@@ -97,9 +97,7 @@ class RiskFactor(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name : Mapped[str] = mapped_column(String(100), unique=True)
     maturity: Mapped[Optional[float]] = mapped_column(Float)
-    emisor_moneda_id: Mapped[int] = mapped_column(Integer, ForeignKey(EmisorMonedaDrix.id))
 
-    emisor_moneda : Mapped[EmisorMonedaDrix] = relationship(back_populates='risk_factors')
     indexes : Mapped[List['Index']] = relationship(secondary = index_risk_factor_linkage, back_populates='risk_factors')
 
 class Index(Base):
@@ -142,7 +140,7 @@ class IndexFact(Base):
     date: Mapped[time] = mapped_column(Date)
     index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
     titulo_id: Mapped[int] = mapped_column(Integer, ForeignKey(DrixTitulo.id))
-    benchmark_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id))
+    benchmark_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey(RiskFactor.id))
     type_value_id: Mapped[int] = mapped_column(Integer, ForeignKey(TypeValue.id))
     value: Mapped[float] = mapped_column(Float)
 
@@ -161,6 +159,7 @@ class IndexRiskFactorLinkage(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
     risk_factor_id: Mapped[int] = mapped_column(Integer, ForeignKey(RiskFactor.id))
+
 # from sqlalchemy import create_engine
 
 # def conectar_db():
