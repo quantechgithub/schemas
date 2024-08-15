@@ -188,6 +188,7 @@ class VectorMonto(Base):
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
     fecha: Mapped[Optional[time]] = mapped_column('FECHA',Date)
     monto_emitido: Mapped[Optional[float]] = mapped_column('MONTO_EMITIDO',Float)
+    moneda: Mapped[Optional[float]] = mapped_column('MONEDA_ID',Integer,ForeignKey(Moneda.id))
     monto_circulante: Mapped[Optional[float]] = mapped_column('MONTO_CIRCULANTE',Float)
 
 class Monto(Base):
@@ -219,7 +220,7 @@ class SubastaCredito(Base):
     tasa_de_adjudicacion: Mapped[Optional[float]] = mapped_column('TASA_DE_ADJUDICACION',Float)
     valor_nominal_rechazado: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_RECHAZADO',Float)
     precio_promedio_ponderado_rechazado: Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO_RECHAZADO',Float)
-    tasa_promedio_ponderado_rechazado: Mapped[Optional[float]] = mapped_column('TASA_PROMEDIO_PONDERADO_RECHAZADO')
+    tasa_promedio_ponderado_rechazado: Mapped[Optional[float]] = mapped_column('TASA_PROMEDIO_PONDERADO_RECHAZADO',Float)
 
 class SubastaBCRD(Base):
     __tablename__ = 'SUBASTAS_BCRD'
@@ -264,7 +265,7 @@ class OperacionesCevaldom(Base):
     fisn: Mapped[str] = mapped_column('FISN',String(100))
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
     monto_nominal_operacion: Mapped[Optional[int]]= mapped_column('MONTO_NOMINAL_OPERACION',BigInteger)
-    moneda_id: Mapped[Optional[int]] = mapped_column('MONEDA_ID',Integer)
+    moneda_id: Mapped[Optional[int]] = mapped_column('MONEDA_ID',Integer,ForeignKey(Moneda.id))
     cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',BigInteger)
     _yield: Mapped[Optional[float]] = mapped_column ('YIELD',Float)
     precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO',Float)
