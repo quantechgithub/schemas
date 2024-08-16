@@ -184,7 +184,7 @@ class DrixVectorMontoView(Base):
     isin : Mapped[str] = mapped_column(String(100))
     date : Mapped[time] = mapped_column(Date)
     monto_emitido: Mapped[float] = mapped_column(Float)
-    monto_ciruclante : Mapped[Optional[float]] = mapped_column(Float)
+    monto_circulante : Mapped[Optional[float]] = mapped_column(Float)
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
 
 
