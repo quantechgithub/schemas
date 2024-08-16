@@ -170,7 +170,9 @@ class DrixTituloView(Base):
     cupon : Mapped[Optional[float]] = mapped_column(Float)
     periodicidad: Mapped[Optional[str]]= mapped_column(String(10))
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
-    tipo_amortiza : Mapped[Optional[int]] = mapped_column(Integer)
+    tipo_tasa : Mapped[Optional[str]] = mapped_column(String(10))
+    tipo_amortizacion : Mapped[Optional[int]] = mapped_column(Integer)
+    emisor: Mapped[Optional[str]] = mapped_column(String(10))
     tipo_emisor: Mapped[Optional[str]] = mapped_column(String(10))
     emisor_moneda : Mapped[Optional[str]] = mapped_column(String(10))
 
@@ -182,7 +184,7 @@ class DrixVectorMontoView(Base):
     isin : Mapped[str] = mapped_column(String(100))
     date : Mapped[time] = mapped_column(Date)
     monto_emitido: Mapped[float] = mapped_column(Float)
-    monto_circulante : Mapped[Optional[float]] = mapped_column(Float)
+    monto_ciruclante : Mapped[Optional[float]] = mapped_column(Float)
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
 
 
