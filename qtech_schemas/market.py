@@ -158,6 +158,9 @@ class Ranking(Base):
     actual:Mapped[int] = mapped_column('ACTUAL',BigInteger)
     ranking: Mapped[int] = mapped_column('RANKING',BigInteger)
     fechas: Mapped[time] = mapped_column('FECHA',Date)
+
+    def __repr__(self) -> str:
+        return f"User(ID={self.id!r}, MERCADO={self.mercado!r}, PARTICIPANTE={self.participante!r},ACTUAL={self.actual!r},RANKING ={self.ranking!r},FECHAS ={self.fechas!r})"
     
 class Maestro(Base):
     __tablename__ = 'MAESTRO_TITULOS'
