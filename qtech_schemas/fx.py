@@ -67,8 +67,8 @@ class FxTypeTransform(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(15), unique=True)
 
-    analytics: Mapped[List['FxAnalytics']] = relationship(back_populates='transform')
     variables: Mapped[List['FxVariable']] = relationship(back_populates='transform')
+    analytics: Mapped[List['FxAnalytics']] = relationship(back_populates='transform')
 
 class FxVariable(Base):
     __tablename__ = 'VARIABLE'
