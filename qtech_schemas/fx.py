@@ -126,6 +126,7 @@ class FxAnalytics(Base):
 
     variable: Mapped[FxVariable] = relationship(back_populates='analytics')
     transform: Mapped[FxTypeTransform] = relationship(back_populates='analytics')
+    analytics_fact: Mapped[List['FxAnalyticsFact']] = relationship(back_populates='analytic')
     probability_fact: Mapped[List['FxProbabilityFact']] = relationship(back_populates='analytic')
 
 class FxAnalyticsFact(Base):
@@ -137,7 +138,7 @@ class FxAnalyticsFact(Base):
     analytics_id: Mapped[int] = mapped_column(ForeignKey(FxAnalytics.id))
     value: Mapped[float] = mapped_column(Float)
 
-    analytics: Mapped[FxAnalytics] = relationship(back_populates='analytics_facts')
+    analytic: Mapped[FxAnalytics] = relationship(back_populates='analytics_facts')
 
 class FxProbabilityFact(Base):
     __tablename__ = 'PROBABILITY_FACT'
