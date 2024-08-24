@@ -39,7 +39,7 @@ class FxEntity(Base):
     name: Mapped[str] = mapped_column(String(15), unique=True)
 
     variables: Mapped[List['FxVariable']] = relationship(back_populates='entity')
-
+    analytics: Mapped[List['FxVariable']] = relationship(back_populates='entity')
 class FxType(Base):
     __tablename__ = 'TYPE'
     __table_args__ = ARGS
