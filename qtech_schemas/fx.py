@@ -78,7 +78,7 @@ class FxVariable(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True)
+    name: Mapped[str] = mapped_column(String(150), unique=True)
     quote_id: Mapped[Optional[int]] = mapped_column(ForeignKey(FxQuote.id))
     entity_id:  Mapped[Optional[int]]= mapped_column(ForeignKey(FxEntity.id))
     type_id:  Mapped[Optional[int]] = mapped_column(ForeignKey(FxType.id))
@@ -118,7 +118,7 @@ class FxAnalytics(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True)
+    name: Mapped[str] = mapped_column(String(150), unique=True)
     variable_id: Mapped[int] = mapped_column(ForeignKey(FxVariable.id))
     transform_id: Mapped[int] = mapped_column(ForeignKey(FxTypeTransform.id))
     probability_calc_state: Mapped[bool] = mapped_column(Boolean)

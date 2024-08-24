@@ -71,7 +71,7 @@ class Variables(Base):
     metodo_extraccion_id:Mapped[int] = mapped_column('Metodo_Extraccion_ID',Integer,ForeignKey(Metodo_Extraccion.id))
     link:Mapped[Optional[str]] = mapped_column('Link',String(100))
     sheet: Mapped[int] = mapped_column('Sheet',Integer)
-    identificador:Mapped[Optional[str]] = mapped_column('Iedntificador',String(50))
+    identificador:Mapped[Optional[str]] = mapped_column('Identificador',String(50))
     firstcolumn : Mapped[Optional[int]] = mapped_column('Firstcolumn',Integer)
     rowtitle: Mapped[Optional[str]] = mapped_column('Rowtitle',String(100))
     frecuency: Mapped[Optional[int]] = mapped_column('Frecuency',String(50))
