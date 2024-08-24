@@ -39,7 +39,6 @@ class FxEntity(Base):
     name: Mapped[str] = mapped_column(String(15), unique=True)
 
     variables: Mapped[List['FxVariable']] = relationship(back_populates='entity')
-    analytics: Mapped[List['FxVariable']] = relationship(back_populates='entity')
 class FxType(Base):
     __tablename__ = 'TYPE'
     __table_args__ = ARGS
@@ -123,11 +122,9 @@ class FxAnalytics(Base):
     name: Mapped[str] = mapped_column(String(30), unique=True)
     variable_id: Mapped[int] = mapped_column(ForeignKey(FxVariable.id))
     transform_id: Mapped[int] = mapped_column(ForeignKey(FxTypeTransform.id))
-    entity_id:  Mapped[Optional[int]] = mapped_column(ForeignKey(FxEntity.id))
     probability_calc_state: Mapped[bool] = mapped_column(Boolean)
 
     variable: Mapped[FxVariable] = relationship(back_populates='analytics')
-    entity: Mapped[FxEntity] = relationship(back_populates='analytics')
     transform: Mapped[FxTypeTransform] = relationship(back_populates='analytics')
     probability: Mapped[List['FxProbabilityFact']] = relationship(back_populates='analytics')
 
