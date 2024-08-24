@@ -27,7 +27,7 @@ class FxQuote(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(15), unique=True)
+    name: Mapped[str] = mapped_column(String(40), unique=True)
 
     variables: Mapped[List['FxVariable']] = relationship(back_populates='quote')
 
@@ -36,7 +36,7 @@ class FxEntity(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(15), unique=True)
+    name: Mapped[str] = mapped_column(String(40), unique=True)
 
     variables: Mapped[List['FxVariable']] = relationship(back_populates='entity')
 class FxType(Base):
@@ -44,7 +44,7 @@ class FxType(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(15), unique=True)
+    name: Mapped[str] = mapped_column(String(40), unique=True)
 
     variables: Mapped[List['FxVariable']] = relationship(back_populates='type')
 
@@ -53,7 +53,7 @@ class FxScenario(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(15), unique=True)
+    name: Mapped[str] = mapped_column(String(40), unique=True)
     upper_bound: Mapped[float] = mapped_column(Float)
     lower_bound: Mapped[float] = mapped_column(Float)
 
@@ -64,7 +64,7 @@ class FxTypeTransform(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(15), unique=True)
+    name: Mapped[str] = mapped_column(String(40), unique=True)
 
     variables: Mapped[List['FxVariable']] = relationship(
         'FxVariable',
@@ -78,7 +78,7 @@ class FxVariable(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(30), unique=True)
+    name: Mapped[str] = mapped_column(String(50), unique=True)
     quote_id: Mapped[Optional[int]] = mapped_column(ForeignKey(FxQuote.id))
     entity_id:  Mapped[Optional[int]]= mapped_column(ForeignKey(FxEntity.id))
     type_id:  Mapped[Optional[int]] = mapped_column(ForeignKey(FxType.id))
@@ -108,7 +108,6 @@ class FxVariableFact(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date: Mapped[time] = mapped_column(Date)
-    name: Mapped[str] = mapped_column(String(30), unique=True)
     variable_id: Mapped[int] = mapped_column(ForeignKey(FxVariable.id))
     value: Mapped[float] = mapped_column(Float)
 
@@ -119,7 +118,7 @@ class FxAnalytics(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(30), unique=True)
+    name: Mapped[str] = mapped_column(String(50), unique=True)
     variable_id: Mapped[int] = mapped_column(ForeignKey(FxVariable.id))
     transform_id: Mapped[int] = mapped_column(ForeignKey(FxTypeTransform.id))
     probability_calc_state: Mapped[bool] = mapped_column(Boolean)
