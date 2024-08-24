@@ -126,7 +126,7 @@ class FxAnalytics(Base):
 
     variable: Mapped[FxVariable] = relationship(back_populates='analytics')
     transform: Mapped[FxTypeTransform] = relationship(back_populates='analytics')
-    probability_fact: Mapped[List['FxProbabilityFact']] = relationship(back_populates='analytics')
+    probability_fact: Mapped[List['FxProbabilityFact']] = relationship(back_populates='analytic')
 
 class FxAnalyticsFact(Base):
     __tablename__ = 'ANALYTICS_FACT'
