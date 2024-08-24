@@ -67,7 +67,11 @@ class FxTypeTransform(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(15), unique=True)
 
-    variables: Mapped[List['FxVariable']] = relationship(back_populates='transform')
+    variables: Mapped[List['FxVariable']] = relationship(
+        'FxVariable',
+        back_populates='transform',
+        primaryjoin="FxTypeTransform.id == FxVariable.transform_id"  # Explicitly define the join
+    )
     analytics: Mapped[List['FxAnalytics']] = relationship(back_populates='transform')
 
 class FxVariable(Base):
