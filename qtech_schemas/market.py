@@ -148,12 +148,20 @@ class Estado(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     estados : Mapped[str] = mapped_column('ESTADOS',String(50))
 
+class Mercado(Base):
+    __tablename__= 'MERCADO'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    estados : Mapped[str] = mapped_column('MERCADOS',String(50))
+
+
 class Ranking(Base):
     __tablename__= 'RANKING'
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    mercado: Mapped[str] = mapped_column('MERCADO',String(50))
+    mercado: Mapped[int] = mapped_column('MERCADO',Integer,ForeignKey(Mercado.id))
     participante:Mapped[str] = mapped_column('PARTICIPANTE',String(50))
     actual:Mapped[int] = mapped_column('ACTUAL',BigInteger)
     ranking: Mapped[int] = mapped_column('RANKING',BigInteger)
