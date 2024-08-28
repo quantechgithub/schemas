@@ -291,3 +291,58 @@ class OperacionesCevaldom(Base):
     fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
     subida: Mapped[time] = mapped_column('SUBIDA', Date, server_default=func.now())
+
+    vector_precio: Mapped['VectorPrecioOTC'] = relationship(back_populates='operacion')
+
+class VectorPrecioOTC(Base):
+    __tablename__= 'VECTOR_PRECIO_OTC'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    operacion_id: Mapped[int] = mapped_column(Integer, ForeignKey(OperacionesCevaldom.id))
+    facial_value : Mapped[Optional[float]] = mapped_column(Float)
+    traded_value : Mapped[Optional[float]] = mapped_column(Float)
+    ytm : Mapped[Optional[float]] = mapped_column(Float)
+    clean_price : Mapped[Optional[float]] = mapped_column(Float)
+    dirty_price : Mapped[Optional[float]] = mapped_column(Float)
+    theta : Mapped[Optional[float]] = mapped_column(Float)
+    time : Mapped[Optional[float]] = mapped_column(Float)
+    current_yield : Mapped[Optional[float]] = mapped_column(Float)
+    mcauly_duration : Mapped[Optional[float]] = mapped_column(Float)
+    mduration : Mapped[Optional[float]] = mapped_column(Float)
+    convexity : Mapped[Optional[float]] = mapped_column(Float)
+    coupon : Mapped[Optional[float]] = mapped_column(Float)
+    dollar_duration : Mapped[Optional[float]] = mapped_column(Float)
+    dollar_convexity : Mapped[Optional[float]] = mapped_column(Float)
+    duration_to_convexity: Mapped[Optional[float]] = mapped_column(Float)
+
+    operacion: Mapped[OperacionesCevaldom] = relationship(back_populates='vector_precio')
+
+class MaestroView(Base):
+    __tablename__ = 'MAESTRO_TITULO_CALC'
+    __table_args__ = ARGS
+
+    id : Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    isin : Mapped[str] = mapped_column(String(100), unique=True)
+    emision : Mapped[Optional[time]]  = mapped_column(Date)
+    vencimiento : Mapped[Optional[time]] = mapped_column(Date)
+    cupon : Mapped[Optional[float]] = mapped_column(Float)
+    periodicidad_pago: Mapped[Optional[str]]= mapped_column(String(10))
+    moneda : Mapped[Optional[str]] = mapped_column(String(10))
+    amortizable : Mapped[Optional[int]] = mapped_column(Integer)
+    base_pago : Mapped[Optional[str]] = mapped_column(String(10))
+
+# from sqlalchemy import create_engine
+
+# def conectar_db():
+#     server = 'quantech-general-server.database.windows.net'
+#     database = 'DEVELOPMENT'
+#     username = 'development'
+#     password = 'Desarrollo2024'
+#     driver = 'ODBC Driver 17 for SQL Server'
+    
+#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
+#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
+#     return engine
+
+# Base.metadata.create_all(conectar_db())
