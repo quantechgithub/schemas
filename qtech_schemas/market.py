@@ -323,7 +323,7 @@ class OperacionesCevaldomPrueba(Base):
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
     subida: Mapped[time] = mapped_column('SUBIDA', Date)
     grupo: Mapped[Optional[int]] = mapped_column('GRUPO',BigInteger)
-    vector_precio: Mapped['VectorPrecioOTC'] = relationship(back_populates='operacion')
+
 
 class VectorPrecioOTC(Base):
     __tablename__= 'VECTOR_PRECIO_OTC'
