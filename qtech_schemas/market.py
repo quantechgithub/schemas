@@ -301,15 +301,13 @@ class OperacionesCevaldom(Base):
     precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO',Float)
     fecha_pacto: Mapped[Optional[time]] = mapped_column('FECHA_PACTO',Date)
     hora_pacto : Mapped[Optional[time]] = mapped_column('HORA_PACTO',Time)
-    tipo_operacion: Mapped[Optional[int]] = mapped_column('TIPO_OPERACION',Integer,ForeignKey(TipoOperacion.id))
-    parte : Mapped[Optional[int]] = mapped_column('PARTE',Integer,ForeignKey('MARKET.PARTES.ID'))
-    sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO',Integer,ForeignKey(Sistema_Mercado.id))
+    tipo_operacion: Mapped[Optional[int]] = mapped_column('TIPO_OPERACION_ID',Integer,ForeignKey(TipoOperacion.id))
+    parte : Mapped[Optional[int]] = mapped_column('PARTE_ID',Integer,ForeignKey('MARKET.PARTES.ID'))
+    sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO_ID',Integer,ForeignKey(Sistema_Mercado.id))
     fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
-    estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
+    estados: Mapped[Optional[int]] = mapped_column('ESTADOS_ID',Integer,ForeignKey('MARKET.ESTADO.ID'))
     subida: Mapped[time] = mapped_column('SUBIDA', Date, server_default=func.now())
     grupo: Mapped[Optional[int]] = mapped_column('GRUPO',BigInteger)
-
-
     vector_precio: Mapped['VectorPrecioOTC'] = relationship(back_populates='operacion')
 
 class OperacionesCevaldomPrueba(Base):
