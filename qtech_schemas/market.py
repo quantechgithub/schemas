@@ -298,9 +298,9 @@ class OperacionesCevaldom(Base):
     sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO',Integer,ForeignKey(Sistema_Mercado.id))
     fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
     estados: Mapped[Optional[int]] = mapped_column('ESTADOS',Integer,ForeignKey('MARKET.ESTADO.ID'))
-    subida: Mapped[time] = mapped_column('SUBIDA', Date)
+    subida: Mapped[time] = mapped_column('SUBIDA', Date, server_default=func.now())
     grupo: Mapped[Optional[int]] = mapped_column('GRUPO',BigInteger)
-    # subida: Mapped[time] = mapped_column('SUBIDA', Date, server_default=func.now())
+
 
     vector_precio: Mapped['VectorPrecioOTC'] = relationship(back_populates='operacion')
 
