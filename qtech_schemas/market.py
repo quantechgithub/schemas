@@ -258,6 +258,14 @@ class SubastaBCRD(Base):
     precio_promedio_ponderado: Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO',Float)
     precio_rechazado:Mapped[Optional[float]] = mapped_column('PRECIO_RECHAZADO',Float)
     yield_promedio_ponderada_referencias_bcrd:Mapped[Optional[float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_REFERENCIAS_BCRD')
+
+
+class CalculoYtmSubastas(Base):
+    __tablename__ = 'CalculoYtmSubastas'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
     yield_oferta: Mapped[Optional[float]] = mapped_column('YIELD_OFERTA',Float)
     yield_corte: Mapped[Optional[float]] = mapped_column('YIELD_CORTE',Float)
     yield_promedio_ponderada: Mapped[Optional[Float]] = mapped_column('YIELD_PROMEDIO_PONDERADA',Float)
