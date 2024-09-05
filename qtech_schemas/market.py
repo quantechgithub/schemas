@@ -380,6 +380,7 @@ class MaestroView(Base):
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
     amortizable : Mapped[Optional[int]] = mapped_column(Integer)
     base_pago : Mapped[Optional[str]] = mapped_column(String(10))
+#prueba2
 
 # from sqlalchemy import create_engine
 
