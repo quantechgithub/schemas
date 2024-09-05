@@ -202,6 +202,18 @@ class Maestro(Base):
     tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')
     montos: Mapped[List['Monto']] = relationship('Monto', back_populates='titulo')
 
+    def __repr__(self) -> str:
+        return (f"<Maestro(ID={self.id}, ISIN={self.isin}, EMISION={self.fecha_emision}, "
+                f"VENCIMIENTO={self.fecha_vencimiento}, CUPON={self.cupon}, AMORTIZA={self.amortiza_id}, "
+                f"SERIES_ID={self.serie_id}, MONEDA_ID={self.moneda_id}, TIPO_ID={self.tipo_id}, "
+                f"BASE_ID={self.base_id}, PERIODICIDAD_ID={self.periodicidad_id}, "
+                f"MONTO_TOTAL_PROGRAMA={self.monto_total_programa}, NEMOTECNICO={self.nemotecnico}, "
+                f"OPTION_CALL={self.option_call}, CALL_DATE={self.call_date}, "
+                f"EMISOR_MONEDA_ID={self.emisor_moneda_id}, METODO_CALCULO_ID={self.metodo_calculo_id}, "
+                f"CALIFICACION_RIESGO={self.calificacion_riesgo}, TIPO_TASA_ID={self.tipo_tasa}, "
+                f"SOBRE_TASA={self.sobre_tasa}, TIPO_EMISOR={self.tipo_emisor},"
+                f"TIPO_EMISOR ={self.tipo_emisor}, TIPO_EMISOR={self.tipo_emisor})>")
+
 class VectorMonto(Base):
     __tablename__= 'VECTOR_MONTO'
     __table_args__ = ARGS
