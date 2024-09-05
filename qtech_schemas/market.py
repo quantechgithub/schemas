@@ -259,16 +259,25 @@ class SubastaBCRD(Base):
     precio_rechazado:Mapped[Optional[float]] = mapped_column('PRECIO_RECHAZADO',Float)
     yield_promedio_ponderada_referencias_bcrd:Mapped[Optional[float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_REFERENCIAS_BCRD')
 
-
-class CalculoYtmSubastas(Base):
-    __tablename__ = 'CalculoYtmSubastas'
+class VectorSubastasBCRD(Base):
+    __tablename__ = 'VECTOR_SUBASTAS_BCRD'
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    subasta_id: Mapped[int] = mapped_column('SUBASTA_ID',Integer,ForeignKey(SubastaBCRD.id))
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
+    fecha_subasta: Mapped[Optional[time]] = mapped_column('FECHA_SUBASTA',Date)
+    valor_nominal_recibido: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_RECIBIDO',Float)
+    precio_de_oferta: Mapped[Optional[float]] = mapped_column('PRECIO_DE_LA_OFERTA',Float)
+    valor_nominal_adjudicada: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_ADJUDICADA',Float)
+    precio_de_corte: Mapped[Optional[Float]] = mapped_column('PRECIO_DE_CORTE',Float)
+    precio_promedio_ponderado: Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO',Float)
+    precio_rechazado:Mapped[Optional[float]] = mapped_column('PRECIO_RECHAZADO',Float)
+    yield_promedio_ponderada_referencias_bcrd:Mapped[Optional[float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_REFERENCIAS_BCRD')
     yield_oferta: Mapped[Optional[float]] = mapped_column('YIELD_OFERTA',Float)
     yield_corte: Mapped[Optional[float]] = mapped_column('YIELD_CORTE',Float)
     yield_promedio_ponderada: Mapped[Optional[Float]] = mapped_column('YIELD_PROMEDIO_PONDERADA',Float)
+    yield_promedio_ponderada_consolidada: Mapped[Optional[Float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_CONSOLIDADA',Float)
     yield_rechazada :Mapped[Optional[Float]]  = mapped_column('YIELD_RECHAZADA',Float)
     bid_to_cover: Mapped[Optional[float]] = mapped_column('BID_TO_COVER',Float)
 
