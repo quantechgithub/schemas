@@ -256,8 +256,8 @@ class SubastaBCRD(Base):
     valor_nominal_adjudicada: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_ADJUDICADA',Float)
     precio_de_corte: Mapped[Optional[Float]] = mapped_column('PRECIO_DE_CORTE',Float)
     precio_promedio_ponderado: Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO',Float)
-    precio_rechazado:Mapped[Optional[float]] = mapped_column('PRECIO_RECHAZADO',Float)
-    yield_promedio_ponderada_referencias_bcrd:Mapped[Optional[float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_REFERENCIAS_BCRD')
+    precio_rechazado: Mapped[Optional[float]] = mapped_column('PRECIO_RECHAZADO',Float)
+    yield_promedio_ponderada_referencias_bcrd: Mapped[Optional[float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_REFERENCIAS_BCRD',Float)
 
 class VectorSubastasBCRD(Base):
     __tablename__ = 'VECTOR_SUBASTAS_BCRD'
