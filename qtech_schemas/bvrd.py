@@ -140,6 +140,7 @@ class Flujos(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
     fecha_previo: Mapped[int] = mapped_column("FECHA_PREVIO", Integer)
     fecha_flujo: Mapped[int] = mapped_column("FECHA_FLUJO",Integer)
     fecha_previo_str: Mapped[time] = mapped_column('FECHA_PREVIO_STR',Date)
