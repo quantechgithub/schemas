@@ -96,7 +96,6 @@ class OperacionesTotales(Base):
     isin_id: Mapped[int] = mapped_column('ISIN_ID', Integer, ForeignKey(Maestro.id))
     descripcion_instrumento: Mapped[Optional[int]] = mapped_column('DESCRIPCION_INSTRUMENTO', Integer, ForeignKey(DescripcionInstrumento.id))
     valor_nominal_unitario: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_UNITARIO', Float)
-    # emisor: Mapped[Optional[int]] = mapped_column('EMISOR', Integer, ForeignKey(Emisor.id))
     tasa_cupon: Mapped[Optional[float]] = mapped_column('TASA_CUPON', Float)
     fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION', Date)
     cantidad_titulos: Mapped[Optional[float]] = mapped_column('CANTIDAD_TITULOS', Float)
@@ -135,3 +134,22 @@ class PosturasTotales(Base):
     numero_operacion_id : Mapped[Optional[float]] = mapped_column('NUMERO_OPERACION_ID',Float)
     estatus_orden : Mapped[Optional[int]] = mapped_column('ESTATUS_ORDEN',Integer,ForeignKey(EstatusOrden.id))
     cantidad_titulos : Mapped[Optional[float]] = mapped_column('CANTIDAD_TITULOS',Float)
+
+class Flujos(Base):
+    __tablename__= 'FLUJOS'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
+    fecha_previo: Mapped[int] = mapped_column("FECHA_PREVIO", Integer)
+    fecha_flujo: Mapped[int] = mapped_column("FECHA_FLUJO",Integer)
+    fecha_previo_str: Mapped[time] = mapped_column('FECHA_PREVIO_STR',Date)
+    fecha_flujo_str: Mapped[time] = mapped_column("FECHA_FLUJO_STR",Date)
+    dias_cupon: Mapped[int]= mapped_column("DIAS_CUPON",Integer)
+    dias_al_flujo: Mapped[int] = mapped_column("DIAS_AL_FLUJO",Integer)
+    cantidad_meses: Mapped[int] = mapped_column("CANTIDAD_MESES",Integer)
+    tasa_amortizacion: Mapped[int] = mapped_column("TASA_AMORTIZACION",Integer)
+    amortizacion_acumulada: Mapped[int] = mapped_column("AMORTIZACION_ACUMULADA",Integer)
+    monto_amortizacion: Mapped[int] = mapped_column("MONTO_AMORTIZACION",Integer)
+    base_dias = Mapped[int] = mapped_column("BASE_DIAS",Integer)
+    
