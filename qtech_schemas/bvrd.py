@@ -151,5 +151,5 @@ class Flujos(Base):
     tasa_amortizacion: Mapped[int] = mapped_column("TASA_AMORTIZACION",Integer)
     amortizacion_acumulada: Mapped[int] = mapped_column("AMORTIZACION_ACUMULADA",Integer)
     monto_amortizacion: Mapped[int] = mapped_column("MONTO_AMORTIZACION",Integer)
-    base_dias = Mapped[int] = mapped_column("BASE_DIAS",Integer)
+    base_dias: Mapped[int] = mapped_column("BASE_DIAS", Integer)
     
