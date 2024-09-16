@@ -231,7 +231,7 @@ class ContraccionExpansion(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    fecha_operacion = Mapped[Optional[time]] = mapped_column('DIAS_AL_VENCIMIENTTO',Date)
+    fecha_operacion = Mapped[Optional[time]] = mapped_column('FECHA_DE_OPERACION',Date)
     dias_vencimiento = Mapped[Optional[int]] = mapped_column('DIAS_AL_VENCIMIENTTO',Integer)
     fecha_vencimiento = Mapped[Optional[time]] = mapped_column('FECHA_VENCIMIENTO',Date)
     monto_subastado = Mapped[Optional[float]] = mapped_column('MONTO_SUBASTADO',Float)
