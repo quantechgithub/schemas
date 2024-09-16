@@ -225,6 +225,28 @@ class VectorMonto(Base):
     moneda: Mapped[Optional[float]] = mapped_column('MONEDA_ID',Integer,ForeignKey(Moneda.id))
     monto_circulante: Mapped[Optional[float]] = mapped_column('MONTO_CIRCULANTE',Float)
 
+
+class ContraccionExpansion(Base):
+    _tablename_ = 'CONTRACCION_EXPANSION'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    dias_vencimiento = Mapped[Optional[int]] = mapped_column('DIAS_AL_VENCIMIENTTO',Integer)
+    fecha_vencimiento = Mapped[Optional[time]] = mapped_column('FECHA_VENCIMIENTO',Date)
+    monto_subastado = Mapped[Optional[float]] = mapped_column('MONTO_SUBASTADO',Float)
+    valor_nominal_ofertado = Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_OFERTADO',Float)
+    precio_promedio_ponderado = Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO',Float)
+    valor_nominal_ofertado_millones_rd = Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_OFERTADO_EN_MILLONES_DE_RD',Float)
+    precio_corte = Mapped[Optional[float]] = mapped_column('PRECIO_DE_CORTE',Float)
+    precio_promedio_ponderado_adjudicado = Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO_ADJUDICADO',Float)
+    tasa_rendimiento_promedio_ponderado = Mapped[Optional[float]] = mapped_column('TASA_DE_RENDIMIENTO_PROM_POND',Float)
+    precio_promedio_ponderado_rechazado = Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO_RECHAZADO',Float)
+    monto_rd_millones = Mapped[Optional[float]] = mapped_column('MONTO_EN_RD_MILLONES',Float)
+    tasa_interes = Mapped[Optional[float]] = mapped_column('TASA_INTERES',Float)
+    total_contraccion = Mapped[Optional[float]] = mapped_column('TOTAL_CONTRACCION',Float)
+    monto_colocacion = Mapped[Optional[float]] = mapped_column('MONTO_DE_COLOCACION_DIRECTA_EN_RD_MILLONES',Float)
+    tasa_de_interes_colocacion_directa =  Mapped[Optional[float]] = mapped_column('TASA_DE_INTERES_DE_COLOCACION_DIRECTA',Float)
+
 class Monto(Base):
     __tablename__ = 'MONTOS'
     __table_args__ = ARGS
