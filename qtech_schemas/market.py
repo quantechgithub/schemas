@@ -353,30 +353,6 @@ class OperacionesCevaldom(Base):
     grupo: Mapped[Optional[int]] = mapped_column('GRUPO',BigInteger)
     vector_precio: Mapped['VectorPrecioOTC'] = relationship(back_populates='operacion')
 
-class OperacionesCevaldomPrueba(Base):
-    
-    __tablename__= 'OPERACIONES_CEVALDOM_PRUEBA'
-    __table_args__ = ARGS
-
-    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    fisn: Mapped[str] = mapped_column('FISN',String(100))
-    isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
-    monto_nominal_operacion: Mapped[Optional[int]]= mapped_column('MONTO_NOMINAL_OPERACION',BigInteger)
-    moneda_id: Mapped[Optional[int]] = mapped_column('MONEDA_ID',Integer,ForeignKey(Moneda.id))
-    cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',BigInteger)
-    _yield: Mapped[Optional[float]] = mapped_column ('YIELD',Float)
-    precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO',Float)
-    fecha_pacto: Mapped[Optional[time]] = mapped_column('FECHA_PACTO',Date)
-    hora_pacto : Mapped[Optional[time]] = mapped_column('HORA_PACTO',Time)
-    tipo_operacion: Mapped[Optional[int]] = mapped_column('TIPO_OPERACION_ID',Integer,ForeignKey(TipoOperacion.id))
-    parte : Mapped[Optional[int]] = mapped_column('PARTE_ID',Integer,ForeignKey(Parte.id))
-    sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO_ID',Integer,ForeignKey(Sistema_Mercado.id))
-    fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
-    estados: Mapped[Optional[int]] = mapped_column('ESTADOS_ID',Integer,ForeignKey(Estado.id))
-    subida: Mapped[time] = mapped_column('SUBIDA', Date)
-    grupo: Mapped[Optional[int]] = mapped_column('GRUPO',BigInteger)
-
-
 class VectorPrecioOTC(Base):
     __tablename__= 'VECTOR_PRECIO_OTC'
     __table_args__ = ARGS
