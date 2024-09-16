@@ -141,8 +141,8 @@ class Flujos(Base):
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
-    fecha_previo: Mapped[int] = mapped_column("FECHA_PREVIO", Integer)
-    fecha_flujo: Mapped[int] = mapped_column("FECHA_FLUJO",Integer)
+    fecha_previo: Mapped[time] = mapped_column("FECHA_PREVIO", Date)
+    fecha_flujo: Mapped[time] = mapped_column("FECHA_FLUJO",Date)
     fecha_previo_str: Mapped[time] = mapped_column('FECHA_PREVIO_STR',Date)
     fecha_flujo_str: Mapped[time] = mapped_column("FECHA_FLUJO_STR",Date)
     dias_cupon: Mapped[int]= mapped_column("DIAS_CUPON",Integer)
