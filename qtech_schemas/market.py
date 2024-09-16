@@ -227,7 +227,7 @@ class VectorMonto(Base):
 
 
 class ContraccionExpansion(Base):
-    _tablename_ = 'CONTRACCION_EXPANSION'
+    __tablename__ = 'CONTRACCION_EXPANSION'
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
@@ -246,7 +246,7 @@ class ContraccionExpansion(Base):
     tasa_interes : Mapped[Optional[float]] = mapped_column('TASA_INTERES',Float)
     total_contraccion : Mapped[Optional[float]] = mapped_column('TOTAL_CONTRACCION',Float)
     monto_colocacion : Mapped[Optional[float]] = mapped_column('MONTO_DE_COLOCACION_DIRECTA_EN_RD_MILLONES',Float)
-    tasa_de_interes_colocacion_directa :  Mapped[Optional[float]] = mapped_column('TASA_DE_INTERES_DE_COLOCACION_DIRECTA',Float)
+    tasa_de_interes_colocacion_directa : Mapped[Optional[float]] = mapped_column('TASA_DE_INTERES_DE_COLOCACION_DIRECTA',Float)
 
 class Monto(Base):
     __tablename__ = 'MONTOS'
