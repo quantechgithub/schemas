@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped,mapped_column, relationship
-from sqlalchemy import Integer, String, Float, Date, ForeignKey, Table, Column
+from sqlalchemy import Integer, String, Float, Date, ForeignKey, Table, Column, Boolean
 from typing import List, Optional
 from qtech_schemas.market import Maestro, EmisorMoneda
 from qtech_schemas.dbo import Variables, Base
@@ -91,6 +91,8 @@ class Curve(Base):
     type_id : Mapped[int] = mapped_column(ForeignKey(CurveType.id))
     fwd_time : Mapped[float] = mapped_column(Float)
     tax_rate : Mapped[float] = mapped_column(Float)
+    filter: Mapped[Optional[bool]] = mapped_column(Boolean)
+    constrained: Mapped[Optional[bool]] = mapped_column(Boolean)
     
     input: Mapped['CurveInput'] = relationship(back_populates='curves')
     emisor_moneda: Mapped['EmisorMonedaMarket'] = relationship(back_populates='curves')
@@ -485,4 +487,4 @@ class DatoView(Base):
 #     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
 #     return engine
 
-# Base.metadata.
+# Base.metadata.create_all(conectar_db())
