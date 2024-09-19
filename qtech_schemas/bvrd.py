@@ -1,6 +1,6 @@
-from sqlalchemy.orm import Mapped,mapped_column
+from sqlalchemy.orm import Mapped,mapped_column, relationship
 from sqlalchemy import Integer, String, Float, Date, ForeignKey,Time,DateTime
-from typing import Optional
+from typing import Optional, List
 from qtech_schemas.market import Maestro
 from qtech_schemas.dbo import Base
 from pandas import Timestamp as time
@@ -55,6 +55,8 @@ class NombreMercado(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     nombre_mercado: Mapped[str] = mapped_column('NOMBRE_MERCADO', String(100))
 
+    operaciones : Mapped[List['OperacionesTotales']] = relationship(back_populates='mercado')
+
 class MejorEjecucion(Base):
     __tablename__ = 'MEJOR_EJECUCION'
     __table_args__ = ARGS
@@ -101,8 +103,8 @@ class OperacionesTotales(Base):
     cantidad_titulos: Mapped[Optional[float]] = mapped_column('CANTIDAD_TITULOS', Float)
     fecha_operacion: Mapped[Optional[time]] = mapped_column('FECHA_OPERACION', Date)
     hora_operacion: Mapped[Optional[time]] = mapped_column('HORA_OPERACION', Time)
-    mercado: Mapped[Optional[int]] = mapped_column('MERCADO', Integer)
-    nombre_mercado: Mapped[Optional[int]] = mapped_column('NOMBRE_MERCADO', Integer, ForeignKey(NombreMercado.id))
+    tipo_mercado_id: Mapped[Optional[int]] = mapped_column('MERCADO', Integer)
+    mercado_id: Mapped[Optional[int]] = mapped_column('NOMBRE_MERCADO', Integer, ForeignKey(NombreMercado.id))
     precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO', Float)
     monto_nominal: Mapped[Optional[float]] = mapped_column('MONTO_NOMINAL', Float)
     monto_transado: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO', Float)
@@ -113,6 +115,8 @@ class OperacionesTotales(Base):
     monto_transado_equivalente_pesos: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO_EQUIVALENTE_PESOS', Float)
     monto_transado_equivalente_dolares: Mapped[Optional[float]] = mapped_column('MONTO_TRANSADO_EQUIVALENTE_DOLARES', Float)
     rueda: Mapped[Optional[int]] = mapped_column('RUEDA', Integer, ForeignKey(CodigoRueda.id))
+
+    mercado: Mapped['NombreMercado'] = relationship(back_populates='operaciones')
 
 class PosturasTotales(Base):
     __tablename__= 'POSTURAS_TOTALES'

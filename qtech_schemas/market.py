@@ -308,7 +308,7 @@ class VectorSubastasBCRD(Base):
     precio_de_corte: Mapped[Optional[Float]] = mapped_column('PRECIO_DE_CORTE',Float)
     precio_promedio_ponderado: Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO',Float)
     precio_rechazado:Mapped[Optional[float]] = mapped_column('PRECIO_RECHAZADO',Float)
-    yield_promedio_ponderada_referencias_bcrd:Mapped[Optional[float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_REFERENCIAS_BCRD')
+    yield_promedio_ponderada_referencias_bcrd:Mapped[Optional[float]] = mapped_column('YIELD_PROMEDIO_PONDERADA_REFERENCIAS_BCRD',Float)
     yield_oferta: Mapped[Optional[float]] = mapped_column('YIELD_OFERTA',Float)
     yield_corte: Mapped[Optional[float]] = mapped_column('YIELD_CORTE',Float)
     yield_promedio_ponderada: Mapped[Optional[Float]] = mapped_column('YIELD_PROMEDIO_PONDERADA',Float)

@@ -135,7 +135,7 @@ class FxAnalyticsFact(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     date: Mapped[time] = mapped_column(Date)
     analytics_id: Mapped[int] = mapped_column(ForeignKey(FxAnalytics.id))
-    value: Mapped[float] = mapped_column(Float)
+    value: Mapped[Optional[float]] = mapped_column(Float)
 
     analytic: Mapped[FxAnalytics] = relationship(back_populates='analytics_facts')
 
