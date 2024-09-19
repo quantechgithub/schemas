@@ -202,6 +202,18 @@ class Maestro(Base):
     tipo_instrumento : Mapped['TipoInstrumento'] = relationship(back_populates='titulos')
     montos: Mapped[List['Monto']] = relationship('Monto', back_populates='titulo')
 
+    def __repr__(self) -> str:
+        return (f"<Maestro(ID={self.id}, ISIN={self.isin}, EMISION={self.fecha_emision}, "
+                f"VENCIMIENTO={self.fecha_vencimiento}, CUPON={self.cupon}, AMORTIZA={self.amortiza_id}, "
+                f"SERIES_ID={self.serie_id}, MONEDA_ID={self.moneda_id}, TIPO_ID={self.tipo_id}, "
+                f"BASE_ID={self.base_id}, PERIODICIDAD_ID={self.periodicidad_id}, "
+                f"MONTO_TOTAL_PROGRAMA={self.monto_total_programa}, NEMOTECNICO={self.nemotecnico}, "
+                f"OPTION_CALL={self.option_call}, CALL_DATE={self.call_date}, "
+                f"EMISOR_MONEDA_ID={self.emisor_moneda_id}, METODO_CALCULO_ID={self.metodo_calculo_id}, "
+                f"CALIFICACION_RIESGO={self.calificacion_riesgo}, TIPO_TASA_ID={self.tipo_tasa}, "
+                f"SOBRE_TASA={self.sobre_tasa}, TIPO_EMISOR={self.tipo_emisor},"
+                f"TIPO_EMISOR ={self.tipo_emisor}, TIPO_EMISOR={self.tipo_emisor})>")
+
 class VectorMonto(Base):
     __tablename__= 'VECTOR_MONTO'
     __table_args__ = ARGS
@@ -212,6 +224,29 @@ class VectorMonto(Base):
     monto_emitido: Mapped[Optional[float]] = mapped_column('MONTO_EMITIDO',Float)
     moneda: Mapped[Optional[float]] = mapped_column('MONEDA_ID',Integer,ForeignKey(Moneda.id))
     monto_circulante: Mapped[Optional[float]] = mapped_column('MONTO_CIRCULANTE',Float)
+
+
+class ContraccionExpansion(Base):
+    __tablename__ = 'CONTRACCION_EXPANSION'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    fecha_operacion:Mapped[Optional[time]] = mapped_column('FECHA_DE_OPERACION',Date)
+    dias_vencimiento:Mapped[Optional[int]] = mapped_column('DIAS_AL_VENCIMIENTO',Integer)
+    fecha_vencimiento :Mapped[Optional[time]] = mapped_column('FECHA_DE_VENCIMIENTO',Date)
+    monto_subastado : Mapped[Optional[float]] = mapped_column('MONTO_SUBASTADO',Float)
+    valor_nominal_ofertado: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_OFERTADO',Float)
+    precio_promedio_ponderado:Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO',Float)
+    valor_nominal_ofertado_millones_rd: Mapped[Optional[float]] = mapped_column('VALOR_NOMINAL_OFERTADO_EN_MILLONES_DE_RD',Float)
+    precio_corte : Mapped[Optional[float]] = mapped_column('PRECIO_DE_CORTE',Float)
+    precio_promedio_ponderado_adjudicado : Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO_ADJUDICADO',Float)
+    tasa_rendimiento_promedio_ponderado : Mapped[Optional[float]] = mapped_column('TASA_DE_RENDIMIENTO_PROM_POND',Float)
+    precio_promedio_ponderado_rechazado : Mapped[Optional[float]] = mapped_column('PRECIO_PROMEDIO_PONDERADO_RECHAZADO',Float)
+    monto_rd_millones : Mapped[Optional[float]] = mapped_column('MONTO_EN_RD_MILLONES',Float)
+    tasa_interes : Mapped[Optional[float]] = mapped_column('TASA_DE_INTERES',Float)
+    total_contraccion : Mapped[Optional[float]] = mapped_column('TOTAL_CONTRACCION',Float)
+    monto_colocacion : Mapped[Optional[float]] = mapped_column('MONTO_DE_COLOCACION_DIRECTA_EN_RD_MILLONES',Float)
+    tasa_de_interes_colocacion_directa : Mapped[Optional[float]] = mapped_column('TASA_DE_INTERES_DE_COLOCACION_DIRECTA',Float)
 
 class Monto(Base):
     __tablename__ = 'MONTOS'
@@ -318,30 +353,6 @@ class OperacionesCevaldom(Base):
     subida: Mapped[time] = mapped_column('SUBIDA', Date, server_default=func.now())
     grupo: Mapped[Optional[int]] = mapped_column('GRUPO',BigInteger)
     vector_precio: Mapped['VectorPrecioOTC'] = relationship(back_populates='operacion')
-
-class OperacionesCevaldomPrueba(Base):
-    
-    __tablename__= 'OPERACIONES_CEVALDOM_PRUEBA'
-    __table_args__ = ARGS
-
-    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    fisn: Mapped[str] = mapped_column('FISN',String(100))
-    isin_id: Mapped[int] = mapped_column('ISIN_ID',Integer,ForeignKey(Maestro.id))
-    monto_nominal_operacion: Mapped[Optional[int]]= mapped_column('MONTO_NOMINAL_OPERACION',BigInteger)
-    moneda_id: Mapped[Optional[int]] = mapped_column('MONEDA_ID',Integer,ForeignKey(Moneda.id))
-    cantidad_valores: Mapped[Optional[int]] = mapped_column('CANTIDAD_VALORES',BigInteger)
-    _yield: Mapped[Optional[float]] = mapped_column ('YIELD',Float)
-    precio_limpio: Mapped[Optional[float]] = mapped_column('PRECIO_LIMPIO',Float)
-    fecha_pacto: Mapped[Optional[time]] = mapped_column('FECHA_PACTO',Date)
-    hora_pacto : Mapped[Optional[time]] = mapped_column('HORA_PACTO',Time)
-    tipo_operacion: Mapped[Optional[int]] = mapped_column('TIPO_OPERACION_ID',Integer,ForeignKey(TipoOperacion.id))
-    parte : Mapped[Optional[int]] = mapped_column('PARTE_ID',Integer,ForeignKey(Parte.id))
-    sistema_registro: Mapped[Optional[int]] = mapped_column('SISTEMA_REGISTRO_OTC_MERCADO_ID',Integer,ForeignKey(Sistema_Mercado.id))
-    fecha_liquidacion: Mapped[Optional[time]] = mapped_column('FECHA_LIQUIDACION',Date)
-    estados: Mapped[Optional[int]] = mapped_column('ESTADOS_ID',Integer,ForeignKey(Estado.id))
-    subida: Mapped[time] = mapped_column('SUBIDA', Date)
-    grupo: Mapped[Optional[int]] = mapped_column('GRUPO',BigInteger)
-
 
 class VectorPrecioOTC(Base):
     __tablename__= 'VECTOR_PRECIO_OTC'
