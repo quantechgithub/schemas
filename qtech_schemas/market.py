@@ -391,19 +391,4 @@ class MaestroView(Base):
     moneda : Mapped[Optional[str]] = mapped_column(String(10))
     amortizable : Mapped[Optional[int]] = mapped_column(Integer)
     base_pago : Mapped[Optional[str]] = mapped_column(String(10))
-#prueba2
 
-# from sqlalchemy import create_engine
-
-# def conectar_db():
-#     server = 'quantech-general-server.database.windows.net'
-#     database = 'DEVELOPMENT'
-#     username = 'development'
-#     password = 'Desarrollo2024'
-#     driver = 'ODBC Driver 17 for SQL Server'
-    
-#     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}'
-#     engine = create_engine(connection_string, pool_pre_ping=True, pool_recycle=3600)
-#     return engine
-
-# Base.metadata.create_all(conectar_db())
