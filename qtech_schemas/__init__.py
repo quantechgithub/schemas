@@ -2,4 +2,4 @@ from qtech_schemas.market import Base,Amortiza,Sector,Emisor,SerieEmision,Moneda
 from qtech_schemas.bvrd import CodigoRueda,CompraVenta,DescripcionInstrumento,EstatusOperacion,EstatusOrden,Rueda,NombreMercado ,MejorEjecucion,OperacionesBVRD,OperacionesTotales,Flujos
 from qtech_schemas._yield import Titulo,EmisorMoneda,CurveInput,CurveType,CurveMethod,CurveMode,Quote,Curve,SondeoLocal,SondeoEurobono,Parametro,ValuationMethod,VectorPrecio,CurveBenchmark,BenchmarkFact,TypeDerivative,BenchmarkDerivative,DerivativeFact,TituloView,DatoView
 from qtech_schemas.dbo import Frecuencias,Categoria,Fuentes,Moneda,Metodo_Extraccion,Transformacion,Extraccion,Cargas,Variables,Fechas,Datos
-from qtech_schemas.simbad import *
+from qtech_schemas.simbad import TIPO_ENTIDAD,ENTIDAD,REGION,PROVINCIA,PERSONA,GENERO,TIPO_CLIENTE,INSTRUMENTO_CAPTACION,MONEDA,DIVISA,PARTIDA_NIVEL_1,PARTIDA_NIVEL_2,PUBLICO_PRIVADO_1,PUBLICO_PRIVADO_2,RESIDENTE_NORESIDENTE,COMPONENTE,INSTRUMENTO_MEDIO,CONTRAPARTE,SITUACION_NIVEL1,SITUACION_NIVEL2,FINANCIERO_NOFINANCIERO
