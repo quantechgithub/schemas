@@ -222,7 +222,7 @@ class CAPTACIONES(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    periodo: Mapped[Optional[time]] = mapped_column('PERIODO', Date)
+    periodo: Mapped[Optional[str]] = mapped_column('PERIODO', String(100))
     tipo_entidad: Mapped[Optional[int]] = mapped_column('TIPO_ENTIDAD', Integer,ForeignKey(TIPO_ENTIDAD.id))
     entidad: Mapped[Optional[int]] = mapped_column('ENTIDAD', Integer,ForeignKey(ENTIDAD.id))
     region:  Mapped[Optional[int]] = mapped_column('REGION', Integer,ForeignKey(REGION.id))
