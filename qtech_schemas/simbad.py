@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Mapped,mapped_column
-from sqlalchemy import  Integer, String
+from sqlalchemy import  Integer, String,Date,ForeignKey
 from qtech_schemas.dbo import Base
 from typing import Optional
+from pandas import Timestamp as time
 
 ARGS= {'schema': 'SIMBAD','extend_existing': True}
 
@@ -214,3 +215,45 @@ class FINANCIERO_NOFINANCIERO(Base):
 
     def __repr__(self) -> str:
         return f"FINANCIERO_NOFINANCIERO(ID={self.id!r}, FINANCIERO_NO_FINANCIERO={self.financiero_no_financiero!r})"
+    
+
+class CAPTACIONES(Base):
+    __tablename__ = 'CAPTACIONES'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    periodo: Mapped[Optional[time]] = mapped_column('PERIODO', Date)
+    tipo_entidad: Mapped[Optional[int]] = mapped_column('TIPO_ENTIDAD', Integer,ForeignKey(TIPO_ENTIDAD(id)))
+    entidad: Mapped[Optional[int]] = mapped_column('ENTIDAD', Integer,ForeignKey(ENTIDAD(id)))
+    region:  Mapped[Optional[int]] = mapped_column('REGION', Integer,ForeignKey(REGION(id)))
+    provincia: Mapped[Optional[int]] = mapped_column('PROVINCIA', Integer,ForeignKey(PROVINCIA(id)))
+    persona: Mapped[Optional[int]] = mapped_column('PERSONA', Integer,ForeignKey(PERSONA(id)))
+    genero: Mapped[Optional[int]] = mapped_column('GENERO', Integer,ForeignKey(GENERO(id)))
+    tipo_cliente : Mapped[Optional[int]] = mapped_column('TIPO_CLIENTE', Integer,ForeignKey(TIPO_CLIENTE(id)))
+    instrumento_captacion: Mapped[Optional[int]] = mapped_column('INSTRUMENTO_CAPTACION', Integer,ForeignKey(INSTRUMENTO_CAPTACION(id)))
+    moneda: Mapped[Optional[int]] = mapped_column('MONEDA', Integer,ForeignKey(MONEDA(id)))
+    divisa: Mapped[Optional[int]] = mapped_column('DIVISA', Integer,ForeignKey(DIVISA(id)))
+    partida_nivel_1: Mapped[Optional[int]] = mapped_column('PARTIDA_NIVEL_1', Integer,ForeignKey(PARTIDA_NIVEL_1(id)))
+    partida_nivel_2: Mapped[Optional[int]] = mapped_column('PARTIDA_NIVEL_2', Integer,ForeignKey(PARTIDA_NIVEL_2(id)))
+    publico_privado_nivel_1: Mapped[Optional[int]] = mapped_column('PUBLICO_PRIVADO_NIVEL_1', Integer,ForeignKey(PUBLICO_PRIVADO_1(id)))
+    publico_privado_nivel_2: Mapped[Optional[int]] = mapped_column('PUBLICO_PRIVADO_NIVEL_2', Integer,ForeignKey(PUBLICO_PRIVADO_2(id)))
+    financiero_no_financiero: Mapped[Optional[int]] = mapped_column('FINANCIERO_NO_FINANCIERO', Integer,ForeignKey(FINANCIERO_NOFINANCIERO(id)))
+    residente_noresidente: Mapped[Optional[int]] = mapped_column('RESIDENTE_NORESIDENTE', Integer,ForeignKey(RESIDENTE_NORESIDENTE(id)))
+    componente: Mapped[Optional[int]] = mapped_column('COMPONENTE', Integer,ForeignKey(COMPONENTE(id)))
+    instrumento_medio: Mapped[Optional[int]] = mapped_column('INSTRUMENTO_MEDIO', Integer,ForeignKey(INSTRUMENTO_MEDIO(id)))
+    contraparte: Mapped[Optional[int]] = mapped_column('CONTRAPARTE', Integer,ForeignKey(CONTRAPARTE(id)))
+    situacion_nivel_1: Mapped[Optional[int]] = mapped_column('SITUACION_NIVEL_1', Integer,ForeignKey(SITUACION_NIVEL1(id)))
+    situacion_nivel_2: Mapped[Optional[int]] = mapped_column('SITUACION_NIVEL_2', Integer,ForeignKey(SITUACION_NIVEL2(id)))
+
+
+
+    def __repr__(self) -> str:
+        return (f"CAPTACIONES(ID={self.id!r}, PERIODO={self.periodo!r}, TIPO_ENTIDAD={self.tipo_entidad!r}, "
+                f"ENTIDAD={self.entidad!r}, REGION={self.region!r}, PROVINCIA={self.provincia!r}, "
+                f"PERSONA={self.persona!r}, GENERO={self.genero!r}, TIPO_CLIENTE={self.tipo_cliente!r}, "
+                f"INSTRUMENTO_CAPTACION={self.instrumento_captacion!r}, MONEDA={self.moneda!r}, DIVISA={self.divisa!r}, "
+                f"PARTIDA_NIVEL_1={self.partida_nivel_1!r}, PARTIDA_NIVEL_2={self.partida_nivel_2!r}, "
+                f"PUBLICO_PRIVADO_NIVEL_1={self.publico_privado_nivel_1!r}, PUBLICO_PRIVADO_NIVEL_2={self.publico_privado_nivel_2!r}, "
+                f"FINANCIERO_NO_FINANCIERO={self.financiero_no_financiero!r}, RESIDENTE_NORESIDENTE={self.residente_noresidente!r}, "
+                f"COMPONENTE={self.componente!r}, INSTRUMENTO_MEDIO={self.instrumento_medio!r}, CONTRAPARTE={self.contraparte!r}, "
+                f"SITUACION_NIVEL_1={self.situacion_nivel_1!r}, SITUACION_NIVEL_2={self.situacion_nivel_2!r})")
