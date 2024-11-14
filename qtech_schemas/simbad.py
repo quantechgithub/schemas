@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Mapped,mapped_column
-from sqlalchemy import  Integer, String
+from sqlalchemy import  Integer, String,Date,ForeignKey,Float
 from qtech_schemas.dbo import Base
 from typing import Optional
+from pandas import Timestamp as time
 
 ARGS= {'schema': 'SIMBAD','extend_existing': True}
 
@@ -214,3 +215,70 @@ class FINANCIERO_NOFINANCIERO(Base):
 
     def __repr__(self) -> str:
         return f"FINANCIERO_NOFINANCIERO(ID={self.id!r}, FINANCIERO_NO_FINANCIERO={self.financiero_no_financiero!r})"
+    
+
+class CAPTACIONES(Base):
+    __tablename__ = 'CAPTACIONES'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    periodo: Mapped[Optional[str]] = mapped_column('PERIODO', String(100))
+    tipo_entidad: Mapped[Optional[int]] = mapped_column('TIPO_ENTIDAD', Integer,ForeignKey(TIPO_ENTIDAD.id))
+    entidad: Mapped[Optional[int]] = mapped_column('ENTIDAD', Integer,ForeignKey(ENTIDAD.id))
+    region:  Mapped[Optional[int]] = mapped_column('REGION', Integer,ForeignKey(REGION.id))
+    provincia: Mapped[Optional[int]] = mapped_column('PROVINCIA', Integer,ForeignKey(PROVINCIA.id))
+    persona: Mapped[Optional[int]] = mapped_column('PERSONA', Integer,ForeignKey(PERSONA.id))
+    genero: Mapped[Optional[int]] = mapped_column('GENERO', Integer,ForeignKey(GENERO.id))
+    tipo_cliente : Mapped[Optional[int]] = mapped_column('TIPO_CLIENTE', Integer,ForeignKey(TIPO_CLIENTE.id))
+    instrumento_captacion: Mapped[Optional[int]] = mapped_column('INSTRUMENTO_CAPTACION', Integer,ForeignKey(INSTRUMENTO_CAPTACION.id))
+    moneda: Mapped[Optional[int]] = mapped_column('MONEDA', Integer,ForeignKey(MONEDA.id))
+    divisa: Mapped[Optional[int]] = mapped_column('DIVISA', Integer,ForeignKey(DIVISA.id))
+    partida_nivel_1: Mapped[Optional[int]] = mapped_column('PARTIDA_NIVEL_1', Integer,ForeignKey(PARTIDA_NIVEL_1.id))
+    partida_nivel_2: Mapped[Optional[int]] = mapped_column('PARTIDA_NIVEL_2', Integer,ForeignKey(PARTIDA_NIVEL_2.id))
+    publico_privado_nivel_1: Mapped[Optional[int]] = mapped_column('PUBLICO_PRIVADO_NIVEL_1', Integer,ForeignKey(PUBLICO_PRIVADO_1.id))
+    publico_privado_nivel_2: Mapped[Optional[int]] = mapped_column('PUBLICO_PRIVADO_NIVEL_2', Integer,ForeignKey(PUBLICO_PRIVADO_2.id))
+    financiero_no_financiero: Mapped[Optional[int]] = mapped_column('FINANCIERO_NO_FINANCIERO', Integer,ForeignKey(FINANCIERO_NOFINANCIERO.id))
+    residente_noresidente: Mapped[Optional[int]] = mapped_column('RESIDENTE_NO_RESIDENTE', Integer,ForeignKey(RESIDENTE_NORESIDENTE.id))
+    componente: Mapped[Optional[int]] = mapped_column('COMPONENTE', Integer,ForeignKey(COMPONENTE.id))
+    instrumento_medio: Mapped[Optional[int]] = mapped_column('INSTRUMENTO_MEDIO', Integer,ForeignKey(INSTRUMENTO_MEDIO.id))
+    contraparte: Mapped[Optional[int]] = mapped_column('CONTRA_PARTE', Integer,ForeignKey(CONTRAPARTE.id))
+    situacion_nivel_1: Mapped[Optional[int]] = mapped_column('SITUACION_NIVEL_1', Integer,ForeignKey(SITUACION_NIVEL1.id))
+    situacion_nivel_2: Mapped[Optional[int]] = mapped_column('SITUACION_NIVEL_2', Integer,ForeignKey(SITUACION_NIVEL2.id))
+    cantidad_instrumento: Mapped[Optional[float]] = mapped_column('CANTIDAD_INSTRUMENTO', Float)
+    balance: Mapped[Optional[float]] = mapped_column('BALANCE', Float)
+    tasa_promedio_ponderado_balance: Mapped[Optional[float]] = mapped_column('TASA_PROMEDIO_PONDERADO_POR_BALANCE', Float)
+    tasa_promedio_ponderado: Mapped[Optional[float]] = mapped_column('TASA_PROMEDIO_PONDERADO', Float)
+
+
+
+    def __repr__(self) -> str:
+        return (f"CAPTACIONES("
+                f"ID={self.id!r}, "
+                f"PERIODO={self.periodo!r}, "
+                f"TIPO_ENTIDAD={self.tipo_entidad!r}, "
+                f"ENTIDAD={self.entidad!r}, "
+                f"REGION={self.region!r}, "
+                f"PROVINCIA={self.provincia!r}, "
+                f"PERSONA={self.persona!r}, "
+                f"GENERO={self.genero!r}, "
+                f"TIPO_CLIENTE={self.tipo_cliente!r}, "
+                f"INSTRUMENTO_CAPTACION={self.instrumento_captacion!r}, "
+                f"MONEDA={self.moneda!r}, "
+                f"DIVISA={self.divisa!r}, "
+                f"PARTIDA_NIVEL_1={self.partida_nivel_1!r}, "
+                f"PARTIDA_NIVEL_2={self.partida_nivel_2!r}, "
+                f"PUBLICO_PRIVADO_NIVEL_1={self.publico_privado_nivel_1!r}, "
+                f"PUBLICO_PRIVADO_NIVEL_2={self.publico_privado_nivel_2!r}, "
+                f"FINANCIERO_NO_FINANCIERO={self.financiero_no_financiero!r}, "
+                f"RESIDENTE_NORESIDENTE={self.residente_noresidente!r}, "
+                f"COMPONENTE={self.componente!r}, "
+                f"INSTRUMENTO_MEDIO={self.instrumento_medio!r}, "
+                f"CONTRAPARTE={self.contraparte!r}, "
+                f"SITUACION_NIVEL_1={self.situacion_nivel_1!r}, "
+                f"SITUACION_NIVEL_2={self.situacion_nivel_2!r}, "
+                f"CANTIDAD_INSTRUMENTO={self.cantidad_instrumento!r}, "
+                f"BALANCE={self.balance!r}, "
+                f"TASA_PROMEDIO_PONDERADO_POR_BALANCE={self.tasa_promedio_ponderado_balance!r}, "
+                f"TASA_PROMEDIO_PONDERADO={self.tasa_promedio_ponderado!r})"
+        )
+
