@@ -1,0 +1,7 @@
+version = 1
+requires-python = ">=3.12"
+
+[[package]]
+name = "qtech-schemas"
+version = "2.12"
+source = { editable = "." }

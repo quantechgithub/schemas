@@ -1,0 +1,20 @@
+# from qtech_schemas.market import Base,Amortiza,Sector,Emisor,SerieEmision,Moneda,TipoInstrumento,BasePago,Periodicidad,EmisorMoneda,MetodoCalculo,Maestro,SubastaCredito,SubastaBCRD,OperacionMM,TipoOperacion,Parte,Estado,OperacionesCevaldom,TipoOperacion,Parte,Sistema_Mercado, Estado,OperacionesCevaldom,TipoTasa,TipoEmisor,TipoOperacion,Ranking,Mercado,ContraccionExpansion
+# from qtech_schemas.bvrd import CodigoRueda,CompraVenta,DescripcionInstrumento,EstatusOperacion,EstatusOrden,Rueda,NombreMercado ,MejorEjecucion,OperacionesBVRD,OperacionesTotales,Flujos
+# from qtech_schemas._yield import Titulo,EmisorMoneda,CurveInput,CurveType,CurveMethod,CurveMode,Quote,Curve,SondeoLocal,SondeoEurobono,Parametro,ValuationMethod,VectorPrecio,CurveBenchmark,BenchmarkFact,TypeDerivative,BenchmarkDerivative,DerivativeFact,TituloView,DatoView
+# from qtech_schemas.dbo import Frecuencias,Categoria,Fuentes,Moneda,Metodo_Extraccion,Transformacion,Extraccion,Cargas,Variables,Fechas,Datos
+# from qtech_schemas.simbad import TIPO_ENTIDAD,ENTIDAD,REGION,PROVINCIA,PERSONA,GENERO,TIPO_CLIENTE,INSTRUMENTO_CAPTACION,MONEDA,DIVISA,PARTIDA_NIVEL_1,PARTIDA_NIVEL_2,PUBLICO_PRIVADO_1,PUBLICO_PRIVADO_2,RESIDENTE_NORESIDENTE,COMPONENTE,INSTRUMENTO_MEDIO,CONTRAPARTE,SITUACION_NIVEL1,SITUACION_NIVEL2,FINANCIERO_NOFINANCIERO,CAPTACIONES
+from sqlalchemy import Engine, create_engine
+
+
+def conectar_db(
+    server: str, database: str, username: str, password: str, driver: str
+) -> Engine:
+    connection_string = (
+        f"mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}"
+    )
+    engine = create_engine(connection_string, pool_pre_ping=True)
+    return engine
+
+
+if __name__ == "__main__":
+    print("Hello World")
