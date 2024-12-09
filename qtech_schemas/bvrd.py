@@ -64,13 +64,20 @@ class Mercado(Base):
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
     mercado : Mapped[str] = mapped_column('MERCADO',String(50))
 
+class Participantes(Base):
+    __tablename__= 'PARTICIPANTES'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    participantes : Mapped[str] = mapped_column('participantes',String(50))
+
 class Ranking(Base):
     __tablename__= 'RANKING'
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
-    mercado: Mapped[int] = mapped_column('MERCADO',Integer,ForeignKey(Mercado.id))
-    participante:Mapped[str] = mapped_column('PARTICIPANTE',String(50))
+    mercado: Mapped[int] = mapped_column('MERCADO_ID',Integer,ForeignKey(Mercado.id))
+    participante:Mapped[str] = mapped_column('PARTICIPANTE_ID',Integer,ForeignKey(Participantes.id))
     actual:Mapped[int] = mapped_column('ACTUAL',BigInteger)
     ranking: Mapped[int] = mapped_column('RANKING',BigInteger)
     fechas: Mapped[time] = mapped_column('FECHA',Date)
