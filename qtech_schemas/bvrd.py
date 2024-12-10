@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped,mapped_column, relationship
-from sqlalchemy import Integer, String, Float, Date, ForeignKey,Time,DateTime
+from sqlalchemy import Integer, String, Float, Date, ForeignKey,Time,DateTime,BigInteger
 from typing import Optional, List
 from qtech_schemas.market import Maestro
 from qtech_schemas.dbo import Base
@@ -56,6 +56,34 @@ class NombreMercado(Base):
     nombre_mercado: Mapped[str] = mapped_column('NOMBRE_MERCADO', String(100))
 
     operaciones : Mapped[List['OperacionesTotales']] = relationship(back_populates='mercado')
+    
+class Mercado(Base):
+    __tablename__= 'MERCADO'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    mercado : Mapped[str] = mapped_column('MERCADO',String(50))
+
+class Participantes(Base):
+    __tablename__= 'PARTICIPANTES'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    participantes : Mapped[str] = mapped_column('PARTICIPANTES',String(50))
+
+class Ranking(Base):
+    __tablename__= 'RANKING'
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column('ID', Integer, primary_key=True, autoincrement=True)
+    mercado: Mapped[int] = mapped_column('MERCADO_ID',Integer,ForeignKey(Mercado.id))
+    participante:Mapped[str] = mapped_column('PARTICIPANTES_ID',Integer,ForeignKey(Participantes.id))
+    actual:Mapped[int] = mapped_column('ACTUAL',BigInteger)
+    ranking: Mapped[int] = mapped_column('RANKING',BigInteger)
+    fechas: Mapped[time] = mapped_column('FECHA',Date)
+
+    def __repr__(self) -> str:
+        return f"User(ID={self.id!r}, MERCADO={self.mercado!r}, PARTICIPANTE={self.participante!r},ACTUAL={self.actual!r},RANKING ={self.ranking!r},FECHAS ={self.fechas!r})"
 
 class MejorEjecucion(Base):
     __tablename__ = 'MEJOR_EJECUCION'
