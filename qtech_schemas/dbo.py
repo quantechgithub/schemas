@@ -77,6 +77,10 @@ class Variables(Base):
     frecuency: Mapped[Optional[int]] = mapped_column('Frecuency',String(50))
     years: Mapped[Optional[int]] = mapped_column('Years',Integer)
     months: Mapped[Optional[int]] = mapped_column('Months',Integer)
+
+    columnas : Mapped[Optional[str]] = mapped_column('Columnas',String(50))
+    inicio : Mapped[Optional[int]] = mapped_column('Inicio',String(50))
+
     moneda: Mapped[Optional[str]] = mapped_column('Moneda',String(50))
     cut: Mapped[Optional[int]] = mapped_column('cut',Integer)
     fila: Mapped[Optional[int]] = mapped_column('Fila',Integer)
