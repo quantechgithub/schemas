@@ -9,6 +9,39 @@ from qtech_schemas.market import Emisor, Maestro, Moneda, TipoEmisor, TipoTasa
 ARGS = {"schema": "DRIX", "extend_existing": True}  # ,'extend_existing': True
 
 
+class Issuer(Emisor):
+    rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
+        back_populates="issuer_rel"
+    )
+
+
+class Currency(Moneda):
+    rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
+        back_populates="currency_rel"
+    )
+    indexes: Mapped[list["Index"]] = relationship(back_populates="reporting_currency")
+
+
+class IssuerType(TipoEmisor):
+    rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
+        back_populates="issuer_type_rel"
+    )
+
+
+class RateType(TipoTasa):
+    rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
+        back_populates="type_rate_rel"
+    )
+
+
+class SecuritiesMaster(Maestro):
+    positions: Mapped[list["Position"]] = relationship(back_populates="instrument")
+
+
+class PricingMethod(ValuationMethod):
+    indexes: Mapped[list["Index"]] = relationship(back_populates="valuation_method")
+
+
 class IndexStatus(Base):
     __tablename__ = "INDEX_STATUS"
     __table_args__ = ARGS
@@ -36,14 +69,6 @@ class Convention(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     convention: Mapped[str] = mapped_column(String(100), unique=True)
 
-    schedules_convention: Mapped[list["Schedule"]] = relationship(
-        foreign_keys="[Schedule.convention]", back_populates="convention_rel"
-    )
-    schedules_termination: Mapped[list["Schedule"]] = relationship(
-        foreign_keys="[Schedule.terminationDateConvention]",
-        back_populates="termination_convention_rel",
-    )
-
 
 class DateGenerationRule(Base):
     __tablename__ = "DATE_GENERATION_RULE"
@@ -62,29 +87,27 @@ class Schedule(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), unique=True)
     start_date: Mapped[time] = mapped_column(Date)
-    end_date: Mapped[time] = mapped_column(Date)
-    frequency: Mapped[int] = mapped_column(Integer, ForeignKey(Frequency.id))
-    convention: Mapped[int] = mapped_column(Integer, ForeignKey(Convention.id))
-    terminationDateConvention: Mapped[int] = mapped_column(
+    frequency_id: Mapped[int] = mapped_column(Integer, ForeignKey(Frequency.id))
+    convention_id: Mapped[int] = mapped_column(Integer, ForeignKey(Convention.id))
+    terminationDateConvention_id: Mapped[int] = mapped_column(
         Integer, ForeignKey(Convention.id)
     )
     rule: Mapped[int] = mapped_column(Integer, ForeignKey(DateGenerationRule.id))
     endOfMonth: Mapped[bool] = mapped_column(Boolean)
 
-    frequency_rel: Mapped["Frequency"] = relationship(back_populates="schedules")
+    frequency_rel: Mapped["Frequency"] = relationship(
+        back_populates="schedules", lazy="joined"
+    )
     convention_rel: Mapped["Convention"] = relationship(
-        foreign_keys=[convention], back_populates="schedules_convention"
+        foreign_keys=[convention_id],
+        lazy="joined",
     )
     termination_convention_rel: Mapped["Convention"] = relationship(
-        foreign_keys=[terminationDateConvention], back_populates="schedules_termination"
+        foreign_keys=[terminationDateConvention_id],
+        lazy="joined",
     )
-    rule_rel: Mapped["DateGenerationRule"] = relationship(back_populates="schedules")
-    indexes_rebalancing: Mapped[list["Index"]] = relationship(
-        foreign_keys="[Index.rebalancing_schedule_id]",
-        back_populates="rebalancing_schedule",
-    )
-    indexes_return: Mapped[list["Index"]] = relationship(
-        foreign_keys="[Index.return_schedule_id]", back_populates="return_schedule"
+    rule_rel: Mapped["DateGenerationRule"] = relationship(
+        back_populates="schedules", lazy="joined"
     )
 
 
@@ -94,17 +117,31 @@ class RebalancingRules(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), unique=True)
-    issuer_type: Mapped[int] = mapped_column(Integer, ForeignKey(TipoEmisor.id))
-    issuer: Mapped[int] = mapped_column(Integer, ForeignKey(Emisor.id))
-    type_rate: Mapped[int] = mapped_column(Integer, ForeignKey(TipoTasa.id))
-    currency: Mapped[int] = mapped_column(Integer, ForeignKey(Moneda.id))
-    locality: Mapped[str] = mapped_column(String(30))
-    type_amortizaton: Mapped[bool] = mapped_column(Boolean)
-    days_since_issued: Mapped[int] = mapped_column(Integer)
-    days_until_maturity: Mapped[int] = mapped_column(Integer)
-    minimum_outstanding: Mapped[float] = mapped_column(Float)
+    issuer_type: Mapped[int | None] = mapped_column(Integer, ForeignKey(IssuerType.id))
+    issuer: Mapped[int | None] = mapped_column(Integer, ForeignKey(Issuer.id))
+    type_rate: Mapped[int | None] = mapped_column(Integer, ForeignKey(RateType.id))
+    currency: Mapped[int | None] = mapped_column(Integer, ForeignKey(Currency.id))
+    locality: Mapped[str | None] = mapped_column(String(30))
+    type_amortizaton: Mapped[bool | None] = mapped_column(Boolean)
+    days_since_issued: Mapped[int | None] = mapped_column(Integer)
+    days_until_maturity: Mapped[int | None] = mapped_column(Integer)
+    minimum_outstanding: Mapped[float | None] = mapped_column(Float)
 
-    indexes: Mapped[list["Index"]] = relationship(back_populates="rebalancing_rules")
+    issuer_type_rel: Mapped["IssuerType"] = relationship(
+        back_populates="rebalancing_rules", lazy="joined"
+    )
+    issuer_rel: Mapped["Issuer"] = relationship(
+        back_populates="rebalancing_rules", lazy="joined"
+    )
+    type_rate_rel: Mapped["RateType"] = relationship(
+        back_populates="rebalancing_rules", lazy="joined"
+    )
+    currency_rel: Mapped["Currency"] = relationship(
+        back_populates="rebalancing_rules", lazy="joined"
+    )
+    indexes: Mapped[list["Index"]] = relationship(
+        back_populates="rebalancing_rules", lazy="joined"
+    )
 
 
 index_risk_factor_linkage = Table(
@@ -112,7 +149,9 @@ index_risk_factor_linkage = Table(
     Base.metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("index_id", Integer, ForeignKey("DRIX.INDEX.id")),
-    Column("maturity_risk_factor_id", Integer, ForeignKey("DRIX.RISK_FACTOR.id")),
+    Column(
+        "maturity_risk_factor_id", Integer, ForeignKey("DRIX.MATURITY_RISK_FACTOR.id")
+    ),
     schema="DRIX",
 )
 
@@ -141,9 +180,9 @@ class Index(Base):
     launch_date: Mapped[time] = mapped_column(Date)
     include_paydown_returns: Mapped[bool] = mapped_column(Boolean)
     levered: Mapped[bool] = mapped_column(Boolean)
-    reporting_currency_id: Mapped[int] = mapped_column(Integer, ForeignKey(Moneda.id))
+    reporting_currency_id: Mapped[int] = mapped_column(Integer, ForeignKey(Currency.id))
     valuation_method_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey(ValuationMethod.id)
+        Integer, ForeignKey(PricingMethod.id)
     )
     status_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexStatus.id))
     rebalancing_schedule_id: Mapped[int] = mapped_column(
@@ -154,23 +193,29 @@ class Index(Base):
         Integer, ForeignKey(RebalancingRules.id)
     )
 
-    status: Mapped["IndexStatus"] = relationship(back_populates="indexes")
+    reporting_currency: Mapped["Currency"] = relationship(
+        back_populates="indexes", lazy="joined"
+    )
+    valuation_method: Mapped["PricingMethod"] = relationship(back_populates="indexes")
+    status: Mapped["IndexStatus"] = relationship(
+        back_populates="indexes", lazy="joined"
+    )
     rebalancing_schedule: Mapped["Schedule"] = relationship(
-        foreign_keys=[rebalancing_schedule_id], back_populates="indexes_rebalancing"
+        foreign_keys=[rebalancing_schedule_id],
+        lazy="joined",
     )
     return_schedule: Mapped["Schedule"] = relationship(
-        foreign_keys=[return_schedule_id], back_populates="indexes_return"
+        foreign_keys=[return_schedule_id],
+        lazy="joined",
     )
     rebalancing_rules: Mapped["RebalancingRules"] = relationship(
-        back_populates="indexes"
+        back_populates="indexes", lazy="joined"
     )
     maturity_risk_factors: Mapped[list["MaturityRiskFactor"]] = relationship(
-        secondary=index_risk_factor_linkage, back_populates="indexes"
+        secondary=index_risk_factor_linkage, back_populates="indexes", lazy="joined"
     )
     positions: Mapped[list["Position"]] = relationship(back_populates="index")
-    weights: Mapped[list["WeightFact"]] = relationship(back_populates="index")
-    returns: Mapped[list["ReturnFact"]] = relationship(back_populates="index")
-    facts: Mapped[list["IndexFact"]] = relationship(back_populates="index")
+    variables: Mapped[list["IndexVariables"]] = relationship(back_populates="index")
 
 
 class Position(Base):
@@ -180,16 +225,23 @@ class Position(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     date: Mapped[time] = mapped_column(Date)
     index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
-    instrument_id: Mapped[int] = mapped_column(Integer, ForeignKey(Maestro.id))
+    instrument_id: Mapped[int] = mapped_column(Integer, ForeignKey(SecuritiesMaster.id))
     clean_price: Mapped[float] = mapped_column(Float)
     maturity_risk_factor_id: Mapped[int] = mapped_column(
         Integer, ForeignKey(MaturityRiskFactor.id)
     )
     position: Mapped[float] = mapped_column(Float)
 
-    index: Mapped["Index"] = relationship(back_populates="positions")
+    instrument: Mapped["SecuritiesMaster"] = relationship(
+        back_populates="positions", lazy="joined"
+    )
+    index: Mapped["Index"] = relationship(back_populates="positions", lazy="joined")
     maturity_risk_factor: Mapped["MaturityRiskFactor"] = relationship(
-        back_populates="positions"
+        back_populates="positions", lazy="joined"
+    )
+    weights: Mapped[list["WeightFact"]] = relationship(back_populates="position")
+    weighted_returns: Mapped[list["WeightedReturnFact"]] = relationship(
+        back_populates="position"
     )
 
 
@@ -208,13 +260,77 @@ class WeightFact(Base):
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    date: Mapped[time] = mapped_column(Date)
-    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
+    position_id: Mapped[int] = mapped_column(Integer, ForeignKey(Position.id))
     weight_type_id: Mapped[int] = mapped_column(Integer, ForeignKey(WeightType.id))
     value: Mapped[float] = mapped_column(Float)
 
-    index: Mapped["Index"] = relationship(back_populates="weights")
-    weight_type: Mapped["WeightType"] = relationship(back_populates="weights")
+    position: Mapped["Position"] = relationship(back_populates="weights", lazy="joined")
+    weight_type: Mapped["WeightType"] = relationship(
+        back_populates="weights", lazy="joined"
+    )
+
+
+class SeriesState(Base):
+    __tablename__ = "TIME_SERIES_STATE"
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    state: Mapped[str] = mapped_column(String(100), unique=True)
+
+    weighted_returns: Mapped[list["WeightedReturnFact"]] = relationship(
+        back_populates="state"
+    )
+    index_variables: Mapped[list["IndexVariables"]] = relationship(
+        back_populates="state"
+    )
+
+
+class TransformMethod(Base):
+    __tablename__ = "TRANSFORMED_METHOD"
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(255), unique=True)
+
+    index_variables: Mapped[list["IndexVariables"]] = relationship(
+        back_populates="transform_method"
+    )
+
+
+class IndexVariables(Base):
+    __tablename__ = "VARIABLES"
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(255))
+    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
+    transform_method_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey(TransformMethod.id)
+    )
+    state_id: Mapped[int] = mapped_column(Integer, ForeignKey(SeriesState.id))
+
+    index: Mapped["Index"] = relationship(back_populates="variables", lazy="joined")
+    transform_method: Mapped["TransformMethod"] = relationship(
+        back_populates="index_variables", lazy="joined"
+    )
+    state: Mapped["SeriesState"] = relationship(
+        back_populates="index_variables", lazy="joined"
+    )
+    facts: Mapped[list["IndexFact"]] = relationship(back_populates="variable")
+
+
+class IndexFact(Base):
+    __tablename__ = "INDEX_FACT"
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    date: Mapped[time] = mapped_column(Date)
+    variable_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexVariables.id))
+    value: Mapped[float] = mapped_column(Float)
+
+    variable: Mapped["IndexVariables"] = relationship(
+        back_populates="facts", lazy="joined"
+    )
 
 
 class ReturnType(Base):
@@ -224,71 +340,43 @@ class ReturnType(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     return_type: Mapped[str] = mapped_column(String(100), unique=True)
 
-    returns: Mapped[list["ReturnFact"]] = relationship(back_populates="return_type")
+    weighted_returns: Mapped[list["WeightedReturnFact"]] = relationship(
+        back_populates="return_type"
+    )
 
 
-class ReturnFact(Base):
-    __tablename__ = "RETURN"
+class InterestType(Base):
+    __tablename__ = "INTEREST_TYPE"
     __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    date: Mapped[time] = mapped_column(Date)
-    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
+    interest_type: Mapped[str] = mapped_column(String(100), unique=True)
+
+    weighted_returns: Mapped[list["WeightedReturnFact"]] = relationship(
+        back_populates="interest_type"
+    )
+
+
+class WeightedReturnFact(Base):
+    __tablename__ = "WEIGHTED_RETURN_FACT"
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    position_id: Mapped[int] = mapped_column(Integer, ForeignKey(Position.id))
     return_type_id: Mapped[int] = mapped_column(Integer, ForeignKey(ReturnType.id))
+    interest_type_id: Mapped[int] = mapped_column(Integer, ForeignKey(InterestType.id))
+    state_id: Mapped[int] = mapped_column(Integer, ForeignKey(SeriesState.id))
     value: Mapped[float] = mapped_column(Float)
 
-    index: Mapped["Index"] = relationship(back_populates="returns")
-    return_type: Mapped["ReturnType"] = relationship(back_populates="returns")
-
-
-class IndexVariables(Base):
-    __tablename__ = "INDEX_VARIABLES"
-    __table_args__ = ARGS
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-
-    facts: Mapped[list["IndexFact"]] = relationship(back_populates="variable")
-    # A la clase le falta la definición de metodos de extraccción, transformacion y carga.
-
-
-class IndexFact(Base):
-    __tablename__ = "INDEX_FACT"
-    __table_args__ = ARGS
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    date: Mapped[time] = mapped_column(Date)
-    index_id: Mapped[int] = mapped_column(Integer, ForeignKey(Index.id))
-    variable_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexVariables.id))
-    value: Mapped[float] = mapped_column(Float)
-
-    index: Mapped["Index"] = relationship(back_populates="facts")
-    variable: Mapped["IndexVariables"] = relationship(back_populates="facts")
-
-
-# class TimeSeriesStateDrix(TimeSeriesState):
-#     pass
-
-# class Index(Base):
-#     __tablename__ = 'INDEX'
-#     __table_args__ = ARGS
-
-#     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-#     name : Mapped[str] = mapped_column(String(100), unique=True)
-#     weighting_method_id: Mapped[int] = mapped_column(Integer, ForeignKey(WeightingMethod.id))
-#     rebalancing_frequency_id: Mapped[int] = mapped_column(Integer, ForeignKey(RebalancingFrequency.id))
-#     calculation_frequency_id: Mapped[int] = mapped_column(Integer, ForeignKey(CalculationFrequency.id))
-#     reporting_currency_id: Mapped[int] = mapped_column(Integer, ForeignKey(MonedaDrix.id))
-#     launch_date: Mapped[time] = mapped_column(Date)
-#     type_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexType.id))
-#     valuation_method_id: Mapped[int] = mapped_column(Integer, ForeignKey(ValuationMethodDrix.id))
-#     status_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexStatus.id))
-
-#     weighting_method: Mapped[WeightingMethod] = relationship(back_populates ='indexes')
-#     rebalancing_frequency: Mapped[RebalancingFrequency] = relationship(back_populates ='indexes')
-#     calculation_frequency: Mapped[CalculationFrequency] = relationship(back_populates ='indexes')
-#     reporting_currency: Mapped[MonedaDrix] = relationship(back_populates ='indexes')
-#     index_type: Mapped[IndexType] = relationship(back_populates ='indexes')
-#     valuation_method: Mapped[ValuationMethodDrix] = relationship(back_populates ='indexes')
-#     status: Mapped[IndexStatus] = relationship(back_populates ='indexes')
-#     risk_factors: Mapped[List[RiskFactor]] = relationship(secondary = index_risk_factor_linkage, back_populates='indexes')
-#     emisor_moneda: Mapped[List[EmisorMonedaDrix]] = relationship(secondary = index_emisor_moneda_linkage, back_populates='indexes')
+    position: Mapped["Position"] = relationship(
+        back_populates="weighted_returns", lazy="joined"
+    )
+    return_type: Mapped["ReturnType"] = relationship(
+        back_populates="weighted_returns", lazy="joined"
+    )
+    interest_type: Mapped["InterestType"] = relationship(
+        back_populates="weighted_returns", lazy="joined"
+    )
+    state: Mapped["SeriesState"] = relationship(
+        back_populates="weighted_returns", lazy="joined"
+    )
