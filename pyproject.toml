@@ -8,7 +8,11 @@ authors = [
   {name = "Jose M.", email = "jdm@quantech.com.do"},
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pandas>=2.2.3",
+    "pyodbc>=5.2.0",
+    "sqlalchemy>=2.0.36",
+]
 
 [project.scripts]
 schemas = "schemas:main"
