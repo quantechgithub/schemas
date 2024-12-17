@@ -173,3 +173,11 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Excel files
+*.xlsx
+*.xls
+*.xlsm
+
+# Jupyter Notebooks
+*.ipynb
