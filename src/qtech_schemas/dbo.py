@@ -124,6 +124,10 @@ class Variables(Base):
     frecuency: Mapped[int | None] = mapped_column("Frecuency", String(50))
     years: Mapped[int | None] = mapped_column("Years", Integer)
     months: Mapped[int | None] = mapped_column("Months", Integer)
+
+    columnas: Mapped[str | None] = mapped_column("Columnas", String(50))
+    inicio: Mapped[int | None] = mapped_column("Inicio", String(50))
+
     moneda: Mapped[str | None] = mapped_column("Moneda", String(50))
     cut: Mapped[int | None] = mapped_column("cut", Integer)
     fila: Mapped[int | None] = mapped_column("Fila", Integer)

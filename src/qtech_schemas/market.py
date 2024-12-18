@@ -42,7 +42,13 @@ class Emisor(Base):
     )
 
     def __repr__(self) -> str:
-        return f"Emisores(ID={self.id!r}, SIGLAS={self.siglas!r}, NOMBRE={self.nombre!r}, SECTOR={self.sector_id!r})"
+        return (
+            f"Emisores("
+            f"ID={self.id!r}, "
+            f"SIGLAS={self.siglas!r}, "
+            f"NOMBRE={self.nombre!r}, "
+            f"SECTOR={self.sector_id!r})"
+        )
 
 
 class SerieEmision(Base):
@@ -56,7 +62,14 @@ class SerieEmision(Base):
     emisor_id: Mapped[int] = mapped_column("EMISOR_ID", ForeignKey(Emisor.id))
 
     def __repr__(self) -> str:
-        return f"User(ID={self.id!r}, SIGLAS={self.siglas!r}, NOMBRE={self.nombre!r},NOMBRE_BVRD={self.nombre_bvrd!r},EMISOR_ID ={self.emisor_id!r})"
+        return (
+            f"User("
+            f"ID={self.id!r}, "
+            f"SIGLAS={self.siglas!r}, "
+            f"NOMBRE={self.nombre!r}, "
+            f"NOMBRE_BVRD={self.nombre_bvrd!r}, "
+            f"EMISOR_ID={self.emisor_id!r})"
+        )
 
 
 class Moneda(Base):
@@ -173,29 +186,6 @@ class Estado(Base):
     estados: Mapped[str] = mapped_column("ESTADOS", String(50))
 
 
-class Mercado(Base):
-    __tablename__ = "MERCADO"
-    __table_args__ = ARGS
-
-    id: Mapped[int] = mapped_column("ID", Integer, primary_key=True, autoincrement=True)
-    mercado: Mapped[str] = mapped_column("MERCADO", String(50))
-
-
-class Ranking(Base):
-    __tablename__ = "RANKING"
-    __table_args__ = ARGS
-
-    id: Mapped[int] = mapped_column("ID", Integer, primary_key=True, autoincrement=True)
-    mercado: Mapped[int] = mapped_column("MERCADO", Integer, ForeignKey(Mercado.id))
-    participante: Mapped[str] = mapped_column("PARTICIPANTE", String(50))
-    actual: Mapped[int] = mapped_column("ACTUAL", BigInteger)
-    ranking: Mapped[int] = mapped_column("RANKING", BigInteger)
-    fechas: Mapped[time] = mapped_column("FECHA", Date)
-
-    def __repr__(self) -> str:
-        return f"User(ID={self.id!r}, MERCADO={self.mercado!r}, PARTICIPANTE={self.participante!r},ACTUAL={self.actual!r},RANKING ={self.ranking!r},FECHAS ={self.fechas!r})"
-
-
 class Maestro(Base):
     __tablename__ = "MAESTRO_TITULOS"
     __table_args__ = ARGS
@@ -254,16 +244,28 @@ class Maestro(Base):
 
     def __repr__(self) -> str:
         return (
-            f"<Maestro(ID={self.id}, ISIN={self.isin}, EMISION={self.fecha_emision}, "
-            f"VENCIMIENTO={self.fecha_vencimiento}, CUPON={self.cupon}, AMORTIZA={self.amortiza_id}, "
-            f"SERIES_ID={self.serie_id}, MONEDA_ID={self.moneda_id}, TIPO_ID={self.tipo_id}, "
-            f"BASE_ID={self.base_id}, PERIODICIDAD_ID={self.periodicidad_id}, "
-            f"MONTO_TOTAL_PROGRAMA={self.monto_total_programa}, NEMOTECNICO={self.nemotecnico}, "
-            f"OPTION_CALL={self.option_call}, CALL_DATE={self.call_date}, "
-            f"EMISOR_MONEDA_ID={self.emisor_moneda_id}, METODO_CALCULO_ID={self.metodo_calculo_id}, "
-            f"CALIFICACION_RIESGO={self.calificacion_riesgo}, TIPO_TASA_ID={self.tipo_tasa}, "
-            f"SOBRE_TASA={self.sobre_tasa}, TIPO_EMISOR={self.tipo_emisor},"
-            f"TIPO_EMISOR ={self.tipo_emisor}, TIPO_EMISOR={self.tipo_emisor})>"
+            f"<Maestro("
+            f"ID={self.id}, "
+            f"ISIN={self.isin}, "
+            f"EMISION={self.fecha_emision}, "
+            f"VENCIMIENTO={self.fecha_vencimiento}, "
+            f"CUPON={self.cupon}, "
+            f"AMORTIZA={self.amortiza_id}, "
+            f"SERIES_ID={self.serie_id}, "
+            f"MONEDA_ID={self.moneda_id}, "
+            f"TIPO_ID={self.tipo_id}, "
+            f"BASE_ID={self.base_id}, "
+            f"PERIODICIDAD_ID={self.periodicidad_id}, "
+            f"MONTO_TOTAL_PROGRAMA={self.monto_total_programa}, "
+            f"NEMOTECNICO={self.nemotecnico}, "
+            f"OPTION_CALL={self.option_call}, "
+            f"CALL_DATE={self.call_date}, "
+            f"EMISOR_MONEDA_ID={self.emisor_moneda_id}, "
+            f"METODO_CALCULO_ID={self.metodo_calculo_id}, "
+            f"CALIFICACION_RIESGO={self.calificacion_riesgo}, "
+            f"TIPO_TASA_ID={self.tipo_tasa}, "
+            f"SOBRE_TASA={self.sobre_tasa}, "
+            f"TIPO_EMISOR={self.tipo_emisor})>"
         )
 
 
