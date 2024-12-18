@@ -2,15 +2,19 @@ from pandas import Timestamp as time
 from sqlalchemy import Date, Float, ForeignKey, Integer, MetaData, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-metadata_obj = MetaData(schema="dbo")
+metadata_obj = MetaData()
 
 
 class Base(DeclarativeBase):
     metadata = metadata_obj
 
 
+ARGS = {"schema": "dbo", "extend_existing": True}
+
+
 class Frecuencias(Base):
     __tablename__ = "Frecuencias"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Frecuencia_id", Integer, primary_key=True, autoincrement=True
@@ -20,6 +24,7 @@ class Frecuencias(Base):
 
 class Categoria(Base):
     __tablename__ = "Categoria"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Categoria_id", Integer, primary_key=True, autoincrement=True
@@ -30,6 +35,7 @@ class Categoria(Base):
 
 class Fuentes(Base):
     __tablename__ = "Fuentes"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Fuente_ID", Integer, primary_key=True, autoincrement=True
@@ -40,6 +46,7 @@ class Fuentes(Base):
 
 class Moneda(Base):
     __tablename__ = "Moneda"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Moneda_ID", Integer, primary_key=True, autoincrement=True
@@ -49,6 +56,7 @@ class Moneda(Base):
 
 class Metodo_Extraccion(Base):
     __tablename__ = "Metodo_Extraccion"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Metodo_Extraccion_ID", Integer, primary_key=True, autoincrement=True
@@ -58,6 +66,7 @@ class Metodo_Extraccion(Base):
 
 class Transformacion(Base):
     __tablename__ = "Transformaciones"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Metodo_transformacion", Integer, primary_key=True, autoincrement=True
@@ -67,6 +76,7 @@ class Transformacion(Base):
 
 class Extraccion(Base):
     __tablename__ = "Extracciones"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Extract_Method", Integer, primary_key=True, autoincrement=True
@@ -76,6 +86,7 @@ class Extraccion(Base):
 
 class Cargas(Base):
     __tablename__ = "Cargas"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Metodo_carga", Integer, primary_key=True, autoincrement=True
@@ -85,6 +96,7 @@ class Cargas(Base):
 
 class Variables(Base):
     __tablename__ = "Variables"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Variable_ID", Integer, primary_key=True, autoincrement=True
@@ -129,6 +141,7 @@ class Variables(Base):
 
 class Fechas(Base):
     __tablename__ = "Fechas"
+    __table_args__ = ARGS
 
     dates: Mapped[time] = mapped_column("Date", Date, primary_key=True)
     year: Mapped[int] = mapped_column("Year", Integer)
@@ -141,6 +154,7 @@ class Fechas(Base):
 
 class Datos(Base):
     __tablename__ = "Datos"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(
         "Datos_ID", Integer, primary_key=True, autoincrement=True

@@ -5,30 +5,24 @@ from sqlalchemy import (
     Float,
     ForeignKey,
     Integer,
-    MetaData,
     String,
 )
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from qtech_schemas._yield import ValuationMethod
+from qtech_schemas.dbo import Base
 from qtech_schemas.market import Emisor, Maestro, Moneda, TipoEmisor, TipoTasa
 
-metadata_obj = MetaData(schema="DRIX")
-
-
-class Base(DeclarativeBase):
-    metadata = metadata_obj
+ARGS = {"schema": "DRIX", "extend_existing": True}
 
 
 class Issuer(Emisor):
-    metadata = metadata_obj
     rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
         back_populates="issuer"
     )
 
 
 class Currency(Moneda):
-    metadata = metadata_obj
     rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
         back_populates="currency"
     )
@@ -36,31 +30,28 @@ class Currency(Moneda):
 
 
 class IssuerType(TipoEmisor):
-    metadata = metadata_obj
     rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
         back_populates="issuer_type"
     )
 
 
 class RateType(TipoTasa):
-    metadata = metadata_obj
     rebalancing_rules: Mapped[list["RebalancingRules"]] = relationship(
         back_populates="type_rate"
     )
 
 
 class SecuritiesMaster(Maestro):
-    metadata = metadata_obj
     positions: Mapped[list["Position"]] = relationship(back_populates="instrument")
 
 
 class PricingMethod(ValuationMethod):
-    metadata = metadata_obj
     indexes: Mapped[list["Index"]] = relationship(back_populates="valuation_method")
 
 
 class IndexStatus(Base):
     __tablename__ = "INDEX_STATUS"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     status: Mapped[str] = mapped_column(String(100), unique=True)
@@ -70,6 +61,7 @@ class IndexStatus(Base):
 
 class Frequency(Base):
     __tablename__ = "FREQUENCY"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     frequency: Mapped[str] = mapped_column(String(100), unique=True)
@@ -79,6 +71,7 @@ class Frequency(Base):
 
 class Convention(Base):
     __tablename__ = "CONVENTION"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     convention: Mapped[str] = mapped_column(String(100), unique=True)
@@ -86,6 +79,7 @@ class Convention(Base):
 
 class DateGenerationRule(Base):
     __tablename__ = "DATE_GENERATION_RULE"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     rule: Mapped[str] = mapped_column(String(100), unique=True)
@@ -95,6 +89,7 @@ class DateGenerationRule(Base):
 
 class Schedule(Base):
     __tablename__ = "SCHEDULE"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), unique=True)
@@ -113,7 +108,7 @@ class Schedule(Base):
         foreign_keys=[convention_id],
         lazy="joined",
     )
-    termination_convention: Mapped["Convention"] = relationship(
+    terminationDateConvention: Mapped["Convention"] = relationship(
         foreign_keys=[terminationDateConvention_id],
         lazy="joined",
     )
@@ -124,6 +119,7 @@ class Schedule(Base):
 
 class RebalancingRules(Base):
     __tablename__ = "REBALANCING_RULES"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), unique=True)
@@ -170,6 +166,7 @@ class RebalancingRules(Base):
 
 class MaturityRiskFactor(Base):
     __tablename__ = "MATURITY_RISK_FACTOR"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     maturity: Mapped[float] = mapped_column(Float)
@@ -184,6 +181,7 @@ class MaturityRiskFactor(Base):
 
 class Index(Base):
     __tablename__ = "INDEX"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), unique=True)
@@ -230,6 +228,7 @@ class Index(Base):
 
 class Position(Base):
     __tablename__ = "POSITION"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     date: Mapped[time] = mapped_column(Date)
@@ -256,6 +255,7 @@ class Position(Base):
 
 class WeightType(Base):
     __tablename__ = "WEIGHT_TYPE"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     weight_type: Mapped[str] = mapped_column(String(100), unique=True)
@@ -265,6 +265,7 @@ class WeightType(Base):
 
 class WeightFact(Base):
     __tablename__ = "WEIGHT"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     position_id: Mapped[int] = mapped_column(Integer, ForeignKey(Position.id))
@@ -279,6 +280,7 @@ class WeightFact(Base):
 
 class SeriesState(Base):
     __tablename__ = "TIME_SERIES_STATE"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     state: Mapped[str] = mapped_column(String(100), unique=True)
@@ -293,6 +295,7 @@ class SeriesState(Base):
 
 class TransformMethod(Base):
     __tablename__ = "TRANSFORMED_METHOD"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), unique=True)
@@ -304,6 +307,7 @@ class TransformMethod(Base):
 
 class IndexVariables(Base):
     __tablename__ = "VARIABLES"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255))
@@ -325,6 +329,7 @@ class IndexVariables(Base):
 
 class IndexFact(Base):
     __tablename__ = "INDEX_FACT"
+    __table_args__ = ARGS
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     date: Mapped[time] = mapped_column(Date)
     variable_id: Mapped[int] = mapped_column(Integer, ForeignKey(IndexVariables.id))
@@ -337,6 +342,7 @@ class IndexFact(Base):
 
 class ReturnType(Base):
     __tablename__ = "RETURN_TYPE"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     return_type: Mapped[str] = mapped_column(String(100), unique=True)
@@ -348,6 +354,7 @@ class ReturnType(Base):
 
 class InterestType(Base):
     __tablename__ = "INTEREST_TYPE"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     interest_type: Mapped[str] = mapped_column(String(100), unique=True)
@@ -359,6 +366,7 @@ class InterestType(Base):
 
 class WeightedReturnFact(Base):
     __tablename__ = "WEIGHTED_RETURN_FACT"
+    __table_args__ = ARGS
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     position_id: Mapped[int] = mapped_column(Integer, ForeignKey(Position.id))

@@ -3,6 +3,7 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
+from qtech_schemas.dbo import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -15,9 +16,7 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from qtech_schemas.drix import (
-    Base,  # La base declarativa depende del esquema a modificar.
-)
+
 
 target_metadata = Base.metadata
 # target_metadata = None
@@ -30,7 +29,7 @@ target_metadata = Base.metadata
 
 def include_name(name, type_, parent_names):
     if type_ == "schema":
-        return name == "DRIX"  # Aqui se selecciona el esquema a modificar
+        return name in ["DRIX"]  # Aqui se selecciona el esquema a modificar
     return True
 
 
