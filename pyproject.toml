@@ -4,7 +4,7 @@ version = "2.12"
 description = "Libreria ORM para la arquitectura de base de datos"
 readme = "README.md"
 authors = [
-  {name = "IanContrerasM", email = "ic@quantech.com.do"},
+  {name = "Ian Contreras", email = "ic@quantech.com.do"},
   {name = "Jose M.", email = "jdm@quantech.com.do"},
 ]
 requires-python = ">=3.12"
