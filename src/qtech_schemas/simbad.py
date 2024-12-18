@@ -93,7 +93,11 @@ class INSTRUMENTO_CAPTACION(Base):
     )
 
     def __repr__(self) -> str:
-        return f"INSTRUMENTO_CAPTACION(ID={self.id!r}, INSTRUMENTO_CAPTACION={self.instrumento_captacion!r})"
+        return (
+            f"INSTRUMENTO_CAPTACION("
+            f"ID={self.id!r}, "
+            f"INSTRUMENTO_CAPTACION={self.instrumento_captacion!r})"
+        )
 
 
 class MONEDA(Base):
@@ -128,7 +132,11 @@ class PARTIDA_NIVEL_1(Base):
     )
 
     def __repr__(self) -> str:
-        return f"PARTIDA_NIVEL_1(ID={self.id!r}, PUBLICO_PRIVADO_NIVEL_1={self.partida_nivel_1!r})"
+        return (
+            f"PARTIDA_NIVEL_1("
+            f"ID={self.id!r}, "
+            f"PUBLICO_PRIVADO_NIVEL_1={self.partida_nivel_1!r})"
+        )
 
 
 class PARTIDA_NIVEL_2(Base):
@@ -154,7 +162,11 @@ class PUBLICO_PRIVADO_1(Base):
     )
 
     def __repr__(self) -> str:
-        return f"PUBLICO_PRIVADO_1(ID={self.id!r}, PUBLICO_PRIVADO_NIVEL_1={self.publica_privado_1!r})"
+        return (
+            f"PUBLICO_PRIVADO_1("
+            f"ID={self.id!r}, "
+            f"PUBLICO_PRIVADO_NIVEL_1={self.publica_privado_1!r})"
+        )
 
 
 class PUBLICO_PRIVADO_2(Base):
@@ -167,7 +179,11 @@ class PUBLICO_PRIVADO_2(Base):
     )
 
     def __repr__(self) -> str:
-        return f"PUBLICO_PRIVADO_2(ID={self.id!r}, PUBLICO_PRIVADO_NIVEL_2={self.publica_privado_2!r})"
+        return (
+            f"PUBLICO_PRIVADO_2("
+            f"ID={self.id!r}, "
+            f"PUBLICO_PRIVADO_NIVEL_2={self.publica_privado_2!r})"
+        )
 
 
 class RESIDENTE_NORESIDENTE(Base):
@@ -180,7 +196,11 @@ class RESIDENTE_NORESIDENTE(Base):
     )
 
     def __repr__(self) -> str:
-        return f"RESIDENTE_NORESIDENTE(ID={self.id!r}, RESIDENTE_NO_NORESIDENTE={self.residente_noresidente!r})"
+        return (
+            f"RESIDENTE_NORESIDENTE("
+            f"ID={self.id!r}, "
+            f"RESIDENTE_NO_NORESIDENTE={self.residente_noresidente!r})"
+        )
 
 
 class COMPONENTE(Base):
@@ -204,7 +224,11 @@ class INSTRUMENTO_MEDIO(Base):
     )
 
     def __repr__(self) -> str:
-        return f"INSTRUMENTO_MEDIO(ID={self.id!r}, INSTRUMENTO_MEDIO={self.instrumento_medio!r})"
+        return (
+            f"INSTRUMENTO_MEDIO("
+            f"ID={self.id!r}, "
+            f"INSTRUMENTO_MEDIO={self.instrumento_medio!r})"
+        )
 
 
 class CONTRAPARTE(Base):
@@ -228,7 +252,11 @@ class SITUACION_NIVEL1(Base):
     )
 
     def __repr__(self) -> str:
-        return f"SITUACION_NIVEL1(ID={self.id!r}, SITUACION_NIVEL_1={self.situacion_nivel_1!r})"
+        return (
+            f"SITUACION_NIVEL1("
+            f"ID={self.id!r}, "
+            f"SITUACION_NIVEL_1={self.situacion_nivel_1!r})"
+        )
 
 
 class SITUACION_NIVEL2(Base):
@@ -241,7 +269,11 @@ class SITUACION_NIVEL2(Base):
     )
 
     def __repr__(self) -> str:
-        return f"SITUACION_NIVEL2(ID={self.id!r}, SITUACION_NIVEL_2={self.situacion_nivel_2!r})"
+        return (
+            f"SITUACION_NIVEL2("
+            f"ID={self.id!r}, "
+            f"SITUACION_NIVEL_2={self.situacion_nivel_2!r})"
+        )
 
 
 class FINANCIERO_NOFINANCIERO(Base):
@@ -254,7 +286,11 @@ class FINANCIERO_NOFINANCIERO(Base):
     )
 
     def __repr__(self) -> str:
-        return f"FINANCIERO_NOFINANCIERO(ID={self.id!r}, FINANCIERO_NO_FINANCIERO={self.financiero_no_financiero!r})"
+        return (
+            f"FINANCIERO_NOFINANCIERO("
+            f"ID={self.id!r}, "
+            f"FINANCIERO_NO_FINANCIERO={self.financiero_no_financiero!r})"
+        )
 
 
 class CAPTACIONES(Base):
@@ -357,6 +393,7 @@ class CAPTACIONES(Base):
             f"SITUACION_NIVEL_2={self.situacion_nivel_2!r}, "
             f"CANTIDAD_INSTRUMENTO={self.cantidad_instrumento!r}, "
             f"BALANCE={self.balance!r}, "
-            f"TASA_PROMEDIO_PONDERADO_POR_BALANCE={self.tasa_promedio_ponderado_balance!r}, "
+            f"TASA_PROMEDIO_PONDERADO_POR_BALANCE="
+            f"{self.tasa_promedio_ponderado_balance!r}, "
             f"TASA_PROMEDIO_PONDERADO={self.tasa_promedio_ponderado!r})"
         )

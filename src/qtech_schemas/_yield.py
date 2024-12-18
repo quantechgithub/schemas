@@ -247,7 +247,16 @@ class Parametro(Base):
         }
 
     def __str__(self):
-        return f"date={self.date}, curve={self.curve.name}, tau1={self.tau1}, tau2={self.tau2}, b0={self.b0}, b1={self.b1}, b2={self.b2}, b3={self.b3})"
+        return (
+            f"date={self.date}, "
+            f"curve={self.curve.name}, "
+            f"tau1={self.tau1}, "
+            f"tau2={self.tau2}, "
+            f"b0={self.b0}, "
+            f"b1={self.b1}, "
+            f"b2={self.b2}, "
+            f"b3={self.b3})"
+        )
 
 
 class ValuationMethodOption(Base):
@@ -321,35 +330,15 @@ class VectorPrecio(Base):
         back_populates="vectores_precios"
     )
 
-    def to_dict(self) -> dict:
-        return {
-            "id": self.id,
-            "date": self.date,
-            "titulo": self.titulo.isin,
-            "valuation_method": self.valuation_method.name,
-            "valuation_method_option": self.valuation_method.valuation_method_option.option,
-            "market": self.valuation_method.curve.quote.quote
-            if self.valuation_method.curve
-            else self.valuation_method.quote.quote,
-            "method": self.valuation_method.curve.method.method
-            if self.valuation_method.curve
-            else None,
-            "ytm": self.ytm,
-            "clean_price": self.clean_price,
-            "dirty_price": self.dirty_price,
-            "theta": self.theta,
-            "time": self.time,
-            "current_yield": self.current_yield,
-            "mcauly_duration": self.mcauly_duration,
-            "mduration": self.mduration,
-            "convexity": self.convexity,
-            "coupon": self.coupon,
-            "dollar_duration": self.dollar_duration,
-            "dollar_convexity": self.dollar_convexity,
-        }
-
     def __str__(self):
-        return f"date={self.date}, titulo={self.titulo.isin}, valuation_method={self.valuation_method.name}, ytm={self.ytm}, clean_price={self.clean_price}, dirty_price={self.dirty_price})"
+        return (
+            f"date={self.date}, "
+            f"titulo={self.titulo.isin}, "
+            f"valuation_method={self.valuation_method.name}, "
+            f"ytm={self.ytm}, "
+            f"clean_price={self.clean_price}, "
+            f"dirty_price={self.dirty_price})"
+        )
 
 
 association_table = Table(
@@ -425,7 +414,11 @@ class BenchmarkFact(Base):
         }
 
     def __str__(self):
-        return f"date={self.date}, curve_benchmark={self.curve_benchmark.name}, value={self.value})"
+        return (
+            f"date={self.date}, "
+            f"curve_benchmark={self.curve_benchmark.name}, "
+            f"value={self.value})"
+        )
 
 
 class Scenario(Base):
