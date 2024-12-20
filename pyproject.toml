@@ -41,3 +41,8 @@ select = [
     # isort
     "I",
 ]
+
+[dependency-groups]
+dev = [
+    "alembic>=1.14.0",
+]
