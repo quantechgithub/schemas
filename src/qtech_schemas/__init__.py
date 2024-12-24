@@ -6,6 +6,7 @@ This module provides database schema definitions and utilities for the QTech pla
 
 # Database connection utilities
 from sqlalchemy import Engine, create_engine
+from sqlalchemy.orm import Session
 
 # Yield models
 from qtech_schemas._yield import (
@@ -142,6 +143,7 @@ def conectar_db(
 __all__ = [
     # Connection utility
     "conectar_db",
+    "Session",
     # Base classes
     "Base",
     # Market models
