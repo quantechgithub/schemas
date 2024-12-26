@@ -306,7 +306,7 @@ wheels = [
 
 [[package]]
 name = "qtech-schemas"
-version = "2.12"
+version = "2.12.2"
 source = { editable = "." }
 dependencies = [
     { name = "pandas" },

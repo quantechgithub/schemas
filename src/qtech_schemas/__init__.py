@@ -63,6 +63,25 @@ from qtech_schemas.dbo import (
     Transformacion,
     Variables,
 )
+from qtech_schemas.drix import (
+    Convention,
+    DateGenerationRule,
+    Frequency,
+    Index,
+    IndexFact,
+    IndexVariables,
+    InterestType,
+    MaturityRiskFactor,
+    Position,
+    RebalancingRules,
+    ReturnType,
+    Schedule,
+    SeriesState,
+    TransformMethod,
+    WeightedReturnFact,
+    WeightFact,
+    WeightType,
+)
 
 # Market models
 from qtech_schemas.market import (
@@ -240,7 +259,25 @@ __all__ = [
     "SITUACION_NIVEL2",
     "FINANCIERO_NOFINANCIERO",
     "CAPTACIONES",
+    # DRIX models
+    "Frequency",
+    "Convention",
+    "DateGenerationRule",
+    "Schedule",
+    "RebalancingRules",
+    "MaturityRiskFactor",
+    "Index",
+    "Position",
+    "WeightType",
+    "WeightFact",
+    "SeriesState",
+    "TransformMethod",
+    "IndexVariables",
+    "IndexFact",
+    "ReturnType",
+    "InterestType",
+    "WeightedReturnFact",
 ]
 
 # Version information
-__version__ = "2.12.1"
+__version__ = "2.12.2"
