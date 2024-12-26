@@ -82,6 +82,18 @@ from qtech_schemas.drix import (
     WeightFact,
     WeightType,
 )
+from qtech_schemas.fx import (
+    FxAnalytics,
+    FxAnalyticsFact,
+    FxEntity,
+    FxProbabilityFact,
+    FxQuote,
+    FxScenario,
+    FxType,
+    FxTypeTransform,
+    FxVariable,
+    FxVariableFact,
+)
 
 # Market models
 from qtech_schemas.market import (
@@ -279,6 +291,17 @@ __all__ = [
     "ReturnType",
     "InterestType",
     "WeightedReturnFact",
+    # FX models
+    "FxVariableFact",
+    "FxAnalyticsFact",
+    "FxProbabilityFact",
+    "FxVariable",
+    "FxAnalytics",
+    "FxQuote",
+    "FxEntity",
+    "FxType",
+    "FxScenario",
+    "FxTypeTransform",
 ]
 
 # Version information
