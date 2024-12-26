@@ -1,8 +1,10 @@
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
+from qtech_schemas import conectar_db
 from qtech_schemas.dbo import Base
 
 # this is the Alembic Config object, which provides
@@ -25,6 +27,13 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+server = os.getenv("DB_SERVER", "")
+database = os.getenv("DB_DATABASE", "")
+username = os.getenv("DB_USERNAME", "")
+password = os.getenv("DB_PASSWORD", "")
+driver = os.getenv("DB_DRIVER", "")
+
+engine = conectar_db(server, database, username, password, driver)
 
 
 def include_name(name, type_, parent_names):
@@ -45,7 +54,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = config.get_main_option("sqlalchemy.url", engine)
     context.configure(
         url=url,
         target_metadata=target_metadata,

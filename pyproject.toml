@@ -1,6 +1,6 @@
 [project]
-name = "qtech-schemas"
-version = "2.12.1"
+name = "qtech_schemas"
+version = "2.12.2"
 description = "Libreria ORM para la arquitectura de base de datos"
 readme = "README.md"
 authors = [
@@ -45,4 +45,5 @@ select = [
 [dependency-groups]
 dev = [
     "alembic>=1.14.0",
+    "python-dotenv>=1.0.1",
 ]
