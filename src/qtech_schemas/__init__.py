@@ -107,6 +107,7 @@ from qtech_schemas.market import (
     TipoInstrumento,
     TipoOperacion,
     TipoTasa,
+    VectorMonto,
 )
 
 # SIMBAD models
@@ -188,6 +189,7 @@ __all__ = [
     "TipoTasa",
     "TipoEmisor",
     "ContraccionExpansion",
+    "VectorMonto",
     # BVRD models
     "CodigoRueda",
     "CompraVenta",
@@ -280,4 +282,4 @@ __all__ = [
 ]
 
 # Version information
-__version__ = "2.12.2"
+__version__ = "2.12.3"

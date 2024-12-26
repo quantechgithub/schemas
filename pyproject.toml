@@ -1,6 +1,6 @@
 [project]
 name = "qtech_schemas"
-version = "2.12.2"
+version = "2.12.3"
 description = "Libreria ORM para la arquitectura de base de datos"
 readme = "README.md"
 authors = [
