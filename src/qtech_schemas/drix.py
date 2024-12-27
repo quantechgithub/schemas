@@ -130,10 +130,10 @@ class RebalancingRules(Base):
     type_rate_id: Mapped[int | None] = mapped_column(Integer, ForeignKey(RateType.id))
     currency_id: Mapped[int | None] = mapped_column(Integer, ForeignKey(Currency.id))
     locality: Mapped[str | None] = mapped_column(String(30))
-    type_amortizaton: Mapped[bool | None] = mapped_column(Boolean)
-    days_since_issued: Mapped[int | None] = mapped_column(Integer)
-    days_until_maturity: Mapped[int | None] = mapped_column(Integer)
-    minimum_outstanding: Mapped[float | None] = mapped_column(Float)
+    type_amortizaton: Mapped[bool] = mapped_column(Boolean)
+    days_since_issued: Mapped[int] = mapped_column(Integer)
+    days_until_maturity: Mapped[int] = mapped_column(Integer)
+    minimum_outstanding: Mapped[float] = mapped_column(Float)
 
     issuer_type: Mapped["IssuerType"] = relationship(
         back_populates="rebalancing_rules", lazy="joined"
