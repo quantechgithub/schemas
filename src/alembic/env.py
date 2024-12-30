@@ -2,6 +2,8 @@ import os
 from logging.config import fileConfig
 
 from alembic import context
+
+# Definimos la conexión a la base de datos
 from qtech_schemas import conectar_db
 from qtech_schemas.dbo import Base
 
