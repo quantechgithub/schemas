@@ -1,3 +1,4 @@
+import sqlalchemy as sa
 from pandas import Timestamp as time
 from sqlalchemy import (
     Boolean,
@@ -130,10 +131,18 @@ class RebalancingRules(Base):
     type_rate_id: Mapped[int | None] = mapped_column(Integer, ForeignKey(RateType.id))
     currency_id: Mapped[int | None] = mapped_column(Integer, ForeignKey(Currency.id))
     locality: Mapped[str | None] = mapped_column(String(30))
-    type_amortizaton: Mapped[bool] = mapped_column(Boolean)
-    days_since_issued: Mapped[int] = mapped_column(Integer)
-    days_until_maturity: Mapped[int] = mapped_column(Integer)
-    minimum_outstanding: Mapped[float] = mapped_column(Float)
+    amortization: Mapped[bool] = mapped_column(
+        Boolean, default=False, server_default=sa.sql.false()
+    )
+    days_since_issued: Mapped[int] = mapped_column(
+        Integer, default=31, server_default="31"
+    )
+    days_until_maturity: Mapped[int] = mapped_column(
+        Integer, default=31, sewrver_default="31"
+    )
+    minimum_outstanding: Mapped[float] = mapped_column(
+        Float, default=0, server_default="0"
+    )
 
     issuer_type: Mapped["IssuerType"] = relationship(
         back_populates="rebalancing_rules", lazy="joined"
