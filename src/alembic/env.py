@@ -1,8 +1,6 @@
 import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, pool
-
 from alembic import context
 from qtech_schemas import conectar_db
 from qtech_schemas.dbo import Base
@@ -18,24 +16,15 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-
-
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
-# target_metadata = None
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-server = os.getenv("DB_SERVER", "")
-database = os.getenv("DB_DATABASE", "")
-username = os.getenv("DB_USERNAME", "")
-password = os.getenv("DB_PASSWORD", "")
-driver = os.getenv("DB_DRIVER", "")
-
-engine = conectar_db(server, database, username, password, driver)
-
-
 def include_name(name, type_, parent_names):
     if type_ == "schema":
         return name in ["DRIX"]  # Aqui se selecciona el esquema a modificar
@@ -54,14 +43,12 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url", engine)
+    url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        include_schemas=True,  # Add this
-        include_name=include_name,  # Add this
     )
 
     with context.begin_transaction():
@@ -75,18 +62,20 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
+    connectable = conectar_db(
+        server=os.getenv("DB_SERVER", ""),
+        database=os.getenv("DB_DATABASE", ""),
+        username=os.getenv("DB_USERNAME", ""),
+        password=os.getenv("DB_PASSWORD", ""),
+        driver=os.getenv("DB_DRIVER", ""),
     )
 
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            include_schemas=True,  # Add this
-            include_name=include_name,  # Add this
+            include_schemas=True,
+            include_name=include_name,
         )
 
         with context.begin_transaction():
