@@ -138,7 +138,7 @@ class RebalancingRules(Base):
         Integer, default=31, server_default="31"
     )
     days_until_maturity: Mapped[int] = mapped_column(
-        Integer, default=31, sewrver_default="31"
+        Integer, default=31, server_default="31"
     )
     minimum_outstanding: Mapped[float] = mapped_column(
         Float, default=0, server_default="0"
