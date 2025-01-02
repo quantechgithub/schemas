@@ -519,7 +519,7 @@ class SUBASTA_COMPRA(Base):
         )
 
     precio_promedio_ponderado_adjudicado: Mapped[float | None] = mapped_column(
-        "PRECIO_PROMEDIO_PONDERADO", Float
+        "PRECIO_PROMEDIO_PONDERADO_ADJUDICADO", Float
         )
 
     precio_promedio_ponderado_rechazado: Mapped[float | None] = mapped_column(
