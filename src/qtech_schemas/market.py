@@ -498,16 +498,18 @@ class SUBASTA_COMPRA(Base):
     id: Mapped[int] = mapped_column("ID", Integer, primary_key=True, autoincrement=True)
     isin_id: Mapped[int] = mapped_column("ISIN_ID", Integer, ForeignKey(Maestro.id))
 
+    fecha_subasta: Mapped[time | None] = mapped_column("FECHA_SUBASTA", Date)
+
     dias_vencimientos_recibida: Mapped[int | None] = mapped_column(
-        "DIAS_VENCIMIENTO_RECIBIDA", Integer
+        "DIAS_VENCIMIENTO", Integer
     )
 
     valor_nominal_recibida: Mapped[float | None] = mapped_column(
-        "VALOR_NOMINAL_RECIBIDA", Float
+        "VALOR_NOMINAL_RECIBIDO", Float
         )
     
     precio_de_oferta_recibida: Mapped[float | None] = mapped_column(
-        "PRECIO_DE_LA_OFERTA_RECIBIDA", Float
+        "PRECIO_DE_LA_OFERTA_RECIBIDO", Float
         )
 
     valor_nominal_adjudicado: Mapped[float | None] = mapped_column(
