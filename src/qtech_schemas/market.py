@@ -491,6 +491,43 @@ class OperacionesCevaldom(Base):
     vector_precio: Mapped["VectorPrecioOTC"] = relationship(back_populates="operacion")
 
 
+class SUBASTA_COMPRA(Base):
+    __tablename__ = "SUBASTA_COMPRA"
+    __table_args__ = ARGS
+
+    id: Mapped[int] = mapped_column("ID", Integer, primary_key=True, autoincrement=True)
+    isin_id: Mapped[int] = mapped_column("ISIN_ID", Integer, ForeignKey(Maestro.id))
+
+    dias_vencimientos_recibida: Mapped[int | None] = mapped_column(
+        "DIAS_VENCIMIENTO_RECIBIDA", Integer
+    )
+
+    valor_nominal_recibida: Mapped[float | None] = mapped_column(
+        "CANTIDAD_TITULOS_RECIBIDA", Float
+        )
+    
+    precio_de_oferta_recibida: Mapped[float | None] = mapped_column(
+        "PRECIO_DE_LA_OFERTA_RECIBIDA", Float
+        )
+
+    valor_nominal_adjudicado: Mapped[float | None] = mapped_column(
+        "CANTIDAD_TITULOS_ADJUDICADO", Float
+        )
+
+    precio_de_corte_adjudicado: Mapped[float | None] = mapped_column(
+        "PRECIO_DE_CORTE_ADJUDICADO", Float
+        )
+
+    precio_promedio_ponderado_adjudicado: Mapped[float | None] = mapped_column(
+        "PRECIO_PROMEDIO_PONDERADO", Float
+        )
+
+    precio_promedio_ponderado_rechazado: Mapped[float | None] = mapped_column(
+        "PRECIO_PROMEDIO_PONDERADO_RECHAZADO", Float
+        )
+
+
+
 class VectorPrecioOTC(Base):
     __tablename__ = "VECTOR_PRECIO_OTC"
     __table_args__ = ARGS
