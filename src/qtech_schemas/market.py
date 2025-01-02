@@ -503,7 +503,7 @@ class SUBASTA_COMPRA(Base):
     )
 
     valor_nominal_recibida: Mapped[float | None] = mapped_column(
-        "CANTIDAD_TITULOS_RECIBIDA", Float
+        "VALOR_NOMINAL_RECIBIDA", Float
         )
     
     precio_de_oferta_recibida: Mapped[float | None] = mapped_column(
@@ -511,7 +511,7 @@ class SUBASTA_COMPRA(Base):
         )
 
     valor_nominal_adjudicado: Mapped[float | None] = mapped_column(
-        "CANTIDAD_TITULOS_ADJUDICADO", Float
+        "VALOR_NOMINAL_ADJUDICADO", Float
         )
 
     precio_de_corte_adjudicado: Mapped[float | None] = mapped_column(
